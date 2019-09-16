@@ -18,8 +18,8 @@ class Canvas extends React.Component {
 
 	    return(
 	      <div>
-	        <canvas ref="canvas" width={640} height={425} />
-	        <img ref="image" src={require('./trend_hunter_23.png')} className="hidden" />
+	        <canvas className="plateCanvas" ref="canvas" width={300} height={500} />
+	        <img ref="image" src={require('../trend_hunter_23.png')} className="hidden" />
 	      </div>
 	    )
 	  }
