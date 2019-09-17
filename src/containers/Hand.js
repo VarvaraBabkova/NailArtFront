@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
 import * as THREE from "three";
 
 const scene1 = new THREE.Scene();
@@ -34,15 +34,37 @@ export default class PolishesShelf extends React.Component {
 
 	 draw(){
 	 	let color =  new THREE.Color("rgb(255, 0, 0)");;
-	 	const geometry = new THREE.BoxGeometry( 2, 2, 2 );
+	 	const geometry = new THREE.DodecahedronGeometry( 1, 0 );
 		    let material = new THREE.MeshLambertMaterial( {color} );
-		    let cube = new THREE.Mesh( geometry, material );
+		    let nails = []// = new THREE.Mesh( geometry, material );
 
-		    scene1.add(cube)
+scene1.remove.apply(scene1, scene1.children.filter(child => child instanceof THREE.Mesh));
+	console.log(scene1.children)
+
+		if (this.props.nails[0]) {
+
+	 		this.props.nails.map((nail, index) => {
+			    let material = new THREE.MeshPhongMaterial( {color} );
+			     nails[index] = new THREE.Mesh( geometry, material );
+			     let polish = nail.polishes[0]
+				nails[index].material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
+				geometry.colorsNeedUpdate = true
+				nails[index].position.set( -4 + index*2.7, (index == 4)?-2:2, 0)
+				scene1.add( nails[index] );
+	 		})
+	 		
+	 		
+			
+	 	} 
+
+		  // scene1.add(nail)
 		var animate = function () {
 	      requestAnimationFrame( animate );
-	     cube.rotation.x += 0.01; 
-	     cube.rotation.y += 0.01;
+	      nails.map(nail =>{
+	      	nail.rotation.x += 0.01; 
+		     nail.rotation.y += 0.01;
+	      })
+	     
 	      renderer1.render( scene1, camera1 );
 	    };
 	    animate();
@@ -52,7 +74,7 @@ export default class PolishesShelf extends React.Component {
 
 	render() {
 		console.log("in hand " )
-		console.log(this.props.polishCollection)
+		console.log(this.props.nails)
 		this.draw()
 	    return(
 	        <div className="hand" ref={ref => (this.mount = ref)} />

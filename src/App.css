@@ -9,8 +9,19 @@
 canvas.plateCanvas {
 	position: fixed;
 	right: 0px;
-	top: 20%;
+	top: 25%;
 }
+
+canvas.workingCanvas {
+	position: fixed;
+	left: 0px;
+	bottom: 0;
+	border: 1px solid;
+	z-index: 2;
+	 border-radius: 14px;
+
+}
+
 div.polishesShelf {
 	position: fixed;
 	right: 0;
@@ -27,8 +38,32 @@ div.hand {
 	height: 60%;
 	float: center;
 	top: 20%;
-	left: 20%;
+	left: 25%;
 	border: 1px solid;
 }
+
+.loginForm {
+	bottom: 0;
+	right:0;
+	position: fixed;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

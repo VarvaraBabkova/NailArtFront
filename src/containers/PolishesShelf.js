@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import * as THREE from "three";
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 40, (window.innerWidth)/(window.innerHeight/4), 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera( 40, (window.innerWidth)/(window.innerHeight/4), 1, 1000 );
 const renderer = new THREE.WebGLRenderer();
 
 
@@ -16,14 +16,14 @@ class PolishesShelf extends React.Component {
 	     this.mount.appendChild( renderer.domElement );
 	     scene.background = new THREE.Color( 'white' );
 	     
-	    camera.position.z = 7;
+	    camera.position.z = 10;
 
 	    let pointLight =
           new THREE.PointLight(0xFFFFFF);
 
         // set its position
-        pointLight.position.x = 10;
-        pointLight.position.y = 50;
+        pointLight.position.x = 0;
+        pointLight.position.y = 100;
         pointLight.position.z = 130;
 
         // add to the scene
@@ -34,31 +34,37 @@ class PolishesShelf extends React.Component {
 	 }
 	  draw(){
 	 	let color;
-	 	const geometry = new THREE.BoxGeometry( 2, 2, 2 );
-		    let material = new THREE.MeshLambertMaterial( {color} );
-		    let cubes  = []//= new THREE.Mesh( geometry, material );
+	 	//const geometry = new THREE.BoxGeometry( 2, 2, 2 );
+	 	const geometry = new THREE.CylinderGeometry( 2, 1.7, 3, 20 );
+
+		    let material = new THREE.MeshPhongMaterial( {color} );
+		   
+		    let bottles  = []//= new THREE.Mesh( geometry, material );
 
 	 	if (this.props.polishCollection[0]) {
 
 	 		this.props.polishCollection.map((polish, index) => {
-			    let material = new THREE.MeshLambertMaterial( {color} );
-			     cubes[index] = new THREE.Mesh( geometry, material );
-				cubes[index].material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
+			    let material = new THREE.MeshPhongMaterial( {color} );
+			     bottles[index] = new THREE.Mesh( geometry, material );
+				bottles[index].material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
 				geometry.colorsNeedUpdate = true
-				cubes[index].position.set(-15 + index*2.5, 0, 0)
-				scene.add( cubes[index] );
+				bottles[index].position.set(-15 + index*2.9, 0, 0)
+				 material.specular = new THREE.Color("rgb(250, 250, 250)")
+			    material.shininess = 10;
+				scene.add( bottles[index] );
 	 		})
 	 		
-	 		//let polish = this.props.polishCollection[0]
-
 	 		
 			
 	 	} 
 	 	
 	    var animate = function () {
 	      requestAnimationFrame( animate );
-	      if (cubes[0]) {
-	      	//cubes.map(cube => {cube.rotation.x += 0.001; cube.rotation.y += 0.001;})
+	      if (bottles[0]) {
+	      	bottles.map(bottle => {
+	      		//cube.rotation.x += 0.001; 
+	      		bottle.rotation.y += 0.01;
+	      	})
 	      
 	      }
 	     
