@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
 import * as THREE from "three";
 
 const scene = new THREE.Scene();
@@ -33,17 +33,16 @@ class PolishesShelf extends React.Component {
 
 	 }
 	  draw(){
-	 	let color;
-	 	//const geometry = new THREE.BoxGeometry( 2, 2, 2 );
-	 	const geometry = new THREE.CylinderGeometry( 2, 1.7, 3, 20 );
-
-		    let material = new THREE.MeshPhongMaterial( {color} );
+	 	
 		   
-		    let bottles  = []//= new THREE.Mesh( geometry, material );
+		let bottles  = []//= new THREE.Mesh( geometry, material );
 
 	 	if (this.props.polishCollection[0]) {
-
 	 		this.props.polishCollection.map((polish, index) => {
+	 			let color = new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
+	 			let geometry = new THREE.CylinderGeometry( 1.2, 1.3, 3, 20 );
+
+		   // let material = new THREE.MeshPhongMaterial( {color} );
 			    let material = new THREE.MeshPhongMaterial( {color} );
 			     bottles[index] = new THREE.Mesh( geometry, material );
 				bottles[index].material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
@@ -74,11 +73,22 @@ class PolishesShelf extends React.Component {
 	 }
 
 	render() {
-		console.log("in shelf " )
-		console.log(this.props.polishCollection)
+		// console.log("in shelf " )
+		// console.log(this.props.polishCollection)
 		 this.draw()
 	    return(
-	        <div className="polishesShelf" ref={ref => (this.mount = ref)} />
+	        <div className="polishesShelf" ref={ref => (this.mount = ref)} >
+	        	{
+	        		this.props.polishCollection.map((polish, index) => {
+	        			let buttonClassName = "color_button " + index 
+	        			return(<button key = {index} className={buttonClassName}
+	        				onClick = {() => this.props.handlePickColor(polish)} >
+	        				{polish.name} 
+	        				</button>)
+	        		})
+	        	}
+
+	        </div>
 
 		        		
 		        	 

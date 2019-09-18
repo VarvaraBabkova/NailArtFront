@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
 import * as THREE from "three";
 
 const scene = new THREE.Scene();
@@ -15,6 +15,7 @@ export default class Intro extends React.Component {
 		this.state = {
 			username:"",
 			password:"",
+			balls:[],
 		}
 	}
 
@@ -55,46 +56,48 @@ export default class Intro extends React.Component {
         // add to the scene
         scene.add(pointLight);
 
-	    
+	    let balls = []
+
+	    for (var i = 0; i < 5; i++) {
+
+	    	let polish = {red: Math.floor(Math.random() * 100) + 150, 
+	    		green: Math.floor(Math.random() * 100) + 150, 
+	    		blue:Math.floor(Math.random() * 100) + 150}
+
+	    	let geometry = new THREE.SphereGeometry(Math.random(), 20, 20);
+
+		    let material = new THREE.MeshLambertMaterial( 
+		    	new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`));
+	   
+	    	let ball  = new THREE.Mesh( geometry, material );
+	    	
+
+			ball.material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
+			//geometry.colorsNeedUpdate = true
+			ball.position.set(i ,i, 0)
+			material.specular = new THREE.Color("rgb(250, 250, 250)")
+		    material.shininess = 10;
+			scene.add( ball );
+			balls.push(ball)
+	    }
+	   
+	    this.setState({balls: balls})
+	   	renderer.render( scene, camera );
+
 
 	 }
+
 	  draw(){
-	 	//const geometry = new THREE.BoxGeometry( 2, 2, 2 );
-	 	//let color;
 	 	
-		   // let ball  = new THREE.Mesh( geometry, material );
-		    let balls = []
-
-		   // let polish = {red: 200, green: 100, blue:100}
-		    for (var i = 0; i < 5; i++) {
-
-		    	let polish = {red: Math.floor(Math.random() * 100) + 150, 
-		    		green: Math.floor(Math.random() * 100) + 150, 
-		    		blue:Math.floor(Math.random() * 100) + 150}
-
-		    	let geometry = new THREE.SphereGeometry(Math.random(), 20, 20);
-
-			    let material = new THREE.MeshLambertMaterial( polish );
-		   
-		    	let ball  = new THREE.Mesh( geometry, material );
-		    	
-
-				ball.material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
-				//geometry.colorsNeedUpdate = true
-				ball.position.set(i ,i, 0)
-				material.specular = new THREE.Color("rgb(250, 250, 250)")
-			    material.shininess = 10;
-				scene.add( ball );
-				balls.push(ball)
-		    }
+		    
 	 	
 	 	
 
 
 	    var animate = function () {
 	      requestAnimationFrame( animate );
-	      if (balls[0]) {
-	      	balls.map(ball => {
+	      if (this.state.balls[0]) {
+	      	this.state.balls.map(ball => {
 	      		ball.rotation.x += 0.001; 
 	      		ball.rotation.y += 0.001;
 	      	})
@@ -107,8 +110,9 @@ export default class Intro extends React.Component {
 	 }
 
 	render() {
-		console.log("in intro " )
-		 this.draw()
+		// console.log("in intro " )
+		// console.log(this.state.balls)
+	// this.draw()
 	    return(
 	        <div className="intro" ref={ref => (this.mount = ref)} >
 	        	 <form className="loginForm"  onSubmit={e => this.preHandle(e)}>

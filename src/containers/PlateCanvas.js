@@ -31,8 +31,8 @@ class PlateCanvas extends React.Component {
 	handleMouseClick= (event) => {
 		canvas = this.refs.canvas
 		 ctx = canvas.getContext("2d")
-		console.log(ctx.canvas.offsetLeft)
-		console.log(event.pageX)
+		// console.log(ctx.canvas.offsetLeft)
+		// console.log(event.pageX)
 
 		ctx.lineWidth = "1";
 		ctx.strokeStyle = "black";

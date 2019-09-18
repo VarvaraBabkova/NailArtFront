@@ -58,9 +58,9 @@ export default class Polish extends React.Component {
 	 }
 
 	render() {
-		console.log("in polish " )
-		console.log(this.props.polish)
-		console.log(this.props.offset)
+		// console.log("in polish " )
+		// console.log(this.props.polish)
+		// console.log(this.props.offset)
 		this.draw()
 	    return(
 	    	<div>

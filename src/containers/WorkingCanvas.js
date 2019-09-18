@@ -93,8 +93,21 @@ class WorkingCanvas extends React.Component {
 	    //const img = this.refs.image
 
 
-	    let polish = this.props.nails[0].polishes[0]
-		//this.setState({polish: this.props.nails[0].polish[0]}) 	
+	    //let polish = this.props.nails[0].polishes[0]
+	    let polish 
+	    if (this.props.currentPolish) {
+	    	polish = this.props.currentPolish
+	    	
+
+	    }
+	    else
+	    {
+	    	polish.red = "255"; 
+	    	polish.green = "255";
+	    	polish.blue = "255"
+
+	    }
+//debugger
 	    ctx.fillStyle = `rgb(${polish.red}, ${polish.green}, ${polish.blue})`;
 	    ctx.fillRect(0, 0, canvas.width, canvas.height);
 	    if (this.props.imgData.data) {

@@ -23,21 +23,41 @@ export default class App extends React.Component{
 			imgDataFromPlate:{},
 			username:"",
 			password:"",
+			currentPolish:{},
 		}
 		
 	}
 
 	componentDidMount(){
 
-	 
+	 	console.log(localStorage.token)
+	 	if (localStorage.token){
+	 		fetch(URL + "nails", {
+        		method:"GET",
+        		headers:{
+        			Authorization: `Bearer ${localStorage.token}`
+        		}
+        	})
+		      .then(res => res.json())
+		      .then(res => {
+		          console.log(res)
+		            this.setState({nails: res})
+		       })
 
-      // fetch(URL + "nails")
-      // .then(res => res.json())
-      // .then(res => {
-      //     //console.log(res)
-      //       this.setState({nails: res})
-      //     })
-	    
+
+	       fetch(URL + "polishes", {
+        		method:"GET",
+        		headers:{
+        			Authorization: `Bearer ${localStorage.token}`
+        		}
+        	})
+		      .then(res => res.json())
+		      .then(res => {
+		          console.log(res)
+		            this.setState({polishCollection: res})
+		    })
+
+	 	}
 
 	}
 
@@ -63,6 +83,10 @@ export default class App extends React.Component{
         	localStorage.setItem("token", data.token)
         	this.setState({username:data.username})
 
+
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//reading nails
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         	fetch(URL + "nails", {
         		method:"GET",
         		headers:{
@@ -74,8 +98,9 @@ export default class App extends React.Component{
 		          console.log(res)
 		            this.setState({nails: res})
 		       })
-
-
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//reading polishes
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	       fetch(URL + "polishes", {
         		method:"GET",
         		headers:{
@@ -85,9 +110,20 @@ export default class App extends React.Component{
 		      .then(res => res.json())
 		      .then(res => {
 		          console.log(res)
-		            this.setState({polishCollection: res})
+		          this.setState({polishCollection: res, currentPolish:res[0]})
 		    })
-        })
+        }) // login fetch
+	}
+
+	handleLogout = () =>{
+		this.setState({username:"", password:""})
+		localStorage.clear()
+
+	}
+
+	handlePickColor = (polish) =>{
+		console.log(polish)
+		this.setState({currentPolish:polish})
 	}
 
 	render() {
@@ -99,7 +135,14 @@ export default class App extends React.Component{
 		    <Intro handleAuth={this.handleAuth}/>
 	    	:
 	    	<div>
+	    		<div className="Logout" onClick={this.handleLogout}>Log out!</div>
 				<PlateCanvas text = {"some text"} handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}/>   
+				<PolishesShelf polishCollection={this.state.polishCollection}
+								handlePickColor = {this.handlePickColor}/>
+			    <Hand nails={this.state.nails}/>
+			    <WorkingCanvas nails={this.state.nails} imgData = {this.state.imgDataFromPlate}
+			    				currentPolish = {this.state.currentPolish}
+			    				/>
 		    </div>
 		}
 	      
@@ -109,11 +152,4 @@ export default class App extends React.Component{
 }
 
 
-{
-//<PlateCanvas text = {"some text"} handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}/>   
-//		      <PolishesShelf polishCollection={this.state.polishCollection}/>
-//		      <Hand nails={this.state.nails}/>
-//		      <WorkingCanvas nails={this.state.nails} imgData = {this.state.imgDataFromPlate}/>
-
-}
 
