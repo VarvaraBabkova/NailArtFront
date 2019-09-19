@@ -24,6 +24,7 @@ export default class App extends React.Component{
 			username:"",
 			password:"",
 			currentPolish:{},
+			currentTexture: {},
 		}
 		
 	}
@@ -122,12 +123,16 @@ export default class App extends React.Component{
 	}
 
 	handlePickColor = (polish) =>{
-		console.log(polish)
+		//console.log(polish)
 		this.setState({currentPolish:polish})
+	}
+	handlePickTexture = (texture) =>{
+		console.log(texture)
+		this.setState({currentTexture:texture})
 	}
 
 	render() {
-		console.log(localStorage)
+		//console.log(localStorage)
 	  return (
 	    <div className="App">
 
@@ -139,9 +144,12 @@ export default class App extends React.Component{
 				<PlateCanvas text = {"some text"} handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}/>   
 				<PolishesShelf polishCollection={this.state.polishCollection}
 								handlePickColor = {this.handlePickColor}/>
-			    <Hand nails={this.state.nails}/>
+			    <Hand nails={this.state.nails} 
+			    				currentPolish={this.state.currentPolish}
+			    				currentTexture = {this.state.currentTexture}/>
 			    <WorkingCanvas nails={this.state.nails} imgData = {this.state.imgDataFromPlate}
 			    				currentPolish = {this.state.currentPolish}
+			    				handlePickTexture={this.handlePickTexture}
 			    				/>
 		    </div>
 		}

@@ -2,6 +2,7 @@ import React from 'react';
 //import ReactDOM from "react-dom";
 import * as THREE from "three";
 import GLTFLoader from 'three-gltf-loader';
+import TWEEN from '@tweenjs/tween.js';
 
 
 const scene1 = new THREE.Scene();
@@ -26,9 +27,9 @@ export default class PolishesShelf extends React.Component {
           new THREE.PointLight(0xFFFFFF);
 
         // set its position
-        pointLight.position.x = 10;
-        pointLight.position.y = 50;
-        pointLight.position.z = 130;
+        pointLight.position.x = 0;
+        pointLight.position.y = 0;
+        pointLight.position.z = 4;
 
         // add to the scene
 		var axesHelper = new THREE.AxesHelper( 5 );
@@ -36,45 +37,88 @@ export default class PolishesShelf extends React.Component {
         scene1.add(pointLight);
 	}
 
-	nail_shape_geom(color){
+
+
+	nail_shape_geom(color, texture){
 
 		let loader = new GLTFLoader();
 		let mesh, mesh1;
 
 		loader.load(
-			require('../nail2.glb'),
+			require('../nail_simple2.glb'),
 			function(gltf) {
-				console.log("gltf")
-				console.log(gltf)
-				console.log(gltf.scene.children)
+				
 
 	
 				 mesh = gltf.scene.children[0]
 
-				  mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
+
+//LEAVE THAT - THAT S FOR SMOOTHNESS********************************************
+				 mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
 			    mesh.geometry.mergeVertices();
 			    mesh.geometry.computeVertexNormals();
-			    // convert back to BufferGeometry prior to rendering
 			    mesh.geometry = new THREE.BufferGeometry().fromGeometry( mesh.geometry );
+//********************************************************************************
+
+				 //mesh.rotation.z = Math.PI 
 
 				 mesh.rotation.x = Math.PI 
-				//  mesh.rotation.y = Math.PI / 3
+
 				 mesh.position.set(0, 0, 3)
-				mesh.material = new THREE.MeshLambertMaterial( {color} );
+				mesh.material = new THREE.MeshPhongMaterial( {color} );
 				console.log(mesh.material)
-				mesh.material.flatshading = THREE.SmoothShading;
+				//mesh.material.flatshading = THREE.SmoothShading;
+
+
+				//var textureLoader = new THREE.TextureLoader();
+	
+				
+				mesh.material.needsUpdate = true
+				 if (texture instanceof THREE.CanvasTexture) {
+
+				
+				    texture.flipY = false;
+				  //   texture.wrapS = THREE.RepeatWrapping;
+				 	// texture.wrapT = THREE.RepeatWrapping;
+					mesh.material.map = texture
+					mesh.material.needsUpdate = true
+
+
+			  	mesh.material.map.needsUpdate = true;
+
+				 }
+
 
 				scene1.add(mesh);
-				//   let mesh1 = JSON.parse(JSON.stringify(mesh));
-				//   //console.log(mesh1)
+				
+				var tween = new TWEEN.Tween(mesh.rotation)
+			        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
+			        .to({ x: [0.4, 3.14, 0.4, 3.14]}, 9000)
+			        .repeat(Infinity)
+			        .start();
 
-				//   mesh1.position.set(1, 0, 3)
 				
 
-				// scene1.add(mesh1);
+
+				let sphereG = new THREE.SphereGeometry(1, 16, 16);
+
+			    let sphereM = new THREE.MeshPhongMaterial( color);
+		   
+		    	let ball  = new THREE.Mesh( sphereG, sphereM );
+					scene1.add(ball)
+					ball.position.x = 4
+			
 				
-				
+				if (texture instanceof THREE.CanvasTexture) {
+					 ball.material.map = texture
+				}
+				var tween = new TWEEN.Tween(ball.rotation)
+			        .to({ x: [0, 3.14, 0]}, 4000)
+			        .repeat(Infinity)
+			        .start();
+
 			}
+			
 		);
 		
 		return mesh
@@ -82,83 +126,55 @@ export default class PolishesShelf extends React.Component {
 		
 
 	}
-	nail_shape_geom_primitive(){
-		var shape = new THREE.Shape();
-		shape.moveTo( 0,0 );
-		shape.bezierCurveTo(0.2, 0.5, 1.8, 0.5, 2, 0);
+	// nail_shape_geom_primitive(){
+	// 	var shape = new THREE.Shape();
+	// 	shape.moveTo( 0,0 );
+	// 	shape.bezierCurveTo(0.2, 0.5, 1.8, 0.5, 2, 0);
 		
 
-		var extrudeSettings = {
-			amount: 2,
-			beveThickness:0.01,
-			 bevelEnabled: false,
-			 bevelSize: 0.01,
-			 bevelSegments:2,
+	// 	var extrudeSettings = {
+	// 		amount: 2,
+	// 		beveThickness:0.01,
+	// 		 bevelEnabled: false,
+	// 		 bevelSize: 0.01,
+	// 		 bevelSegments:2,
 		
-		};
+	// 	};
 
-	 	let geom = new THREE.ExtrudeGeometry( shape, extrudeSettings );
-	 	return geom
-	}
+	//  	let geom = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+	//  	return geom
+	// }
 
 	draw(){
 		//cleaning the scene
 	 	scene1.remove.apply(scene1, scene1.children.filter(child => child instanceof THREE.Mesh));
-		console.log(scene1.children)
+		//console.log(scene1.children)
+		let polish = this.props.currentPolish
 
-	 	let color =  new THREE.Color("rgb(255, 0, 0)");;
-		let material = new THREE.MeshLambertMaterial( {color} );
-		let nails = []
+	 	let color =  new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`);;
+		//let material = new THREE.MeshPhongMaterial( {color} );
+		// material.emissive = new THREE.Color('white')
+		// material.shininess = 40
+		// material.specular = new THREE.Color()
+
+		//let nails = []
 
 		
-		let nail_shape = this.nail_shape_geom(color);
-		console.log("in draw after")
-		console.log(nail_shape)
-
-		//nail_shape.material = material
-		//let nail_shape = this.nail_shape_geom(color)
+		let nail_shape = this.nail_shape_geom(color, this.props.currentTexture);
 		
-		// scene1.add( nail_shape );
-		// nails.push(nail_shape)
-			// if (this.props.nails[0]) {
-
-		 // 		this.props.nails.map((nail, index) => {
-			// 	    let material = new THREE.MeshPhongMaterial( {color} );
-			// 	     nails[index] = new THREE.Mesh( this.nail_shape_geom(color), material );
-			// 	     let polish = nail.polishes[0]
-			// 		nails[index].material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
-			// 		geometry.colorsNeedUpdate = true
-			// 		//nails[index].position.set( -6 + index*2.7, (index == 4)?-2:2, -1)
-			// 		scene1.add( nails[index] );
-		 // 		})
-	 	// 	} 
 
 	console.log("in draw")
-		console.log(nails)
 
-	 	let flag = true
+	 	
 		var animate = function () {
 	      requestAnimationFrame( animate );
-	      
-	      
-	      nails.map(nail =>{
 
-	      
-	  //     	if (nail.rotation._x <= 1.9 && flag) {
-	  //     		nail.rotation.x += 0.01; 
-	      		
-	  //     	}
-			// if(nail.rotation._x  >= 1.9)
-			// 	flag = false;
-			// if(nail.rotation._x  <= 0.7)
-			// 	flag = true;
-
-	  //      if (nail.rotation._x >= 0.7 && !flag){
-	  //      	 	nail.rotation.x -= 0.01; 
-	  //      }
-	      	
-	      })
-	     
+	       TWEEN.update();
+			// if (scene1.children[2])
+			// 	if (scene1.children[2].material) 
+			// 		if (scene1.children[2].material.map) 
+			// 	scene1.children[2].material.map.needsUpdate = true
+	     	
 	      renderer1.render( scene1, camera1 );
 	    };
 	    animate();
@@ -167,8 +183,7 @@ export default class PolishesShelf extends React.Component {
 
 
 	render() {
-		// console.log("in hand " )
-		// console.log(this.props.nails)
+		
 		this.draw()
 	    return(
 	        <div className="hand" ref={ref => (this.mount = ref)} />

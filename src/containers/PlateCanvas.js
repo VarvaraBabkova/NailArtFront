@@ -3,6 +3,8 @@ import React from 'react';
 
 let ctx;
 let canvas
+const pick_width = 50;
+const pick_height = 70
 
 class PlateCanvas extends React.Component {
 
@@ -13,9 +15,18 @@ class PlateCanvas extends React.Component {
 		 ctx = canvas.getContext("2d")
 
 	    img.onload = () => {
-	      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-	      ctx.font = "40px Courier"
-	      ctx.fillText(this.props.text, 210, 75)
+	    	console.log(img.width)
+	    		    	console.log(img.height)
+
+	      
+	     // ctx.translate(canvas.width/2, canvas.height/2);
+	      //ctx.rotate(Math.PI/2)
+	      ctx.drawImage(img, 0, 0, img.width/2, img.height,
+
+	      		0, 0, canvas.width, canvas.height)
+	      //ctx.rotate(-Math.PI/2)
+	      //ctx.translate(-canvas.width/2,-canvas.height/2);
+	     
 	      canvas.addEventListener("mousemove", this.handleMouseMove, false);
 	      canvas.addEventListener("mousedown", this.handleMouseClick, false);
 
@@ -37,10 +48,14 @@ class PlateCanvas extends React.Component {
 		ctx.lineWidth = "1";
 		ctx.strokeStyle = "black";
 		ctx.beginPath();
-		ctx.rect(event.pageX - ctx.canvas.offsetLeft, event.pageY - ctx.canvas.offsetTop, 50, 70)
+		ctx.rect(event.pageX - ctx.canvas.offsetLeft, 
+				event.pageY - ctx.canvas.offsetTop, 
+				pick_width, pick_height)
 		ctx.stroke();
 
-		 let imgData = ctx.getImageData(event.pageX - ctx.canvas.offsetLeft, event.pageY - ctx.canvas.offsetTop, 50, 70);
+		 let imgData = ctx.getImageData(event.pageX - ctx.canvas.offsetLeft + 1, 
+		 								event.pageY - ctx.canvas.offsetTop + 1, 
+		 								pick_width - 2, pick_height - 2);
 		// console.log(imgData)
 		 this.props.handleGetImgDataFromPlate(imgData)
  
@@ -52,7 +67,7 @@ class PlateCanvas extends React.Component {
 	    return(
 	      <div>
 	        <canvas className="plateCanvas" ref="canvas" width={250} height={500} />
-	        <img ref="image" alt = "" src={require('../trend_hunter_23.png')} className="hidden" />
+	        <img ref="image" alt = "" src={require('../55.-Henna-11.jpg')} className="hidden" />
 	      </div>
 	    )
 	  }
