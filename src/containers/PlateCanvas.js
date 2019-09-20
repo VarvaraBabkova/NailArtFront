@@ -15,8 +15,8 @@ class PlateCanvas extends React.Component {
 		 ctx = canvas.getContext("2d")
 
 	    img.onload = () => {
-	    	console.log(img.width)
-	    		    	console.log(img.height)
+	    console.log(img.width)
+	    console.log(img.height)
 
 	      
 	     // ctx.translate(canvas.width/2, canvas.height/2);
@@ -45,13 +45,13 @@ class PlateCanvas extends React.Component {
 		// console.log(ctx.canvas.offsetLeft)
 		// console.log(event.pageX)
 
-		ctx.lineWidth = "1";
-		ctx.strokeStyle = "black";
-		ctx.beginPath();
-		ctx.rect(event.pageX - ctx.canvas.offsetLeft, 
-				event.pageY - ctx.canvas.offsetTop, 
-				pick_width, pick_height)
-		ctx.stroke();
+		// ctx.lineWidth = "1";
+		// ctx.strokeStyle = "black";
+		// ctx.beginPath();
+		// ctx.rect(event.pageX - ctx.canvas.offsetLeft, 
+		// 		event.pageY - ctx.canvas.offsetTop, 
+		// 		pick_width, pick_height)
+		// ctx.stroke();
 
 		 let imgData = ctx.getImageData(event.pageX - ctx.canvas.offsetLeft + 1, 
 		 								event.pageY - ctx.canvas.offsetTop + 1, 

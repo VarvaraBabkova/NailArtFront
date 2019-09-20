@@ -120,7 +120,7 @@ class WorkingCanvas extends React.Component {
 	    	 //[polish.red, polish.green, polish.blue], [255, 255, 255], ctx), 20, 20);
 	    
 	     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
-	     	[polish.red, polish.green, polish.blue], [255, 255, 255], ctx), 20, 20);
+	     	[polish.red, polish.green, polish.blue], [255, 255, 255], ctx), 10, 10);
 
 	    //ctx.putImageData(this.scaleImageData(this.props.imgData, 4, ctx), 20, 20)
 
@@ -139,7 +139,7 @@ class WorkingCanvas extends React.Component {
 		}
 	    return(
 	      <div>
-	        <canvas className="workingCanvas" ref="canvas" width={256} height={256}
+	        <canvas className="workingCanvas" ref="canvas" width={150} height={210}
 	        		onClick={() => this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ))}/>
 	      </div>
 	    )
