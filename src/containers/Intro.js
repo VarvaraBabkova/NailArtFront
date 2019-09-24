@@ -13,8 +13,8 @@ export default class Intro extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			username:"",
-			password:"",
+			username:"admin",
+			password:"qqq",
 			balls:[],
 		}
 	}
@@ -58,28 +58,28 @@ export default class Intro extends React.Component {
 
 	    let balls = []
 
-	    for (var i = 0; i < 5; i++) {
+	  //   for (var i = 0; i < 5; i++) {
 
-	    	let polish = {red: Math.floor(Math.random() * 100) + 150, 
-	    		green: Math.floor(Math.random() * 100) + 150, 
-	    		blue:Math.floor(Math.random() * 100) + 150}
+	  //   	let polish = {red: Math.floor(Math.random() * 100) + 150, 
+	  //   		green: Math.floor(Math.random() * 100) + 150, 
+	  //   		blue:Math.floor(Math.random() * 100) + 150}
 
-	    	let geometry = new THREE.SphereGeometry(Math.random(), 20, 20);
+	  //   	let geometry = new THREE.SphereGeometry(Math.random(), 20, 20);
 
-		    let material = new THREE.MeshLambertMaterial( 
-		    	new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`));
+		 //    let material = new THREE.MeshLambertMaterial( 
+		 //    	new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`));
 	   
-	    	let ball  = new THREE.Mesh( geometry, material );
+	  //   	let ball  = new THREE.Mesh( geometry, material );
 	    	
 
-			ball.material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
-			//geometry.colorsNeedUpdate = true
-			ball.position.set(i ,i, 0)
-			material.specular = new THREE.Color("rgb(250, 250, 250)")
-		    material.shininess = 10;
-			scene.add( ball );
-			balls.push(ball)
-	    }
+			// ball.material.color.setStyle(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`)
+			// //geometry.colorsNeedUpdate = true
+			// ball.position.set(i ,i, 0)
+			// material.specular = new THREE.Color("rgb(250, 250, 250)")
+		 //    material.shininess = 10;
+			// scene.add( ball );
+			// balls.push(ball)
+	  //   }
 	   
 	    this.setState({balls: balls})
 	   	renderer.render( scene, camera );

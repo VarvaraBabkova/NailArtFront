@@ -24,6 +24,33 @@ canvas.workingCanvas {
 
 }
 
+div.stampingPolishes {
+
+	 margin:2%;    
+	 padding:10px;
+	position: fixed;
+	left: 10px;
+	bottom: 40%;
+	width: 20%;
+	height: 5%;
+	border: 1px solid;
+	z-index: 2;
+	 border-radius: 14px;
+}
+
+div.stampingPolishes .stampingPolish {
+	position: relative;
+	 display: inline-block;
+	left: 10px;
+	top: 10px;
+	width: 20px;
+	height: 20px;
+	border: 1px solid;
+	z-index: 2;
+	 border-radius: 14px;
+}
+
+
 div.polishesShelf {
 	position: fixed;
 	right: 0;
@@ -39,10 +66,11 @@ div.hand {
 	width: 40%;
 	height: 40%;
 	float: center;
-	top: 33%;
-	left: 27%;
+	top: 30%;
+	left: 30%;
 	border: 1px solid;
 	z-index: 10;
+	 display: block;
 }
 
 .loginForm {
@@ -60,6 +88,15 @@ div.hand {
 	border: 1px solid;
 	z-index: 20;
 }
+.Save {
+	top: 5%;
+	right:0;
+	position: fixed;
+	width: 100px;
+	height: 30px;
+	border: 1px solid;
+	z-index: 20;
+}
 
 div.polishesShelf  .color_button {
 	width: 90px;
@@ -70,7 +107,25 @@ div.polishesShelf  .color_button {
 }
 
 
-
+div.finger_chose_panel{
+	width:310px;
+	height: 40px;
+	border: 1px solid;
+	z-index: 20;
+	bottom: 0;
+	right: 30%;
+	position: fixed;
+	float:center;
+	 display: block;
+}
+div.finger_chose_panel .finger_btn  {
+	width: 60px;
+	height: 40px;
+	border: 1px solid;
+	z-index: 20;
+	bottom: 0;
+	float:left;
+}
 
 
 

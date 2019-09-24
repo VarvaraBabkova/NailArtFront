@@ -1,13 +1,15 @@
 import React from 'react';
 import * as THREE from "three";
 
-
+const pick_width = 50;
+const pick_height = 70
 class WorkingCanvas extends React.Component {
 
 	constructor(props){
 		super(props)
 		this.state = {
-			polish: {},
+			current_polish: {},
+			current_finger: "",
 		}
 	}
 
@@ -60,7 +62,7 @@ class WorkingCanvas extends React.Component {
 
 	colorImageData(imageData, bkcolor, color, ctx){
 		//debugger
-		let colored = ctx.getImageData(20, 20, imageData.width, imageData.height);
+		let colored = ctx.getImageData(0, 0, imageData.width, imageData.height);
 
 		for (let i = 0; i < imageData.data.length; i += 4) {
 			//colored.data[i] = imageData.data[i]
@@ -86,61 +88,72 @@ class WorkingCanvas extends React.Component {
 	draw() {
 		var canvas = this.refs.canvas
 	    const ctx = canvas.getContext("2d")
-	    //const img = this.refs.image
 
+	    console.log(this.props.nails)
+	    console.log(this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger))
 
-	    //let polish = this.props.nails[0].polishes[0]
-	    let polish 
+	    let current_nail = this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger)
+	    if (this.state.current_finger !== this.props.current_finger) {
+	    	this.setState({current_finger: this.props.current_finger})
+	    	// let  img = new Image();
+	    	// img.src = current_nail.texture
+	    	// ctx.drawImage(img, 0, 0)
+
+	    	return
+	    }
+
+	    //let polish 
+
 	    if (this.props.currentPolish) {
-	    	polish = this.props.currentPolish
+	    	if (this.state.current_polish !== this.props.currentPolish) {
+	    		this.setState({current_polish:this.props.currentPolish})
+	    		ctx.fillStyle = `rgb(${this.props.currentPolish.red}, 
+	    							${this.props.currentPolish.green}, 
+	    							${this.props.currentPolish.blue})`;
+			    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	    
+	    	}
 	    	
-
 	    }
 	    else
 	    {
-	    	polish.red = "255"; 
-	    	polish.green = "255";
-	    	polish.blue = "255"
+	    	this.setState({current_polish:{red:"255", blue:"255", green:"255"}})
 
 	    }
-//debugger
-	    ctx.fillStyle = `rgb(${polish.red}, ${polish.green}, ${polish.blue})`;
-	    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	     let st_polish 
+	    if (this.props.currentStampingPolish) {
+	    	st_polish = this.props.currentStampingPolish
+	    }
+	    else
+	    {
+	    	st_polish.red = "255"; 
+	    	st_polish.green = "255";
+	    	st_polish.blue = "255"
+
+	    }
+	    
+
 	    if (this.props.imgData.data) {
 	    	console.log(this.props.imgData)
 	    	
-
-		// ctx.putImageData(this.props.imgData, 20, 20)
-
-		// ctx.putImageData(this.colorImageData(this.props.imgData,
-		// [polish.red, polish.green, polish.blue],
-		// [255, 255, 255], ctx), 120, 120)
-
-	    	// ctx.putImageData(this.colorImageData(this.props.imgData,
-	    	 //[polish.red, polish.green, polish.blue], [255, 255, 255], ctx), 20, 20);
 	    
-	     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
-	     	[polish.red, polish.green, polish.blue], [255, 255, 255], ctx), 10, 10);
+		     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
+		     	[this.state.current_polish.red, this.state.current_polish.green, this.state.current_polish.blue], 
+		     	[st_polish.red, st_polish.green, st_polish.blue], ctx), 0, 0);
 
-	    //ctx.putImageData(this.scaleImageData(this.props.imgData, 4, ctx), 20, 20)
 
 	    }
 	  }
 
 
 	render() {
-		if (this.props.nails[0]){
-			if (this.props.nails[0].polishes[0]) {
-				// console.log(this.props.nails[0].polishes[0])
-				// console.log("ever?")
-				this.draw()
-		}
-			
-		}
+		console.log(this.props.current_finger)
+		if(this.refs.canvas)
+			this.draw()
 	    return(
 	      <div>
-	        <canvas className="workingCanvas" ref="canvas" width={150} height={210}
-	        		onClick={() => this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ))}/>
+	        <canvas className="workingCanvas" ref="canvas" width={pick_width*4} height={pick_height*4}
+	        		onClick={() => this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), this.refs.canvas)}/>
 	      </div>
 	    )
 	  }

@@ -9,16 +9,29 @@ const scene1 = new THREE.Scene();
 const camera1 = new THREE.PerspectiveCamera( 75, (window.innerWidth/2)/(window.innerHeight/2), 0.1, 1000 );
 const renderer1 = new THREE.WebGLRenderer({ antialias: true });
 const flesh_color = "rgb(249, 215, 193)"
+let mouse = new THREE.Vector3();
+//let container = document.getElementById('hand_div');
 
+export default class Hand extends React.Component {
 
-export default class PolishesShelf extends React.Component {
+	constructor(props){
+		super(props)
+
+		this.state = {
+			project:{}
+		}
+	}
 
 
 
 	componentDidMount() {
 
+		
+		if (this.props.current_project){
+			this.setState({project:this.props.current_project})
+		}
+
 		renderer1.setSize( window.innerWidth/2, window.innerHeight/2 );
-	    // document.body.appendChild( renderer.domElement );
 	     this.mount.appendChild( renderer1.domElement );
 	     scene1.background = new THREE.Color( 'white' );
 	     
@@ -43,7 +56,31 @@ export default class PolishesShelf extends React.Component {
 
 	}
 
+	onMouseMove (e){
+		let vector 
+		//renderer1.getSize(vector)
+		
+		mouse.x = (e.clientX/window.innerWidth) *2  - 1;
+		mouse.y = -(e.clientY/window.innerHeight)*2  + 1;
+				
+		mouse = mouse.unproject(camera1)
+		let raycaster = new THREE.Raycaster(camera1.position, mouse.sub(camera1.position).normalize())
+		let intersects = raycaster.intersectObjects(scene1.children)
+		if (intersects.length > 0) {
+			if (intersects[0].object instanceof THREE.Mesh) {
+				//console.log(intersects[0].object)
+				//intersects[0].object.material.emissive.setHex(0xff0000)
+			}
+					
 
+			
+		}
+		//console.log(intersects)
+	}
+
+	onMouseClick (){
+		console.log('clicking')
+	}
 // 	finger(){
 // 		let loader = new GLTFLoader();
 // 		let mesh;
@@ -82,7 +119,7 @@ export default class PolishesShelf extends React.Component {
 
 // 	}
 
-	nail_shape_geom(color, texture, position){
+	nail_shape_geom(name, color, texture, position){
 
 		let loader = new GLTFLoader();
 		let mesh, mesh1;
@@ -102,7 +139,7 @@ export default class PolishesShelf extends React.Component {
 
 				mesh.position.set(position[0], position[1], position[2])
 				mesh.material = new THREE.MeshPhongMaterial( );
-				console.log(mesh.material)
+				//console.log(mesh.material)
 				//mesh.material.flatshading = THREE.SmoothShading;
 				//var textureLoader = new THREE.TextureLoader();
 				
@@ -119,7 +156,30 @@ export default class PolishesShelf extends React.Component {
 				  	mesh.material.map.needsUpdate = true;
 
 				 }
+				 if (texture === "naked.png") {
 
+				 	//mesh.material = new THREE.MeshLambertMaterial(new THREE.Color(flesh_color));
+				 	console.log( "naked")
+
+				 }else{
+				 	console.log( "not naked")
+
+					 
+					 let texture1 = new THREE.TextureLoader().load( texture);
+						 texture1.flipY = false;
+					 
+					 	texture1.offset.y = 1
+					 	texture1.rotation = Math.PI/2
+					mesh.material.map = texture1 
+
+
+					mesh.material.needsUpdate = true
+				  	mesh.material.map.needsUpdate = true;
+
+				 }
+				
+
+				mesh.name = name
 				scene1.add(mesh);
 
 				var tween = new TWEEN.Tween(mesh.rotation)
@@ -127,27 +187,7 @@ export default class PolishesShelf extends React.Component {
 			        .to({ y: [0, 0.5, 0, -0.5, 0]}, 4000)
 			        .repeat(Infinity)
 			        .start();
-
 				
-
-
-				// let sphereG = new THREE.SphereGeometry(1, 16, 16);
-
-			 //    let sphereM = new THREE.MeshPhongMaterial( color);
-		   
-		  //   	let ball  = new THREE.Mesh( sphereG, sphereM );
-				// 	scene1.add(ball)
-				// 	ball.position.x = 4
-			
-				
-				// if (texture instanceof THREE.CanvasTexture) {
-				// 	 ball.material.map = texture
-				// }
-				// var tween = new TWEEN.Tween(ball.rotation)
-			 //        .to({ x: [0, 3.14, 0]}, 4000)
-			 //        .repeat(Infinity)
-			 //        .start();
-
 			}
 			
 		);
@@ -161,21 +201,18 @@ export default class PolishesShelf extends React.Component {
 	draw(){
 		//cleaning the scene
 	 	scene1.remove.apply(scene1, scene1.children.filter(child => child instanceof THREE.Mesh));
-		//console.log(scene1.children)
+
 		let polish = this.props.currentPolish
 
 	 	let color =  new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`);;
-		//let material = new THREE.MeshPhongMaterial( {color} );
-		// material.emissive = new THREE.Color('white')
-		// material.shininess = 40
-		// material.specular = new THREE.Color()
+		
+		console.log(this.props.nails)
 
-		//let nails = []
-
-		let nail_shape_pinky = this.nail_shape_geom(color, this.props.currentTexture, [-3.5, -2.5, -3]);
-		let nail_shape_ring = this.nail_shape_geom(color, this.props.currentTexture, [0, -0.3, 0]);
-		let nail_shape_middle = this.nail_shape_geom(color, this.props.currentTexture, [2.5, 1, 0]);
-		let nail_shape_pointer = this.nail_shape_geom(color, this.props.currentTexture, [5,0, 0]);
+		let nail_shape_pinky = this.nail_shape_geom("pinky", color, this.props.nails.find(nail => nail.name === "left_pinky").texture, [-3.5, -2.5, -3]);
+		let nail_shape_ring = this.nail_shape_geom("ring",color, this.props.nails.find(nail => nail.name === "left_ring").texture, [0, -0.3, 0]);
+		let nail_shape_middle = this.nail_shape_geom("middle", color, this.props.nails.find(nail => nail.name === "left_middle").texture, [2.5, 1, 0]);
+		let nail_shape_index = this.nail_shape_geom("index", color,this.props.nails.find(nail => nail.name === "left_index").texture, [5, 0, 0]);
+		let nail_shape_thumb = this.nail_shape_geom("thumb", color, this.props.nails.find(nail => nail.name === "left_thumb").texture, [7, -4, 1]);
 
 		//let finger = this.finger()
 
@@ -197,13 +234,26 @@ export default class PolishesShelf extends React.Component {
 	 	
 	 }
 
+	 
 
 	render() {
-		
+		console.log(this.props.nails)
 		this.draw()
 	    return(
-	        <div className="hand" ref={ref => (this.mount = ref)} />
+	    	<div>
+		        <div id="hand_div" className="hand" 
+							        ref={ref => (this.mount = ref)} 
+							        onMouseMove={this.onMouseMove} 
+							        onClick={this.onMouseClick}></div>
+				<div className="finger_chose_panel">
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("pinky")} >Pinky</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("ring")} >Ring</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("middle")} >Middle</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("index")} >Index</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("thumb")} >Thumb</div>
+				</div>
 
+	        </div>
 		        		
 	    )
 	  }

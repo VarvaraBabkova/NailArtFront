@@ -42,9 +42,11 @@ class PolishesShelf extends React.Component {
 
 		//TABLE *************************************************************
 		let plane = new THREE.Mesh(new THREE.PlaneGeometry(60,2),
-								   new THREE.MeshPhongMaterial({color: 0xAAFFFF}))
+								   new THREE.MeshStandardMaterial({color: 0xAAFFFF}))
 		// plane.material.specular = new THREE.Color("rgb(250, 250, 250)")
-		// plane.material.shininess = 20;
+		plane.material.metalness = 0.9;
+		plane.material.roughness = 0.0;
+
 		plane.position.set(0, 0, -0.5)
 		scene.add(plane)
 

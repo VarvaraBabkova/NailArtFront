@@ -53,9 +53,9 @@ class PlateCanvas extends React.Component {
 		// 		pick_width, pick_height)
 		// ctx.stroke();
 
-		 let imgData = ctx.getImageData(event.pageX - ctx.canvas.offsetLeft + 1, 
-		 								event.pageY - ctx.canvas.offsetTop + 1, 
-		 								pick_width - 2, pick_height - 2);
+		 let imgData = ctx.getImageData(event.pageX - ctx.canvas.offsetLeft, 
+		 								event.pageY - ctx.canvas.offsetTop , 
+		 								pick_width , pick_height );
 		// console.log(imgData)
 		 this.props.handleGetImgDataFromPlate(imgData)
  
