@@ -124,20 +124,7 @@ export default class App extends React.Component{
         	this.setState({username:data.username, page:"Projects", user_id:data.user_id})
         	user_id = data.user_id
 
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			//reading nails
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // 	fetch(URL + "nails", {
-        // 		method:"GET",
-        // 		headers:{
-        // 			Authorization: `Bearer ${localStorage.token}`
-        // 		}
-        // 	})
-		      // .then(res => res.json())
-		      // .then(res => {
-		      //     //console.log(res)
-		      //       this.setState({nails: res})
-		      //  })
+			
 			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			//reading polishes
 			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -149,7 +136,6 @@ export default class App extends React.Component{
         	})
 		      .then(res => res.json())
 		      .then(res => {
-		         // console.log(res)
 		          this.setState({polishCollection: res, currentPolish:res[0]})
 		    })
 
@@ -214,29 +200,9 @@ export default class App extends React.Component{
 		 //},'image/png');
 
 
-
-		//this.setState({currentTexture:texture})
 	}
 
-	create_nail(empty_nail, project_id){
-		fetch(URL + "nails", {
-				method:"POST",
-				headers:{
-					"Content-Type": "application/json",
-					"Authorization": `Bearer ${localStorage.token}`
-				},
-				body:JSON.stringify({
-					name: empty_nail.name,
-					texture: empty_nail.texture,
-					project_id: project_id
-				})
-			})
-			.then(res => res.json())
-	        .then(data => /*empty_nail.id = data.id*/console.log(data))
-
-			 
-	}
-
+	
 	handlePickProject = (id) =>{
 		if (id >= 0){
 		  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -288,9 +254,6 @@ export default class App extends React.Component{
 	        })
 			 
 
-			
-			
-
 		}
 		this.setState({page:"Editor"})
 
@@ -300,17 +263,78 @@ export default class App extends React.Component{
 		this.setState({current_finger: finger})
 	}
 
+
+	create_nail = (nails, id, project_id) =>{
+		let local_nails = nails
+		fetch(URL + "nails", {
+				method:"POST",
+				headers:{
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${localStorage.token}`
+				},
+				body:JSON.stringify({
+					name: nails[id].name,
+					texture: nails[id].texture,
+					project_id: project_id
+				})
+			})
+			.then(res => res.json())
+	        .then(data => {
+	        	console.log("saved " + id)
+	        	local_nails[id] =  data
+	        	let cp = this.state.current_project
+	        	cp.nails = local_nails
+	        	this.setState({current_project: cp})
+	        	console.log(local_nails)
+	        })
+
+			 
+	}
+
 	handleCreateAndSaveEmptyNails = () =>{
 		console.log(this.state.current_project)
 		let nails = this.state.current_project.nails
 		
-		setTimeout(() =>this.create_nail(nails[0], this.state.current_project.id), 200);
-		setTimeout(() =>this.create_nail(nails[1], this.state.current_project.id), 500);
-		setTimeout(() =>this.create_nail(nails[2], this.state.current_project.id), 1000);
-		setTimeout(() =>this.create_nail(nails[3], this.state.current_project.id), 1500);
-		setTimeout(() =>this.create_nail(nails[4], this.state.current_project.id), 2500);
+		setTimeout(()=> this.create_nail(nails, 0, this.state.current_project.id), 200);
+		setTimeout(() =>this.create_nail(nails, 1, this.state.current_project.id), 500);
+		setTimeout(() =>this.create_nail(nails, 2, this.state.current_project.id), 1000);
+		setTimeout(() =>this.create_nail(nails, 3, this.state.current_project.id), 1500);
+		setTimeout(() =>this.create_nail(nails, 4, this.state.current_project.id), 2500);
+		//debugger
+	}
 
-	 	
+	updateNail =(nail, project_id) =>{
+		fetch(URL + `nails/${nail.id}`, {
+				method:"PATCH",
+				headers:{
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${localStorage.token}`
+				},
+				body:JSON.stringify({
+					name: nail.name,
+					texture: nail.texture,
+
+				})
+			})
+			.then(res => res.json())
+	        .then(data => /*empty_nail.id = data.id*/console.log(data))
+
+	}
+
+	handleSave = () => {
+		console.log(this.state.current_project)
+		setTimeout(() =>this.updateNail(this.state.current_project.nails[0], this.state.current_project.id), 200);
+		setTimeout(() =>this.updateNail(this.state.current_project.nails[1], this.state.current_project.id), 500);
+		setTimeout(() =>this.updateNail(this.state.current_project.nails[2], this.state.current_project.id), 800);
+		setTimeout(() =>this.updateNail(this.state.current_project.nails[3], this.state.current_project.id), 1000);
+		setTimeout(() =>this.updateNail(this.state.current_project.nails[4], this.state.current_project.id), 1200);
+
+
+		// this.updateNail(this.state.current_project.nails[0])
+		// this.updateNail(this.state.current_project.nails[1])
+		// this.updateNail(this.state.current_project.nails[2])
+		// this.updateNail(this.state.current_project.nails[3])
+		// this.updateNail(this.state.current_project.nails[4])
 
 	}
 
@@ -326,7 +350,7 @@ export default class App extends React.Component{
       case "Editor":
       	return <div>
 	    		<div className="Logout" onClick={this.handleLogout}>Log out!</div>
-	    		<div className="Save" onClick={this.handleCreateAndSaveEmptyNails}>Save!</div>
+	    		<div className="Save" onClick={this.handleSave}>Save!</div>
 
 				<PlateCanvas text = {"some text"} handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}/>   
 				<PolishesShelf polishCollection={this.state.polishCollection}

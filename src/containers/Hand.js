@@ -10,6 +10,8 @@ const camera1 = new THREE.PerspectiveCamera( 75, (window.innerWidth/2)/(window.i
 const renderer1 = new THREE.WebGLRenderer({ antialias: true });
 const flesh_color = "rgb(249, 215, 193)"
 let mouse = new THREE.Vector3();
+		let group = new THREE.Group();
+
 //let container = document.getElementById('hand_div');
 
 export default class Hand extends React.Component {
@@ -81,43 +83,49 @@ export default class Hand extends React.Component {
 	onMouseClick (){
 		console.log('clicking')
 	}
-// 	finger(){
-// 		let loader = new GLTFLoader();
-// 		let mesh;
-// 		let color = new THREE.Color(flesh_color)
 
-// 		loader.load(
-// 			require('../finger_kinda.glb'),
-// 			function(gltf) {
-// 				 mesh = gltf.scene.children[0]
-// //LEAVE THAT - THAT S FOR SMOOTHNESS********************************************
-// 				 mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
-// 			    mesh.geometry.mergeVertices();
-// 			    mesh.geometry.computeVertexNormals();
-// 			    mesh.geometry = new THREE.BufferGeometry().fromGeometry( mesh.geometry );
-// //********************************************************************************
-// 			 //mesh.rotation.z = Math.PI 
-// 				 mesh.rotation.x = Math.PI 
+	finger(pos){
+		let loader = new GLTFLoader();
+		let mesh;
+		let color = new THREE.Color(flesh_color)
 
-// 				 mesh.position.set(0, 0, 0)
-// 				mesh.material = new THREE.MeshLambertMaterial( {color} );
-// 				console.log(mesh.material)
-// 				//mesh.material.flatshading = THREE.SmoothShading;
-// 				//var textureLoader = new THREE.TextureLoader();
+		loader.load(
+			require('../finger_kinda.glb'),
+			function(gltf) {
+				 mesh = gltf.scene.children[0]
+//LEAVE THAT - THAT S FOR SMOOTHNESS********************************************
+				 mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
+			    mesh.geometry.mergeVertices();
+			    mesh.geometry.computeVertexNormals();
+			    mesh.geometry = new THREE.BufferGeometry().fromGeometry( mesh.geometry );
+//********************************************************************************
+			 mesh.rotation.z = Math.PI 
+				 mesh.rotation.x = -Math.PI /2
+
+				 mesh.scale.set(1.7, 1.7, 1.7)
+
+				mesh.position.set(pos.x, pos.y, pos.z)
+
+				mesh.material = new THREE.MeshLambertMaterial( {color} );
+				console.log(mesh.material)
+				//mesh.material.flatshading = THREE.SmoothShading;
+				//var textureLoader = new THREE.TextureLoader();
 				
-// 				mesh.material.needsUpdate = true
+				mesh.material.needsUpdate = true
 				
 
-// 				scene1.add(mesh);
-							
-// 				var tween = new TWEEN.Tween(mesh.rotation)
-// 			        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
-// 			        .to({ x: [2.4, 4.14, 0, 3.14]}, 2000)
-// 			        .repeat(Infinity)
-// 			        .start();
-// 			    });
+				scene1.add(mesh);
+				group.add(mesh);
+	
+				// var tween = new TWEEN.Tween(mesh.rotation)
+			 //        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
+			 //        .to({ x: [2.4, 4.14, 0, 3.14]}, 2000)
+			 //        .repeat(Infinity)
+			 //        .start();
+	   });
+	
 
-// 	}
+	}
 
 	nail_shape_geom(name, color, texture, position){
 
@@ -181,12 +189,13 @@ export default class Hand extends React.Component {
 
 				mesh.name = name
 				scene1.add(mesh);
+				group.add(mesh);
 
-				var tween = new TWEEN.Tween(mesh.rotation)
-			        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
-			        .to({ y: [0, 0.5, 0, -0.5, 0]}, 4000)
-			        .repeat(Infinity)
-			        .start();
+				// var tween = new TWEEN.Tween(mesh.rotation)
+			 //        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
+			 //        .to({ y: [0, 0.5, 0, -0.5, 0]}, 4000)
+			 //        .repeat(Infinity)
+			 //        .start();
 				
 			}
 			
@@ -208,15 +217,38 @@ export default class Hand extends React.Component {
 		
 		console.log(this.props.nails)
 
-		let nail_shape_pinky = this.nail_shape_geom("pinky", color, this.props.nails.find(nail => nail.name === "left_pinky").texture, [-3.5, -2.5, -3]);
-		let nail_shape_ring = this.nail_shape_geom("ring",color, this.props.nails.find(nail => nail.name === "left_ring").texture, [0, -0.3, 0]);
-		let nail_shape_middle = this.nail_shape_geom("middle", color, this.props.nails.find(nail => nail.name === "left_middle").texture, [2.5, 1, 0]);
-		let nail_shape_index = this.nail_shape_geom("index", color,this.props.nails.find(nail => nail.name === "left_index").texture, [5, 0, 0]);
-		let nail_shape_thumb = this.nail_shape_geom("thumb", color, this.props.nails.find(nail => nail.name === "left_thumb").texture, [7, -4, 1]);
+		let delta_y = 2
 
-		//let finger = this.finger()
+		let nail_shape_pinky = this.nail_shape_geom("pinky", color, this.props.nails.find(nail => nail.name === "left_pinky").texture, 
+													[-3.5, -3.5 + delta_y, -3]);
+		let nail_shape_ring = this.nail_shape_geom("ring",color, this.props.nails.find(nail => nail.name === "left_ring").texture, 
+													[0, -0.3+ delta_y, 0]);
+		let nail_shape_middle = this.nail_shape_geom("middle", color, this.props.nails.find(nail => nail.name === "left_middle").texture,
+													 [2.7, 1+ delta_y, 0]);
+		let nail_shape_index = this.nail_shape_geom("index", color,this.props.nails.find(nail => nail.name === "left_index").texture, 
+													[5.5, 0+ delta_y, -0.7]);
+		let nail_shape_thumb = this.nail_shape_geom("thumb", color, this.props.nails.find(nail => nail.name === "left_thumb").texture, 
+													[9, -7+ delta_y, 1]);
+
+		let ring_finger = this.finger({x:0, y:-5+ delta_y, z:-1.5})
+		let middle_finger = this.finger({x:2.9, y:-3.8+ delta_y, z:-1.5})
+		let index_finger = this.finger({x:6.2, y:-4.9+ delta_y, z:-2.3})
+		let pinky_finger = this.finger({x:-4.3, y:-8.3+ delta_y, z:-5})
+
 
 		console.log("in draw")
+
+
+		scene1.add(group)
+		var tween = new TWEEN.Tween(group.rotation)
+			        .to({ y: [0, 0.3, 0, -0.3, 0]}, 4000)
+			        .repeat(Infinity)
+			        .start();
+
+
+		console.log(scene1)
+		console.log(group)
+
 
 	 	
 		var animate = function () {
@@ -234,7 +266,7 @@ export default class Hand extends React.Component {
 	 	
 	 }
 
-	 
+
 
 	render() {
 		console.log(this.props.nails)
