@@ -231,11 +231,7 @@ export default class Hand extends React.Component {
 				//}
 				 
 	
-				// var tween = new TWEEN.Tween(mesh.rotation)
-			 //        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
-			 //        .to({ x: [2.4, 4.14, 0, 3.14]}, 2000)
-			 //        .repeat(Infinity)
-			 //        .start();
+				
 	   });
 	
 

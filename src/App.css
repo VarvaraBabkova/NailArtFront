@@ -36,13 +36,48 @@ div.filter_menu .filter_icon {
     z-index: 100;
     height: 70px;
     width: 70px;
+    animation: fadein 1s;
+
     transform: translate3d(5px, 0, 0);
     transition: transform 1.1s cubic-bezier(0, .52, 0, 1);
 }
 
-div.intro .loginForm .invisible{
+div.intro .removed{
     transform: translate3d(70px, 0, 0);
     transition: transform 1.1s cubic-bezier(0, .52, 0, 1);
+
+}
+
+/**************************************************************************************************************/
+/************************************************* PROJECTS *********************************************************/
+/**************************************************************************************************************/
+
+div.Projects {
+	width: 30%;
+	height: 50%;
+	border: 1px solid;
+	z-index: 20;
+	 border-radius: 14px;
+	 margin: 1%;
+	   box-shadow: 10px 10px 5px grey;
+
+	position: fixed;
+	right: 0;
+	top:30%;
+	overflow-y: scroll;
+
+}
+
+
+div.Projects .Project {
+	width: 80%;
+	height: 10%;
+	border: 1px solid;
+	z-index: 2;
+	 border-radius: 14px;
+	 margin: 5%;
+	 padding: 5%;
+	   box-shadow: 10px 10px 5px grey;
 
 }
 
@@ -167,33 +202,6 @@ div.finger_chose_panel .finger_btn  {
 	z-index: 20;
 	bottom: 0;
 	float:left;
-}
-
-/**************************************************************************************************************/
-/************************************************* PROJECTS *********************************************************/
-/**************************************************************************************************************/
-
-div.Projects {
-	width: 50%;
-	height: 10%;
-	border: 1px solid;
-	z-index: 2;
-	 border-radius: 14px;
-	 margin: 1%;
-	   box-shadow: 10px 10px 5px grey;
-
-}
-
-
-div.Projects .Project {
-	width: 50%;
-	height: 10%;
-	border: 1px solid;
-	z-index: 2;
-	 border-radius: 14px;
-	 margin: 1%;
-	   box-shadow: 10px 10px 5px grey;
-
 }
 
 

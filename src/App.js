@@ -9,7 +9,6 @@ import StampingPolishes from "./containers/StampingPolishes"
 import Hand from "./containers/Hand"
 
 import Intro from "./containers/Intro"
-import Projects from "./containers/Projects"
 import { saveAs } from 'file-saver';
 
 
@@ -31,7 +30,7 @@ export default class App extends React.Component{
 			currentPolish:{},
 			currentTexture: {},
 			currentStampingPolish: {},
-			page: "Intro",
+			page: "Intro_first",
 			projects:[],
 			user_id:0,
 			current_project: {},
@@ -119,32 +118,36 @@ export default class App extends React.Component{
 		.then(res => res.json())
         .then(data => {
         	if (data.error) {
+        		this.setState({page:"Intro_rejected"})
         		console.log(data)
         		return
+        	}else{
+
+        		localStorage.setItem("token", data.token)
+	        	localStorage.setItem("id", data.user_id)
+	        	this.setState({username:data.username, page:"Entered", user_id:data.user_id})
+	        	user_id = data.user_id
+
+				
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				//reading polishes
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		       fetch(URL + "polishes", {
+	        		method:"GET",
+	        		headers:{
+	        			Authorization: `Bearer ${localStorage.token}`
+	        		}
+	        	})
+			      .then(res => res.json())
+			      .then(res => {
+			          this.setState({polishCollection: res, currentPolish:res[0]})
+			    })
+
+			    this.readProjects(user_id)
         	}
         	
 
-        	localStorage.setItem("token", data.token)
-        	localStorage.setItem("id", data.user_id)
-        	this.setState({username:data.username, page:"Projects", user_id:data.user_id})
-        	user_id = data.user_id
-
-			
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			//reading polishes
-			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	       fetch(URL + "polishes", {
-        		method:"GET",
-        		headers:{
-        			Authorization: `Bearer ${localStorage.token}`
-        		}
-        	})
-		      .then(res => res.json())
-		      .then(res => {
-		          this.setState({polishCollection: res, currentPolish:res[0]})
-		    })
-
-		    this.readProjects(user_id)
+        	
 
 
         }) // login fetch
@@ -180,30 +183,7 @@ export default class App extends React.Component{
 
 			console.log(nails)
 
-		  //canvas.toBlob(function(blob){
-		     //  saveAs(blob, "http://localhost:3001//pretty_image.png");
-
-		 	//let nails = this.state.current_project.nails
-		 	
-
-			// fetch(URL + "nails", {
-			// 	method:"POST",
-			// 	headers:{
-			// 		"Content-Type": "application/json",
-			// 		"Authorization": `Bearer ${localStorage.token}`
-			// 	},
-			// 	body:JSON.stringify({
-			// 		name: "left_pinky__________",
-			// 		texture: canvas.toDataURL(),
-			// 		project_id: 1
-			// 	})
-			// })
-			// .then(res => res.json())
-	  //       .then(data => console.log(data))
-			 
-			
-		 //},'image/png');
-
+		 
 
 	}
 
@@ -338,15 +318,25 @@ export default class App extends React.Component{
 
 	}
 
+
+	handleChangeState= (state)=>{
+		this.setState({page:state})
+	}
+
  current_page(){
+ 	//debugger
     switch (this.state.page){
 
-      case "Intro":
-        return <Intro handleAuth={this.handleAuth}/>
+      case "Intro_first":
+	  case "Intro_rejected":
+	  case "Entered":
+        return <Intro handleAuth={this.handleAuth} state={this.state.page} handleChangeState={this.handleChangeState}/>
 
       case "Projects":
-      	return <Projects handlePickProject={this.handlePickProject} projects= {this.state.projects}/>
-
+      	//return <Projects handlePickProject={this.handlePickProject} projects= {this.state.projects}/>
+		return <Intro handleAuth={this.handleAuth} state={this.state.page}
+				handlePickProject={this.handlePickProject} projects= {this.state.projects} 
+				handleChangeState={this.handleChangeState}/>
       case "Editor":
       	return <div>
 	    		<div className="Logout" onClick={this.handleLogout}>Log out!</div>
@@ -368,7 +358,7 @@ export default class App extends React.Component{
 		   	 </div>
      
       default:
-        return <Intro handleAuth={this.handleAuth}/>
+        return <Intro handleAuth={this.handleAuth} state={this.state.page} handleChangeState={this.handleChangeState}/>
     }
 
 

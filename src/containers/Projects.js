@@ -9,7 +9,7 @@ export default class Projects extends React.Component {
 		return(
 
 		    <div className="Projects">
-		    	<div className="new_project" onClick = {() => this.props.handlePickProject(-1)}> New Project </div>
+		    	<div className="Project" onClick = {() => this.props.handlePickProject(-1)}> New Project </div>
 		      	{
 		      		this.props.projects.map(project => <Project project={project} 
 												      			handlePickProject = {this.props.handlePickProject}
