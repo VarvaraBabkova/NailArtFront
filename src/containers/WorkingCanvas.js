@@ -145,6 +145,12 @@ class WorkingCanvas extends React.Component {
 	    }
 	  }
 
+	  handleClick = (texture, canvas) =>{
+	  	this.props.handlePickTexture(texture, canvas)
+	  }
+	  handleMouseDown = (e) =>{
+	  		
+	  }
 
 	render() {
 		console.log(this.props.current_finger)
@@ -153,7 +159,8 @@ class WorkingCanvas extends React.Component {
 	    return(
 	      <div>
 	        <canvas className="workingCanvas" ref="canvas" width={pick_width*4} height={pick_height*4}
-	        		onClick={() => this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), this.refs.canvas)}/>
+	        		onClick={() => this.handleClick(new THREE.CanvasTexture( this.refs.canvas ), this.refs.canvas)}
+	        		onMouseDown = {(e) => this.handleMouseDown(e)}/>
 	      </div>
 	    )
 	  }

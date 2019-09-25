@@ -35,18 +35,20 @@ export default class Hand extends React.Component {
 
 		renderer1.setSize( window.innerWidth/2, window.innerHeight/2 );
 	     this.mount.appendChild( renderer1.domElement );
-	     scene1.background = new THREE.Color( 'white' );
+	     scene1.background = new THREE.Color( "rgb(200, 200, 250)" );
 	     
-	    camera1.position.z = 9;
+	    camera1.position.z = 0.185;
 
-	    camera1.position.x = 1;
+	     camera1.position.y = 0.065;
+	    // camera1.position.x = 0.075;
+
 
 	    let pointLight =
           new THREE.PointLight(0xFFFFFF);
 
         // set its position
         pointLight.position.x = 0;
-        pointLight.position.y = 0;
+        pointLight.position.y = 1;
         pointLight.position.z = 4;
 
         // add to the scene
@@ -80,54 +82,18 @@ export default class Hand extends React.Component {
 		//console.log(intersects)
 	}
 
+	componentWillUnmount() {
+		   while(scene1.children.length > 0){ 
+			    scene1.remove(scene1.children[0]); 
+			}
+		  }
+
 	onMouseClick (){
 		console.log('clicking')
 	}
 
-	finger(pos){
-		let loader = new GLTFLoader();
-		let mesh;
-		let color = new THREE.Color(flesh_color)
-
-		loader.load(
-			require('../finger_kinda.glb'),
-			function(gltf) {
-				 mesh = gltf.scene.children[0]
-//LEAVE THAT - THAT S FOR SMOOTHNESS********************************************
-				 mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
-			    mesh.geometry.mergeVertices();
-			    mesh.geometry.computeVertexNormals();
-			    mesh.geometry = new THREE.BufferGeometry().fromGeometry( mesh.geometry );
-//********************************************************************************
-			 mesh.rotation.z = Math.PI 
-				 mesh.rotation.x = -Math.PI /2
-
-				 mesh.scale.set(1.7, 1.7, 1.7)
-
-				mesh.position.set(pos.x, pos.y, pos.z)
-
-				mesh.material = new THREE.MeshLambertMaterial( {color} );
-				console.log(mesh.material)
-				//mesh.material.flatshading = THREE.SmoothShading;
-				//var textureLoader = new THREE.TextureLoader();
-				
-				mesh.material.needsUpdate = true
-				
-
-				scene1.add(mesh);
-				group.add(mesh);
 	
-				// var tween = new TWEEN.Tween(mesh.rotation)
-			 //        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
-			 //        .to({ x: [2.4, 4.14, 0, 3.14]}, 2000)
-			 //        .repeat(Infinity)
-			 //        .start();
-	   });
-	
-
-	}
-
-	nail_shape_geom(name, color, texture, position){
+	nail_shape_geom(name, color, texture, position, rotation, scale){
 
 		let loader = new GLTFLoader();
 		let mesh, mesh1;
@@ -142,10 +108,30 @@ export default class Hand extends React.Component {
 			    mesh.geometry.computeVertexNormals();
 			    mesh.geometry = new THREE.BufferGeometry().fromGeometry( mesh.geometry );
 //********************************************************************************
-			
-				 mesh.rotation.z = Math.PI/2 
+			//debugger
+				 //mesh.rotation.z = Math.PI/2 
+				// mesh.scale.set(0.005, 0.005, 0.005)
+				 mesh.scale.set(scale, scale, scale)
+				 mesh.rotation.set(rotation[0], rotation[1], rotation[2])
+				 
 
 				mesh.position.set(position[0], position[1], position[2])
+
+				// if (name === "thumb"){
+				//  	mesh.rotation.z = Math.PI/2
+				//  	mesh.rotation.y = Math.PI/4
+
+				//  	//mesh.rotation.x = 0.9
+					
+				// 	// var tween = new TWEEN.Tween(mesh.rotation)
+			 //  //       .to({ z: [0, 1]}, 2000)
+			 //  //       .repeat(Infinity)
+			 //  //       .start();
+				//  	//mesh.rotation.z = Math.PI/2 + Math.PI/4
+
+				//  }
+
+
 				mesh.material = new THREE.MeshPhongMaterial( );
 				//console.log(mesh.material)
 				//mesh.material.flatshading = THREE.SmoothShading;
@@ -191,11 +177,7 @@ export default class Hand extends React.Component {
 				scene1.add(mesh);
 				group.add(mesh);
 
-				// var tween = new TWEEN.Tween(mesh.rotation)
-			 //        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
-			 //        .to({ y: [0, 0.5, 0, -0.5, 0]}, 4000)
-			 //        .repeat(Infinity)
-			 //        .start();
+				
 				
 			}
 			
@@ -206,6 +188,59 @@ export default class Hand extends React.Component {
 		
 
 	}
+
+	riggedHand(){
+		let loader = new GLTFLoader();
+		let mesh;
+		let color = new THREE.Color(flesh_color)
+
+		loader.load(
+			require('../RiggedHand2.glb'),
+			function(gltf) {
+
+				//console.log("this is mesh")
+				//console.log(gltf.scene)
+					mesh = gltf.scene.children[0].children[1]
+				// debugger
+//LEAVE THAT - THAT S FOR SMOOTHNESS********************************************
+				mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
+			   mesh.geometry.mergeVertices();
+
+			   mesh.geometry.computeVertexNormals();
+			   mesh.geometry = new THREE.BufferGeometry().fromGeometry( mesh.geometry );
+//********************************************************************************
+
+				mesh.position.set(0.72, 0.15, -1.45)          // works for hand2!!!!
+
+				// mesh.rotation.y = Math.PI /4
+					
+
+				//mesh.rotation.z = Math.PI /4
+				//mesh.scale.set(1.2,1.2,1.2)
+
+				mesh.material = new THREE.MeshLambertMaterial({color});
+				
+				//mesh.material.flatshading = THREE.SmoothShading;
+				//var textureLoader = new THREE.TextureLoader();
+				
+				mesh.material.needsUpdate = true
+				
+
+				scene1.add(mesh);
+				group.add(mesh);
+				//}
+				 
+	
+				// var tween = new TWEEN.Tween(mesh.rotation)
+			 //        //.to({ x: [2.4, 3.14, 7, 3.14]}, 2000)
+			 //        .to({ x: [2.4, 4.14, 0, 3.14]}, 2000)
+			 //        .repeat(Infinity)
+			 //        .start();
+	   });
+	
+
+	}
+
 	
 	draw(){
 		//cleaning the scene
@@ -217,35 +252,59 @@ export default class Hand extends React.Component {
 		
 		console.log(this.props.nails)
 
-		let delta_y = 2
 
-		let nail_shape_pinky = this.nail_shape_geom("pinky", color, this.props.nails.find(nail => nail.name === "left_pinky").texture, 
-													[-3.5, -3.5 + delta_y, -3]);
-		let nail_shape_ring = this.nail_shape_geom("ring",color, this.props.nails.find(nail => nail.name === "left_ring").texture, 
-													[0, -0.3+ delta_y, 0]);
-		let nail_shape_middle = this.nail_shape_geom("middle", color, this.props.nails.find(nail => nail.name === "left_middle").texture,
-													 [2.7, 1+ delta_y, 0]);
-		let nail_shape_index = this.nail_shape_geom("index", color,this.props.nails.find(nail => nail.name === "left_index").texture, 
-													[5.5, 0+ delta_y, -0.7]);
-		let nail_shape_thumb = this.nail_shape_geom("thumb", color, this.props.nails.find(nail => nail.name === "left_thumb").texture, 
-													[9, -7+ delta_y, 1]);
-
-		let ring_finger = this.finger({x:0, y:-5+ delta_y, z:-1.5})
-		let middle_finger = this.finger({x:2.9, y:-3.8+ delta_y, z:-1.5})
-		let index_finger = this.finger({x:6.2, y:-4.9+ delta_y, z:-2.3})
-		let pinky_finger = this.finger({x:-4.3, y:-8.3+ delta_y, z:-5})
-
+		let nail_shape_pinky = this.nail_shape_geom("pinky", 
+													color, 
+													this.props.nails.find(nail => nail.name === "left_pinky").texture, 
+													[-0.056, 0.093, 0.0027],
+													[0, 0, Math.PI/2 + 0.3], 
+													0.0045
+													);
+		let nail_shape_ring = this.nail_shape_geom("ring", 
+													color, 
+													this.props.nails.find(nail => nail.name === "left_ring").texture, 
+													[-0.03, 0.12, 0.0036],
+													[0, 0, Math.PI/2 +0.1], 
+													0.0058
+													);
+		
+		let nail_shape_middle = this.nail_shape_geom("middle", 
+													color, 
+													this.props.nails.find(nail => nail.name === "left_middle").texture, 
+													[-0.0043, 0.135, 0.0048],
+													[0, 0, Math.PI/2 ], 
+													0.0063
+													);
+		let nail_shape_index = this.nail_shape_geom("index", 
+													color, 
+													this.props.nails.find(nail => nail.name === "left_index").texture, 
+													[0.0269, 0.125, 0.0071],
+													[0, 0, Math.PI/2 - 0.07], 
+													0.0058
+													);
+		let nail_shape_thumb = this.nail_shape_geom("thumb", 
+													color, 
+													this.props.nails.find(nail => nail.name === "left_thumb").texture, 
+													[0.077, 0.053, -0.007],
+													//[0, 0, 0],
+													//[0, Math.PI/2 , Math.PI/2 +0],
+													[15*Math.PI/180, 85*Math.PI/180, 85*Math.PI/180], 
+													0.0065
+													);
+		
 
 		console.log("in draw")
 
+		this.riggedHand()
+
 
 		scene1.add(group)
+		
+
 		var tween = new TWEEN.Tween(group.rotation)
-			        .to({ y: [0, 0.3, 0, -0.3, 0]}, 4000)
+			        .to({ y: [0, -1 ,0, 1, 0]}, 7000)
 			        .repeat(Infinity)
 			        .start();
-
-
 		console.log(scene1)
 		console.log(group)
 
@@ -255,11 +314,7 @@ export default class Hand extends React.Component {
 	      requestAnimationFrame( animate );
 
 	       TWEEN.update();
-			// if (scene1.children[2])
-			// 	if (scene1.children[2].material) 
-			// 		if (scene1.children[2].material.map) 
-			// 	scene1.children[2].material.map.needsUpdate = true
-	     	
+			
 	      renderer1.render( scene1, camera1 );
 	    };
 	    animate();

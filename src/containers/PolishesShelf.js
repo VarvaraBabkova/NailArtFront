@@ -30,10 +30,10 @@ class PolishesShelf extends React.Component {
 
 	    camera.up.set(0,-1,0)
 		camera.lookAt(0, 5, 0.2)
-	    camera.position.set(0, -5, 0.5)
+	    camera.position.set(0, -5, 0.7)
 
 	    //camera.updateProjectionMatrix();
-	    camera.zoom = 0.45
+	    camera.zoom = 0.8
 
 		// let helper = new THREE.CameraHelper( camera );
 		// scene.add( helper );
@@ -67,6 +67,11 @@ class PolishesShelf extends React.Component {
 		scene.add( axesHelper );
 
 	 }
+	  componentWillUnmount() {
+		   while(scene.children.length > 0){ 
+			    scene.remove(scene.children[0]); 
+			}
+		  }
 	
 	draw(){
 	 	

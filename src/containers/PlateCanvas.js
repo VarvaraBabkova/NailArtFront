@@ -19,13 +19,11 @@ class PlateCanvas extends React.Component {
 	    console.log(img.height)
 
 	      
-	     // ctx.translate(canvas.width/2, canvas.height/2);
-	      //ctx.rotate(Math.PI/2)
+	    
 	      ctx.drawImage(img, 0, 0, img.width/2, img.height,
 
 	      		0, 0, canvas.width, canvas.height)
-	      //ctx.rotate(-Math.PI/2)
-	      //ctx.translate(-canvas.width/2,-canvas.height/2);
+	      
 	     
 	      canvas.addEventListener("mousemove", this.handleMouseMove, false);
 	      canvas.addEventListener("mousedown", this.handleMouseClick, false);
@@ -33,10 +31,8 @@ class PlateCanvas extends React.Component {
 	    }
 	  }
 
-	handleMouseMove(event){
-		//console.log(event.pageX)
-		//console.log(event.pageY)
-
+	handleMouseMove= (event) =>{
+		
 
 	} 
 	handleMouseClick= (event) => {

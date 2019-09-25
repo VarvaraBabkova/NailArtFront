@@ -118,7 +118,12 @@ export default class App extends React.Component{
 		})
 		.then(res => res.json())
         .then(data => {
-        	//console.log(data)
+        	if (data.error) {
+        		console.log(data)
+        		return
+        	}
+        	
+
         	localStorage.setItem("token", data.token)
         	localStorage.setItem("id", data.user_id)
         	this.setState({username:data.username, page:"Projects", user_id:data.user_id})
@@ -330,11 +335,6 @@ export default class App extends React.Component{
 		setTimeout(() =>this.updateNail(this.state.current_project.nails[4], this.state.current_project.id), 1200);
 
 
-		// this.updateNail(this.state.current_project.nails[0])
-		// this.updateNail(this.state.current_project.nails[1])
-		// this.updateNail(this.state.current_project.nails[2])
-		// this.updateNail(this.state.current_project.nails[3])
-		// this.updateNail(this.state.current_project.nails[4])
 
 	}
 
