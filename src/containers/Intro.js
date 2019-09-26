@@ -129,7 +129,7 @@ export default class Intro extends React.Component {
         scene.add(ambientLight);
 
         let axesHelper = new THREE.AxesHelper( 5 );
-		scene.add( axesHelper );
+		//scene.add( axesHelper );
 
 	   	let geometry = new THREE.CubeGeometry(0.5,0.5,0.5);
 
@@ -161,7 +161,7 @@ export default class Intro extends React.Component {
 	  						new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 20")));
 	  	plane_left.rotation.x = 80*Math.PI/180
 
-	  	//plane.position.set( 0.5, -0.5, -1)
+	  	plane_left.position.set( 0.5, -0.5, -1)
 	  	scene.add(plane_left)
 
 	  	this.drawPolish({x:0, y:0.4, z:0})
@@ -205,7 +205,28 @@ export default class Intro extends React.Component {
 	   	if (this.props.state === "Entered") {
 
 	   		 scene.children.map(child => (child instanceof THREE.Mesh && child.name === "Cylinder"?
-	   		 	child.material.color.setHex(0xff0000):child
+	   		 	child.material.color.setHex(0xaaffff)
+	   		 	:child
+	   		 	))
+	   		// 		   		child.material.color.setHex(0xff0000):child.material.color.setHex(0xff0000)))
+
+	   		// cube2.material.color.setHex(0xff0000);
+
+	   		let tween = new TWEEN.Tween(scene.rotation)
+			        .to({ x: [0, 0.05, 0, -0.05, 0]}, 500)
+			        .repeat(2)
+			        .start();
+
+			 console.log(scene)
+			 this.props.handleChangeState("Projects")
+
+	   	}
+	   	
+if (this.props.state === "Projects") {
+
+	   		 scene.children.map(child => (child instanceof THREE.Mesh && child.name === "Cylinder"?
+	   		 	child.material.color.setHex(0xaaffff)
+	   		 	:child
 	   		 	))
 	   		// 		   		child.material.color.setHex(0xff0000):child.material.color.setHex(0xff0000)))
 
@@ -216,12 +237,10 @@ export default class Intro extends React.Component {
 			   //      .repeat(10)
 			   //      .start();
 
-			 console.log(scene)
-			 this.props.handleChangeState("Projects")
+			
 
 	   	}
 	   	
-
 
 	   	renderer.render( scene, camera );
 

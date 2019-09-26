@@ -54,7 +54,7 @@ div.intro .removed{
 
 div.Projects {
 	width: 30%;
-	height: 50%;
+	height: 54%;
 	border: 1px solid;
 	z-index: 20;
 	 border-radius: 14px;
@@ -63,7 +63,7 @@ div.Projects {
 
 	position: fixed;
 	right: 0;
-	top:30%;
+	top:25%;
 	overflow-y: scroll;
 
 }
@@ -85,36 +85,78 @@ div.Projects .Project {
 /**************************************************************************************************************/
 /************************************************* MAIN *********************************************************/
 /**************************************************************************************************************/
-canvas.plateCanvas {
+div.rightPanel{
 	position: fixed;
 	right: 0px;
-	top: 35%;
-		border: 1px solid;
-
-}
-
-canvas.workingCanvas {
-	position: fixed;
-	left: 10px;
-	bottom: 10px;
+	top: 30%;
 	border: 1px solid;
-	z-index: 2;
-	 border-radius: 14px;
+	width: 30%;
+	height: 70%;
+	 display: block;
 
 }
 
-div.stampingPolishes {
+div.leftPanel{
+	position: fixed;
+	left: 0px;
+	top: 60%;
+	height: 40%;
+	border: 1px solid;
+	width: 30%;
+	 display: block;
+}
 
-	 margin:2%;    
-	 padding:10px;
+.projectImg{
+	position: fixed;
+	left: 0px;
+	top: 30%;
+	height: 30%;
+	border: 1px solid;
+	width: 30%;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
+}
+.projectImg img {
+   object-fit: cover;
+  /* width: 100%;*/
+   height: 100%;
+}
+
+canvas.plateCanvas {
+	position: relative;
+	right: 0px;
+	top: 10%;
+	border: 1px solid;
+	/*width: 30%;*/
+
+}
+
+ canvas.workingCanvas {
+	position: relative;
+	left: 5%;
+	top: 5%;
+	border: 1px solid;
+	border-radius: 14px;
+
+}
+
+ div.stampingPolishes {
+
+	margin:2%;    
+	padding:10px;
 	position: fixed;
 	left: 10px;
-	bottom: 40%;
+	bottom: 1%;
 	width: 20%;
-	height: 5%;
+	height: 3%;
 	border: 1px solid;
-	z-index: 2;
-	 border-radius: 14px;
+	border-radius: 14px;
+	 	/* display: block;*/
+
 }
 
 div.stampingPolishes .stampingPolish {
@@ -125,7 +167,6 @@ div.stampingPolishes .stampingPolish {
 	width: 20px;
 	height: 20px;
 	border: 1px solid;
-	z-index: 2;
 	 border-radius: 14px;
 }
 
@@ -136,29 +177,88 @@ div.polishesShelf {
 	top: 0;
 	width: 100%;
 	height: 30%;
-	  display: block;
-	 overflow: hidden;
-
-}
-
-div.hand {
-	position: fixed;
-	width: 40%;
-	height: 60%;
-	float: center;
-	top: 30%;
-	left: 30%;
-	border: 1px solid;
-	z-index: 10;
 	 display: block;
 	 overflow: hidden;
 
 }
+div.polishesShelf  .color_button {
+	width: 90px;
+	height: 40px;
+	border: 1px solid;
+	z-index: 20;
+	top: 0%;
+
+	/*position: fixed;*/
+
+}
+
+
+div.hand {
+	position: fixed;
+	z-index: 10;
+	overflow: hidden;
+
+  	height: 50%;
+  	top: 60%;   /* top - half of its height = 60 - (50 - 25) would be the real top*/
+  	left: 50%;
+	transform: translate(-50%, -50%);
+
+	border: 1px solid;
+	border-radius: 50%;
+	box-shadow: 10px 10px 5px grey;
+}
+
+div.hand:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+div.finger_chose_panel{
+	width:40%;
+	height: 15%;
+	border: 1px solid;
+	z-index: 20;
+	bottom: 0;
+	right: 30%;
+	position: fixed;
+	float:center;
+	/* display: block;*/
+}
+
+div.finger_chose_panel .finger_btn  {
+	width: 12%;
+	height: 80%;
+	border: 1px solid;
+	z-index: 20;
+	bottom: 0;
+	float:left;
+	border-bottom-left-radius: 40%;
+	border-bottom-right-radius: 40%;
+	border-top-left-radius: 5%;
+	border-top-right-radius: 5%;
+	margin: 2%;
+	margin-left: 5%; 
+	box-shadow: 10px 10px 5px grey;
+
+	overflow: hidden;
+
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.finger_btn img {
+   object-fit: contain;
+   /*width: 100%;*/
+   height: 100%;
+}
+
+
 
 
 .Logout {
-	top: 0;
-	right:0;
+	bottom: 0;
+	left:0;
 	position: fixed;
 	width: 100px;
 	height: 30px;
@@ -166,42 +266,13 @@ div.hand {
 	z-index: 20;
 }
 .Save {
-	top: 5%;
-	right:0;
+	bottom: 5%;
+	left:0;
 	position: fixed;
 	width: 100px;
 	height: 30px;
 	border: 1px solid;
 	z-index: 20;
-}
-
-div.polishesShelf  .color_button {
-	width: 90px;
-	height: 40px;
-	border: 1px solid;
-	z-index: 20;
-	top: 10%;
-}
-
-
-div.finger_chose_panel{
-	width:310px;
-	height: 40px;
-	border: 1px solid;
-	z-index: 20;
-	bottom: 0;
-	right: 30%;
-	position: fixed;
-	float:center;
-	 display: block;
-}
-div.finger_chose_panel .finger_btn  {
-	width: 60px;
-	height: 40px;
-	border: 1px solid;
-	z-index: 20;
-	bottom: 0;
-	float:left;
 }
 
 

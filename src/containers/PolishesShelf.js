@@ -134,13 +134,13 @@ class PolishesShelf extends React.Component {
 	    return(
 	        <div className="polishesShelf" ref={ref => (this.mount = ref)} >
 	        	{
-	        		this.props.polishCollection.map((polish, index) => {
-	        			let buttonClassName = "color_button " + index 
-	        			return(<button key = {index} className={buttonClassName}
-	        				onClick = {() => this.props.handlePickColor(polish)} >
-	        				{polish.name} 
-	        				</button>)
-	        		})
+	        		// this.props.polishCollection.map((polish, index) => {
+	        		// 	let buttonClassName = "color_button " + index 
+	        		// 	return(<button key = {index} className={buttonClassName}
+	        		// 		onClick = {() => this.props.handlePickColor(polish)} >
+	        		// 		{polish.name} 
+	        		// 		</button>)
+	        		// })
 	        	}
 
 	        </div>

@@ -6,10 +6,11 @@ let canvas
 const pick_width = 50;
 const pick_height = 70
 
-class PlateCanvas extends React.Component {
+export default class PlateCanvas extends React.Component {
 
 	componentDidMount() {
-	    
+
+
 	    const img = this.refs.image
 		 canvas = this.refs.canvas
 		 ctx = canvas.getContext("2d")
@@ -20,12 +21,10 @@ class PlateCanvas extends React.Component {
 
 	      
 	    
-	      ctx.drawImage(img, 0, 0, img.width/2, img.height,
-
-	      		0, 0, canvas.width, canvas.height)
+	      ctx.drawImage(img, 22, 22, img.width/2, img.height, 0, 0, canvas.width, canvas.height)
 	      
 	     
-	      canvas.addEventListener("mousemove", this.handleMouseMove, false);
+	     // canvas.addEventListener("mousemove", this.handleMouseMove, false);
 	      canvas.addEventListener("mousedown", this.handleMouseClick, false);
 
 	    }
@@ -38,19 +37,24 @@ class PlateCanvas extends React.Component {
 	handleMouseClick= (event) => {
 		canvas = this.refs.canvas
 		 ctx = canvas.getContext("2d")
-		// console.log(ctx.canvas.offsetLeft)
-		// console.log(event.pageX)
+		 let panel_div = this.refs.div
 
-		// ctx.lineWidth = "1";
-		// ctx.strokeStyle = "black";
-		// ctx.beginPath();
-		// ctx.rect(event.pageX - ctx.canvas.offsetLeft, 
-		// 		event.pageY - ctx.canvas.offsetTop, 
-		// 		pick_width, pick_height)
-		// ctx.stroke();
+		 console.log(event.pageX)
 
-		 let imgData = ctx.getImageData(event.pageX - ctx.canvas.offsetLeft, 
-		 								event.pageY - ctx.canvas.offsetTop , 
+		 let offsetLeft = panel_div.offsetLeft + ctx.canvas.offsetLeft
+		 let offsetTop = panel_div.offsetTop + ctx.canvas.offsetTop
+
+
+		ctx.lineWidth = "1";
+		ctx.strokeStyle = "black";
+		ctx.beginPath();
+		ctx.rect(event.pageX - offsetLeft - pick_width/2, 
+				event.pageY - offsetTop - pick_height/2, 
+				pick_width, pick_height)
+		ctx.stroke();
+
+		 let imgData = ctx.getImageData(event.pageX - offsetLeft- pick_width/2, 
+		 								event.pageY - offsetTop - pick_height/2 , 
 		 								pick_width , pick_height );
 		// console.log(imgData)
 		 this.props.handleGetImgDataFromPlate(imgData)
@@ -61,11 +65,14 @@ class PlateCanvas extends React.Component {
 	render() {
 
 	    return(
-	      <div>
-	        <canvas className="plateCanvas" ref="canvas" width={250} height={500} />
-	        <img ref="image" alt = "" src={require('../55.-Henna-11.jpg')} className="hidden" />
-	      </div>
+		      <div className="rightPanel" ref="div">
+		        <canvas className="plateCanvas" ref="canvas" width={250} height={500} />
+		        <img ref="image" alt = "" src={require('../55.-Henna-11.jpg')} className="hidden" />
+
+		      </div>
 	    )
 	  }
 }
-export default PlateCanvas
+ 
+
+

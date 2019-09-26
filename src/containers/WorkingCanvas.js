@@ -3,7 +3,7 @@ import * as THREE from "three";
 
 const pick_width = 50;
 const pick_height = 70
-class WorkingCanvas extends React.Component {
+export default  class WorkingCanvas extends React.Component {
 
 	constructor(props){
 		super(props)
@@ -15,8 +15,23 @@ class WorkingCanvas extends React.Component {
 
 	componentDidMount() {
 	    
-	    //debugger
+	    let canvas = this.refs.canvas
+	    console.log(canvas)
+	    canvas.addEventListener("mousedown", this.handleClick, false);
+
+	 }
+
+	 handleClick = (e) =>{
+	 	e.stopPropagation();
+	  	console.log("clicked")
+	  	 let canvas = this.refs.canvas
+	  	//console.log(texture)
+	  	this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), canvas)
 	  }
+	  // handleMouseDown = (e) =>{
+	  		
+	  // }
+
 
 	 scaleImageData(imageData, scale, ctx) {
 	    var scaled = ctx.createImageData(imageData.width * scale, imageData.height * scale);
@@ -145,24 +160,19 @@ class WorkingCanvas extends React.Component {
 	    }
 	  }
 
-	  handleClick = (texture, canvas) =>{
-	  	this.props.handlePickTexture(texture, canvas)
-	  }
-	  handleMouseDown = (e) =>{
-	  		
-	  }
-
+	 
 	render() {
 		console.log(this.props.current_finger)
 		if(this.refs.canvas)
 			this.draw()
+
 	    return(
-	      <div>
-	        <canvas className="workingCanvas" ref="canvas" width={pick_width*4} height={pick_height*4}
-	        		onClick={() => this.handleClick(new THREE.CanvasTexture( this.refs.canvas ), this.refs.canvas)}
-	        		onMouseDown = {(e) => this.handleMouseDown(e)}/>
+	      <div className="leftPanel" >
+	        <canvas className="workingCanvas" ref="canvas" width={pick_width*4} height={pick_height*4}/>
 	      </div>
 	    )
 	  }
 }
-export default WorkingCanvas
+
+
+

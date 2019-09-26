@@ -3,14 +3,18 @@ import React from 'react';
 import * as THREE from "three";
 import GLTFLoader from 'three-gltf-loader';
 import TWEEN from '@tweenjs/tween.js';
+import EmptyImage from './../EmptyImage.png';
+
 
 
 const scene1 = new THREE.Scene();
-const camera1 = new THREE.PerspectiveCamera( 75, (window.innerWidth/2)/(window.innerHeight/2), 0.1, 1000 );
+const camera1 = new THREE.PerspectiveCamera( 75, (window.innerHeight/2)/(window.innerHeight/2), 0.1, 1000 );
 const renderer1 = new THREE.WebGLRenderer({ antialias: true });
 const flesh_color = "rgb(249, 215, 193)"
+const bg_color = "rgb(220, 220, 220)"
+
 let mouse = new THREE.Vector3();
-		let group = new THREE.Group();
+let group = new THREE.Group();
 
 //let container = document.getElementById('hand_div');
 
@@ -33,9 +37,9 @@ export default class Hand extends React.Component {
 			this.setState({project:this.props.current_project})
 		}
 
-		renderer1.setSize( window.innerWidth/2, window.innerHeight/2 );
+		renderer1.setSize( window.innerHeight/2, window.innerHeight/2 );
 	     this.mount.appendChild( renderer1.domElement );
-	     scene1.background = new THREE.Color( "rgb(200, 200, 250)" );
+	     scene1.background = new THREE.Color( bg_color );
 	     
 	    camera1.position.z = 0.185;
 
@@ -64,7 +68,7 @@ export default class Hand extends React.Component {
 		let vector 
 		//renderer1.getSize(vector)
 		
-		mouse.x = (e.clientX/window.innerWidth) *2  - 1;
+		mouse.x = (e.clientX/window.innerHeight) *2  - 1;
 		mouse.y = -(e.clientY/window.innerHeight)*2  + 1;
 				
 		mouse = mouse.unproject(camera1)
@@ -153,10 +157,10 @@ export default class Hand extends React.Component {
 				 if (texture === "naked.png") {
 
 				 	//mesh.material = new THREE.MeshLambertMaterial(new THREE.Color(flesh_color));
-				 	console.log( "naked")
+				 	//console.log( "naked")
 
 				 }else{
-				 	console.log( "not naked")
+				 	//console.log( "not naked")
 
 					 
 					 let texture1 = new THREE.TextureLoader().load( texture);
@@ -246,7 +250,7 @@ export default class Hand extends React.Component {
 
 	 	let color =  new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`);;
 		
-		console.log(this.props.nails)
+		//console.log(this.props.nails)
 
 
 		let nail_shape_pinky = this.nail_shape_geom("pinky", 
@@ -289,7 +293,7 @@ export default class Hand extends React.Component {
 													);
 		
 
-		console.log("in draw")
+		//console.log("in draw")
 
 		this.riggedHand()
 
@@ -301,8 +305,8 @@ export default class Hand extends React.Component {
 			        .to({ y: [0, -1 ,0, 1, 0]}, 7000)
 			        .repeat(Infinity)
 			        .start();
-		console.log(scene1)
-		console.log(group)
+		// console.log(scene1)
+		// console.log(group)
 
 
 	 	
@@ -320,20 +324,28 @@ export default class Hand extends React.Component {
 
 
 	render() {
-		console.log(this.props.nails)
+		//console.log(this.props.nails)
 		this.draw()
 	    return(
 	    	<div>
 		        <div id="hand_div" className="hand" 
 							        ref={ref => (this.mount = ref)} 
-							        onMouseMove={this.onMouseMove} 
-							        onClick={this.onMouseClick}></div>
+							        /*onMouseMove={this.onMouseMove}*/ 
+							        onClick={this.onMouseClick}>
+				</div>
 				<div className="finger_chose_panel">
-					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("pinky")} >Pinky</div>
-					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("ring")} >Ring</div>
-					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("middle")} >Middle</div>
-					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("index")} >Index</div>
-					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("thumb")} >Thumb</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("pinky")} >
+						<img src={this.props.nails[0].texture}/>
+												</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("ring")} >
+					<img src={this.props.nails[1].texture}/>
+					</div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("middle")} >
+					<img src={this.props.nails[2].texture}/></div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("index")} >
+					<img src={this.props.nails[3].texture}/></div>
+					<div className="finger_btn" onClick={() =>this.props.onChoseFinger("thumb")} >
+					<img src={this.props.nails[4].texture}/></div>
 				</div>
 
 	        </div>

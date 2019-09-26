@@ -11,6 +11,8 @@ import Hand from "./containers/Hand"
 import Intro from "./containers/Intro"
 import { saveAs } from 'file-saver';
 
+import EmptyImage from './EmptyImage.png';
+
 
 const URL = "http://localhost:3000/"
 const white_polish = {red:255, green:255, blue:255}
@@ -91,7 +93,7 @@ export default class App extends React.Component{
 								{name: "left_middle", texture: "naked.png"}, 
 								{name: "left_index", texture: "naked.png"}, 
 								{name: "left_thumb", texture: "naked.png"}]
-		let empty_project = {name: "untitled", user_id: this.state.user_id, nails: empty_nails}
+		let empty_project = {name: "untitled", user_id: this.state.user_id, nails: empty_nails, img:""}
 		this.setState({current_project: empty_project})
 
 
@@ -230,7 +232,9 @@ export default class App extends React.Component{
 			})
 			.then(res => res.json())
 	        .then(data => {
-	        	empty_project = {id:data.id, name: "untitled_"+data.id, user_id: this.state.user_id, nails: empty_nails}
+	        	empty_project = {id:data.id, name: "untitled_"+data.id, 
+	        	img:"",
+	        	user_id: this.state.user_id, nails: empty_nails}
 	        	this.setState({current_project: empty_project}, this.handleCreateAndSaveEmptyNails())
 
 
@@ -324,13 +328,17 @@ export default class App extends React.Component{
 	}
 
  current_page(){
+
+ 	console.log(this.state.current_project.img)
  	//debugger
     switch (this.state.page){
 
       case "Intro_first":
 	  case "Intro_rejected":
 	  case "Entered":
-        return <Intro handleAuth={this.handleAuth} state={this.state.page} handleChangeState={this.handleChangeState}/>
+        return <Intro handleAuth={this.handleAuth} state={this.state.page} 
+		        handlePickProject={this.handlePickProject} projects= {this.state.projects} 
+        				handleChangeState={this.handleChangeState}/>
 
       case "Projects":
       	//return <Projects handlePickProject={this.handlePickProject} projects= {this.state.projects}/>
@@ -341,6 +349,15 @@ export default class App extends React.Component{
       	return <div>
 	    		<div className="Logout" onClick={this.handleLogout}>Log out!</div>
 	    		<div className="Save" onClick={this.handleSave}>Save!</div>
+	    		<div className="projectImg"  alt="">
+	    			<img src=
+	    			//{(this.state.current_project.img !=="")?
+	    			//this.state.current_project.img
+	    			"https://photos.google.com/photo/AF1QipPRHk_zsVMs-IRayL8-Pn8VVPuOKZIN_atIjCnD"
+	    			//:EmptyImage
+	    			//} 
+	    			alt=""/>
+	    		</div>
 
 				<PlateCanvas text = {"some text"} handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}/>   
 				<PolishesShelf polishCollection={this.state.polishCollection}
@@ -354,11 +371,16 @@ export default class App extends React.Component{
 			    				handlePickTexture={this.handlePickTexture}
 			    				currentStampingPolish = {this.state.currentStampingPolish}
 			    				current_finger = {this.state.current_finger}/>
+			    				
 			    <StampingPolishes handlePickStampingColor= {this.handlePickStampingColor}/>
+
+			    				
 		   	 </div>
      
       default:
-        return <Intro handleAuth={this.handleAuth} state={this.state.page} handleChangeState={this.handleChangeState}/>
+        return <Intro handleAuth={this.handleAuth} state={this.state.page}
+	        handlePickProject={this.handlePickProject} projects= {this.state.projects}  
+        		handleChangeState={this.handleChangeState}/>
     }
 
 
@@ -366,13 +388,10 @@ export default class App extends React.Component{
 
 	render() {
 		return(
-
 		    <div className="App">
-
 			    {
 			    	this.current_page()
-			    }
-		      
+			    }		      
 		    </div>
 		  );
 	    }
