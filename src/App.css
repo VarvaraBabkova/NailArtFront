@@ -77,11 +77,41 @@ div.Projects .Project {
 	 border-radius: 14px;
 	 margin: 5%;
 	 padding: 5%;
-	   box-shadow: 10px 10px 5px grey;
+	box-shadow: 10px 10px 5px grey;
+	 color: grey;
+  text-shadow: 2px 2px 4px #000000;
+   font-size: 20px;
 
 }
 
+div.Projects .Project div.projectDelete {
+	border: 1px solid;
+	width: 10%;
+	height: 30%;
 
+/*	position: relative;
+*/
+	/*left:100px;*/
+	color: rgb(200, 60, 60);
+
+	background-color: rgb(200, 60, 60);
+	box-shadow: 5px 5px 3px grey;
+	border-radius: 14px;
+}
+
+div.Projects .Project div.projectRename {
+	border: 1px solid;
+	width: 10%;
+	height: 30%;
+
+	/*position: relative;*/
+
+	/*left:10px;*/
+	color: rgb(60, 200, 60);
+	background-color: rgb(60, 200, 60);;
+	box-shadow: 5px 5px 3px grey;
+	border-radius: 14px;
+}
 /**************************************************************************************************************/
 /************************************************* MAIN *********************************************************/
 /**************************************************************************************************************/
@@ -93,6 +123,7 @@ div.rightPanel{
 	width: 30%;
 	height: 70%;
 	 display: block;
+	 overflow: hidden;
 
 }
 
@@ -120,6 +151,7 @@ div.leftPanel{
     align-items: center;
     overflow: hidden
 }
+
 .projectImg img {
    object-fit: cover;
   /* width: 100%;*/
@@ -129,7 +161,7 @@ div.leftPanel{
 canvas.plateCanvas {
 	position: relative;
 	right: 0px;
-	top: 10%;
+	bottom: 0%;
 	border: 1px solid;
 	/*width: 30%;*/
 
@@ -176,7 +208,7 @@ div.polishesShelf {
 	right: 0;
 	top: 0;
 	width: 100%;
-	height: 30%;
+	height: 25%;
 	 display: block;
 	 overflow: hidden;
 
@@ -226,8 +258,8 @@ div.finger_chose_panel{
 	/* display: block;*/
 }
 
-div.finger_chose_panel .finger_btn  {
-	width: 12%;
+div.finger_chose_panel .finger_btn, div.finger_chose_panel .finger_btn_chosen  {
+	width: 10%;
 	height: 80%;
 	border: 1px solid;
 	z-index: 20;
@@ -238,8 +270,8 @@ div.finger_chose_panel .finger_btn  {
 	border-top-left-radius: 5%;
 	border-top-right-radius: 5%;
 	margin: 2%;
-	margin-left: 5%; 
-	box-shadow: 10px 10px 5px grey;
+	margin-left: 7%; 
+
 
 	overflow: hidden;
 
@@ -247,16 +279,39 @@ div.finger_chose_panel .finger_btn  {
     justify-content: center;
     align-items: center;
 }
-.finger_btn img {
+
+div.finger_chose_panel .finger_btn  {
+	box-shadow: 10px 10px 5px grey;
+
+}
+div.finger_chose_panel .finger_btn_chosen  {
+	box-shadow: 10px 10px 5px black;
+
+}
+
+.finger_btn img, .finger_btn_chosen img {
    object-fit: contain;
    /*width: 100%;*/
    height: 100%;
 }
 
 
+/**************************************************************************************************************/
+/************************************************* General Managing *********************************************************/
+/**************************************************************************************************************/
 
 
-.Logout {
+.toProjects {
+	bottom: 5%;
+	left:0;
+	position: fixed;
+	width: 100px;
+	height: 30px;
+	border: 1px solid;
+	z-index: 20;
+}
+
+.logout {
 	bottom: 0;
 	left:0;
 	position: fixed;
@@ -265,8 +320,8 @@ div.finger_chose_panel .finger_btn  {
 	border: 1px solid;
 	z-index: 20;
 }
-.Save {
-	bottom: 5%;
+.save {
+	bottom: 10%;
 	left:0;
 	position: fixed;
 	width: 100px;

@@ -16,14 +16,14 @@ export default  class WorkingCanvas extends React.Component {
 	componentDidMount() {
 	    
 	    let canvas = this.refs.canvas
-	    console.log(canvas)
+	    //console.log(canvas)
 	    canvas.addEventListener("mousedown", this.handleClick, false);
 
 	 }
 
 	 handleClick = (e) =>{
 	 	e.stopPropagation();
-	  	console.log("clicked")
+	  //	console.log("clicked")
 	  	 let canvas = this.refs.canvas
 	  	//console.log(texture)
 	  	this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), canvas)
@@ -104,8 +104,8 @@ export default  class WorkingCanvas extends React.Component {
 		var canvas = this.refs.canvas
 	    const ctx = canvas.getContext("2d")
 
-	    console.log(this.props.nails)
-	    console.log(this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger))
+	    //console.log(this.props.nails)
+	   // console.log(this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger))
 
 	    let current_nail = this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger)
 	    if (this.state.current_finger !== this.props.current_finger) {
@@ -149,7 +149,7 @@ export default  class WorkingCanvas extends React.Component {
 	    
 
 	    if (this.props.imgData.data) {
-	    	console.log(this.props.imgData)
+	    	//console.log(this.props.imgData)
 	    	
 	    
 		     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
@@ -162,7 +162,7 @@ export default  class WorkingCanvas extends React.Component {
 
 	 
 	render() {
-		console.log(this.props.current_finger)
+		//console.log(this.props.current_finger)
 		if(this.refs.canvas)
 			this.draw()
 

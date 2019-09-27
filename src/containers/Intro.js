@@ -66,7 +66,11 @@ export default class Intro extends React.Component {
 
 					mesh.position.set(position.x, position.y, position.z)
 
-					 mesh.material = new THREE.MeshPhongMaterial( new THREE.Color( 'white' ) );
+
+						mesh.material = new THREE.MeshPhongMaterial( new THREE.Color( 'white' ) );
+
+
+
 					  mesh.material.flatShading = false
 
 					// mesh.geometry.computeBoundingBox()
@@ -74,9 +78,18 @@ export default class Intro extends React.Component {
 					
 					mesh.material.needsUpdate = true
 					
+
+				 // if (this.props.state ){
+					
+					// 	console.log("projects")
+					// }
+
 					scene.add(mesh);
 								
-						
+					let tween = new TWEEN.Tween(mesh.rotation)
+			        .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
+			        .repeat(10)
+			        .start();
 
 	 	 		})//load
 	}
@@ -171,6 +184,7 @@ export default class Intro extends React.Component {
 	   	this.drawPolish({x:2, y:0, z:0.5}, {x:0, y:0, z: 0})
 	   	this.drawPolish({x:1.5, y:0, z:0.7}, {x:0, y:0, z: 0})
 
+	   	this.draw()
 		 //this._input.focus();
 	 }
 
@@ -222,17 +236,23 @@ export default class Intro extends React.Component {
 
 	   	}
 	   	
-if (this.props.state === "Projects") {
+		if (this.props.state === "Projects") {
+			console.log("should color bitch!")
+			console.log(scene.children)
 
-	   		 scene.children.map(child => (child instanceof THREE.Mesh && child.name === "Cylinder"?
-	   		 	child.material.color.setHex(0xaaffff)
+	   		 scene.children.map(child => 
+	   		 	(child instanceof THREE.Mesh && child.name === "Cylinder"?
+	   		 	
+	   		 		child.material.color.setHex(0xaaffff)
+	   		 		
 	   		 	:child
-	   		 	))
-	   		// 		   		child.material.color.setHex(0xff0000):child.material.color.setHex(0xff0000)))
+	   		 	)
+	   		)
+	   		 console.log(scene.children)
 
-	   		// cube2.material.color.setHex(0xff0000);
+	   		
 
-	   		// let tween = new TWEEN.Tween(cube2.rotation)
+	   		// let tween = new TWEEN.Tween(scene.children[4].rotation)
 			   //      .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
 			   //      .repeat(10)
 			   //      .start();
@@ -258,9 +278,9 @@ if (this.props.state === "Projects") {
 	 }
 
 	render() {
-		// console.log("in intro " )
+		console.log("in intro " )
 		// console.log(this.state.balls)
-		console.log(this.props.state)
+		console.log(this.props)
 	 	this.draw()
 	    return(
 	        <div className="intro" ref={ref => (this.mount = ref)} >
@@ -268,8 +288,14 @@ if (this.props.state === "Projects") {
 
 
 	        	 {(this.props.state === "Projects")?
-	        	 <Projects handlePickProject={this.props.handlePickProject} projects= {this.props.projects}/>
+
+	        	 <Projects handlePickProject={this.props.handlePickProject} 
+	        	 		    projects= {this.props.projects} 
+	        	 			handleDelete = {this.props.handleDelete}
+	        	 			handleRename = {this.props.handleRename}/>
+	        	
 	        	 :
+
 	        	 <form className="loginForm "  onSubmit={e => this.preHandle(e)}>
 					<div>
                       <label>

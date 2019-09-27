@@ -45,13 +45,13 @@ export default class PlateCanvas extends React.Component {
 		 let offsetTop = panel_div.offsetTop + ctx.canvas.offsetTop
 
 
-		ctx.lineWidth = "1";
-		ctx.strokeStyle = "black";
-		ctx.beginPath();
-		ctx.rect(event.pageX - offsetLeft - pick_width/2, 
-				event.pageY - offsetTop - pick_height/2, 
-				pick_width, pick_height)
-		ctx.stroke();
+		// ctx.lineWidth = "1";
+		// ctx.strokeStyle = "black";
+		// ctx.beginPath();
+		// ctx.rect(event.pageX - offsetLeft - pick_width/2, 
+		// 		event.pageY - offsetTop - pick_height/2, 
+		// 		pick_width, pick_height)
+		// ctx.stroke();
 
 		 let imgData = ctx.getImageData(event.pageX - offsetLeft- pick_width/2, 
 		 								event.pageY - offsetTop - pick_height/2 , 
