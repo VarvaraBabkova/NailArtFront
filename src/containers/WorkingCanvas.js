@@ -105,20 +105,14 @@ export default  class WorkingCanvas extends React.Component {
 		var canvas = this.refs.canvas
 	    const ctx = canvas.getContext("2d")
 
-	    //console.log(this.props.nails)
-	   // console.log(this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger))
-
+	   
 	    let current_nail = this.props.nails.find(nail => nail.name === "left_" + this.props.current_finger)
 	    if (this.state.current_finger !== this.props.current_finger) {
 	    	this.setState({current_finger: this.props.current_finger})
-	    	// let  img = new Image();
-	    	// img.src = current_nail.texture
-	    	// ctx.drawImage(img, 0, 0)
+	    	
 
 	    	return
 	    }
-
-	    //let polish 
 
 	    if (this.props.currentPolish) {
 	    	if (this.state.current_polish !== this.props.currentPolish) {
@@ -150,7 +144,6 @@ export default  class WorkingCanvas extends React.Component {
 	    
 
 	    if (this.props.imgData.data) {
-	    	//console.log(this.props.imgData)
 	    	
 	    
 		     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
@@ -161,20 +154,49 @@ export default  class WorkingCanvas extends React.Component {
 	    }
 	  }
 
-	 
+	handleClearStampingArea=()=>{
+		console.log(this.props.currentPolish)
+
+		let canvas = this.refs.canvas
+	    const ctx = canvas.getContext("2d")
+
+		if (this.props.currentPolish) {
+	    		//this.setState({current_polish:this.props.currentPolish})
+	    		ctx.fillStyle = `rgb(${this.props.currentPolish.red}, 
+	    							${this.props.currentPolish.green}, 
+	    							${this.props.currentPolish.blue})`;
+			    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	    		
+	    		this.props.clearImgData()
+	    	
+	    	
+	    }
+	    
+	} 
+
 	render() {
 		//console.log(this.props.current_finger)
 		if(this.refs.canvas)
 			this.draw()
 
 	    return(
-	      <div className="leftPanel" >
-	        <canvas className="workingCanvas" 
-	        			ref="canvas" 
-	        			width={pick_width*4} 
-	        			height={pick_height*4}
-	        			onClick={(e) => this.handleClick(e)}/>
-	      </div>
+	    	<div>
+		      <div className="leftPanel" >
+		        <canvas className="workingCanvas" 
+		        			ref="canvas" 
+		        			width={pick_width*4} 
+		        			height={pick_height*4}
+		        			onClick={(e) => this.handleClick(e)}/>
+		        	
+		     
+				
+
+		        	<div className="cleanButton" onClick={this.handleClearStampingArea}> Clear</div>
+					<div className="eraserButton"> Eraser</div>
+		      </div>
+		      
+	      	</div>
+
 	    )
 	  }
 }

@@ -112,16 +112,66 @@ div.Projects .Project div.projectRename {
 /**************************************************************************************************************/
 div.rightPanel{
 	position: fixed;
-	right: 0px;
-	top: 30%;
-	border: 1px solid;
-	width: 30%;
+	right:10%;
+	top: 31%;
+	/*border: 1px solid;*/
+	width: 20%;
 	height: 70%;
 	 display: block;
-	 overflow: hidden;
+	 overflow: scroll;
 	 /*margin: 1%;*/
-	 padding-bottom: 5%;
+	 /*padding-bottom: 5%;*/
 }
+div.rightPanel  canvas.plateCanvas {
+	position: relative;
+	top: 1%;
+	left: 0;
+	
+	/*width: 30vw;
+	height: 60vw;
+*/
+	box-shadow: 10px 10px 5px grey;
+	border-radius: 30px;
+	overflow-y: scroll; 
+
+}
+
+
+div.rightestPanel{
+	position: fixed;
+	right:1%;
+	top: 31%;
+	bottom: 1%;
+	width: 9%;
+	height: 70%;
+	 display: block;
+	 overflow: scroll;
+	 /*margin: 1%;*/
+	 border: 1px solid grey;
+	box-shadow: 10px 10px 5px grey;
+	border-radius: 30px;
+	overflow: scroll; 
+}
+div.rightestPanel div.platesShelf {
+	position: absolute;
+	left: 0px;
+	top: 0%;
+	width: 100%;
+	height: 120vw;
+
+	/*border: 1px solid grey;
+	box-shadow: 10px 10px 5px grey;
+	border-radius: 30px;*/
+	overflow: scroll; 
+}
+
+.platesShelf .plateImg {
+	width: 5vw;
+	height: 10vw;
+	margin: 1vw;
+}
+
+
 
 div.leftPanel {
 	position: relative;
@@ -170,9 +220,45 @@ div.leftPanel div.stampingPolishes {
 	box-shadow: 10px 10px 5px grey;
 
 	bottom: 5%;
-
 	width: 10vw;
 
+
+}
+
+.cleanButton{
+	position: fixed;
+	/*display: inline-block;*/
+	width: 4%;
+	left: 15%;
+	bottom: 4vw;
+	height: 1.5vw;
+	border: 1px solid;
+	border-radius: 14px;
+	margin-left: 0.5vw;
+
+	text-align: center;
+	justify-content: right;
+    align-items: center;
+    box-shadow: 10px 10px 5px grey;
+    z-index: 50;
+
+}
+ .eraserButton{
+	position: fixed;
+	/*display: inline-block;*/
+	width: 4%;
+	left: 20%;
+	bottom: 4vw;
+	height: 1.5vw;
+	border: 1px solid;
+	border-radius: 14px;
+	margin-left: 0.5vw;
+
+	text-align: center;
+	justify-content: right;
+    align-items: center;
+    box-shadow: 10px 10px 5px grey;
+    z-index: 50;
 
 }
 
@@ -187,18 +273,7 @@ div.stampingPolishes .stampingPolish {
 	margin: 0.3vw;
 }
 
-div.rightPanel
- canvas.plateCanvas {
-	position: relative;
-	right: 0px;
-	top: 5%;
-	right: 5%;
-	
-	box-shadow: 10px 10px 5px grey;
-	border-radius: 30px;
-	overflow-y: scroll; 
 
-}
 
 div.polishesShelf {
 	position: fixed;
@@ -225,16 +300,7 @@ div.polishesShelf .polishImg {
 
 }
 
-	/*div.polishesShelf  .color_button {
-		width: 90px;
-		height: 40px;
-		border: 1px solid;
-		z-index: 20;
-		top: 0%;
-
-
-	}*/
-
+	
 
 div.hand {
 	position: fixed;

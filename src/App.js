@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import PlateCanvas from "./containers/PlateCanvas"
+import PlatesShelf from "./containers/PlatesShelf"
+
 import WorkingCanvas from "./containers/WorkingCanvas"
 
 import PolishesShelf from "./containers/PolishesShelf"
@@ -451,6 +453,16 @@ export default class App extends React.Component{
 	        })
 	}
 
+	handlePickPlate = (plate) =>{
+		this.setState({current_plate:plate})
+
+	}
+	clearImgData = () =>{
+		console.log("in CLear in App")
+		console.log(this.state.imgDataFromPlate)
+		this.setState({imgDataFromPlate:{}})
+	}
+
 	handlePickProject = (id) =>{
 
 		console.log("IN PICK")
@@ -567,8 +579,10 @@ export default class App extends React.Component{
 				
 				 	<PlateCanvas  handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}
 				 					plate = {this.state.current_plate}/>   
-				
-				
+ 					
+ 					<PlatesShelf  handlePickPlate = {this.handlePickPlate}
+							 		plates = {this.state.plates}/>   
+					
 					<PolishesShelf polishCollection={this.state.polishCollection}
 								   handlePickColor = {this.handlePickColor}/>	
 				 
@@ -580,11 +594,17 @@ export default class App extends React.Component{
 			   
 
 
-			    <WorkingCanvas nails={this.state.current_project.nails} imgData = {this.state.imgDataFromPlate}
+			    <WorkingCanvas nails={this.state.current_project.nails} 
+			    				imgData = {this.state.imgDataFromPlate}
 			    				currentPolish = {this.state.currentPolish}
 			    				handlePickTexture={this.handlePickTexture}
 			    				currentStampingPolish = {this.state.currentStampingPolish}
-			    				current_finger = {this.state.current_finger}/>
+			    				current_finger = {this.state.current_finger}
+			    				clearImgData={this.clearImgData}
+			    				// handleClearStampingArea={this.handleClearStampingArea}
+			    				/>
+
+
 			    				
 			     <StampingPolishes handlePickStampingColor= {this.handlePickStampingColor}/>
 

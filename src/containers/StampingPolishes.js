@@ -20,7 +20,10 @@ class StampingPolishes extends React.Component {
 		       	<StampingPolish color = {[184, 151, 159]} handlePickStampingColor= {this.props.handlePickStampingColor}/>
 		       	<StampingPolish color = {[94, 148, 154]} handlePickStampingColor= {this.props.handlePickStampingColor}/>
 
+				
+
 			</div>
+
 
 	      </div>
 	    )
