@@ -16,12 +16,12 @@ export default class PlateCanvas extends React.Component {
 		 ctx = canvas.getContext("2d")
 
 	    img.onload = () => {
-	    console.log(img.width)
-	    console.log(img.height)
+	    // console.log(img.width)
+	    // console.log(img.height)
 
 	      
-	    
-	      ctx.drawImage(img, 22, 22, img.width/2, img.height, 0, 0, canvas.width, canvas.height)
+		  
+		  ctx.drawImage(img, 0, 0, img.width/2 + 30, img.height, 0, 5, canvas.width, canvas.height)
 	      
 	     
 	     // canvas.addEventListener("mousemove", this.handleMouseMove, false);
@@ -63,11 +63,18 @@ export default class PlateCanvas extends React.Component {
 
 	} 
 	render() {
-
+		console.log(this.props.plate.img)
 	    return(
 		      <div className="rightPanel" ref="div">
+		      	{
+		      		//<img ref="image" alt = "" src={require('../55.-Henna-11.jpg')} className="hidden" />
+
+		      	}
 		        <canvas className="plateCanvas" ref="canvas" width={250} height={500} />
-		        <img ref="image" alt = "" src={require('../55.-Henna-11.jpg')} className="hidden" />
+		        {
+		        	<img ref="image" alt = "" src={this.props.plate.img} className="hidden" />
+
+		        }
 
 		      </div>
 	    )

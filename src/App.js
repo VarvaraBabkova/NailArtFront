@@ -25,6 +25,8 @@ export default class App extends React.Component{
 		//localStorage.clear()
 		this.state = {
 			polishCollection: [],
+			plates:[],
+			current_plate:{},
 			//nails: [],
 			imgDataFromPlate:{},
 			username:"",
@@ -68,7 +70,9 @@ export default class App extends React.Component{
 	 		this.setState({ page:"Projects", user_id:localStorage.id})
 		    this.readProjects(localStorage.id)
 
-
+			//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				//reading polishes
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	       fetch(URL + "polishes", {
         		method:"GET",
         		headers:{
@@ -85,7 +89,30 @@ export default class App extends React.Component{
 			        localStorage.clear()
 			    });
 
+		      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				//reading plates
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		       fetch(URL + "plates", {
+	        		method:"GET",
+	        		headers:{
+	        			Authorization: `Bearer ${localStorage.token}`
+	        		}
+	        	})
+			      .then(res => res.json())
+			      .then(res => {
+			      	console.log("plates")
+			      	console.log(res)
+			      	//debugger
+			          this.setState({plates: res, current_plate:res[1]})
+			    })
+			    .catch(function() {
+			      //  console.log("error");
+			        localStorage.clear()
+			    });
+
 	 	}
+
+
 	 	this.setState({currentStampingPolish: white_polish})
 
 	 	let empty_nails = [{name: "left_pinky", texture: "naked.png"}, 
@@ -144,6 +171,24 @@ export default class App extends React.Component{
 			      .then(res => {
 			          this.setState({polishCollection: res, currentPolish:res[0]})
 			    })
+
+			    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				//reading plates
+				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		       fetch(URL + "plates", {
+	        		method:"GET",
+	        		headers:{
+	        			Authorization: `Bearer ${localStorage.token}`
+	        		}
+	        	})
+			      .then(res => res.json())
+			      .then(res => {
+			      	console.log("plates")
+			      	console.log(res)
+			      	//debugger
+			          this.setState({plates: res, current_plate:res[0]})
+			    })
+
 
 			    this.readProjects(user_id)
         	}
@@ -298,16 +343,16 @@ export default class App extends React.Component{
 				        	console.log(local_nails)
 				        	
 
-				        })
+				        })//fetch 4
 
-			        })
+			        })//fetch 3
 
-		        })
+		        })//fetch 2
 
-	        })
+	        })//fetch 1
 
 
-        })
+        })//fetch 0
 
 			 
 	}
@@ -501,44 +546,49 @@ export default class App extends React.Component{
     
       case "Editor":
       	return <div>
-	    		<div className="toProjects" onClick={this.handleToProjects}>Projects!</div>
-	    		<div className="logout" onClick={this.handleLogout}>Log out!</div>
+      			<div className="projectPanel" >
+      			    <div className="projectName">{this.state.current_project.name}</div>
 
-	    		<div className="save" onClick={this.handleSave}>Save!</div>
-	    		<div className="projectImg"  alt="">
-	    			<img src=
-	    			//{(this.state.current_project.img !=="")?
-	    			//this.state.current_project.img
-	    			//"https://photos.google.com/photo/AF1QipPRHk_zsVMs-IRayL8-Pn8VVPuOKZIN_atIjCnD"
-	    			{EmptyImage}
-	    			//} 
-	    			alt=""/>
+      				<div className="projectButtonsPanel">
+      					<div className="save" onClick={this.handleSave}>Save!</div>
+			    		<div className="toProjects" onClick={this.handleToProjects}>To projects...</div>
+			    		<div className="logout" onClick={this.handleLogout}>Log out!</div>
+
+			    	</div>
+		    		<div className="projectImg"  alt="">
+		    			<img src=
+		    			{(this.state.current_project.img )?
+		    			this.state.current_project.img
+		    			:EmptyImage
+		    			} 
+		    			alt=""/>
+		    		</div>
 	    		</div>
-
-				{
-				// <PlateCanvas text = {"some text"} handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}/>   
+				
+				 	<PlateCanvas  handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}
+				 					plate = {this.state.current_plate}/>   
 				
 				
-				// 	<PolishesShelf polishCollection={this.state.polishCollection}
-				// 				   handlePickColor = {this.handlePickColor}/>	
-				} 
+					<PolishesShelf polishCollection={this.state.polishCollection}
+								   handlePickColor = {this.handlePickColor}/>	
+				 
 			    <Hand nails={this.state.current_project.nails} 
 			    				currentPolish={this.state.currentPolish}
 			    				currentTexture = {this.state.currentTexture}
 			    				onChoseFinger = {this.onChoseFinger}
 			    				current_finger = {this.state.current_finger}/>
-			   {
+			   
 
 
-			    // <WorkingCanvas nails={this.state.current_project.nails} imgData = {this.state.imgDataFromPlate}
-			    // 				currentPolish = {this.state.currentPolish}
-			    // 				handlePickTexture={this.handlePickTexture}
-			    // 				currentStampingPolish = {this.state.currentStampingPolish}
-			    // 				current_finger = {this.state.current_finger}/>
+			    <WorkingCanvas nails={this.state.current_project.nails} imgData = {this.state.imgDataFromPlate}
+			    				currentPolish = {this.state.currentPolish}
+			    				handlePickTexture={this.handlePickTexture}
+			    				currentStampingPolish = {this.state.currentStampingPolish}
+			    				current_finger = {this.state.current_finger}/>
 			    				
-			    // <StampingPolishes handlePickStampingColor= {this.handlePickStampingColor}/>
+			     <StampingPolishes handlePickStampingColor= {this.handlePickStampingColor}/>
 
-			    }			
+			    			
 		   	 </div>
      
       default:

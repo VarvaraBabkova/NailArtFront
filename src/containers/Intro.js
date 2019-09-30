@@ -38,7 +38,6 @@ export default class Intro extends React.Component {
 		console.log(this.state)
 		e.preventDefault()
 		
-       //  this.setState({username:"", password:"", form_button:"Log out"})
 		this.props.handleAuth({username: this.state.username, password: this.state.password})
 	}
 
@@ -86,17 +85,18 @@ export default class Intro extends React.Component {
 
 					scene.add(mesh);
 								
-					let tween = new TWEEN.Tween(mesh.rotation)
-			        .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
-			        .repeat(10)
-			        .start();
+					// let tween = new TWEEN.Tween(mesh.rotation)
+			  //       .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
+			  //       .repeat(10)
+			  //       .start();
 
 	 	 		})//load
 	}
 
 	componentDidMount() {
+		console.log("Intro mounted")
 
-
+		console.log(this.props.state)
 	    renderer.setSize( window.innerWidth, window.innerHeight);
 	    // document.body.appendChild( renderer.domElement );
 	     this.mount.appendChild( renderer.domElement );
@@ -118,11 +118,26 @@ export default class Intro extends React.Component {
         // add to the scene
         //scene.add(pointLight);
 
-         let spotLight =
-          new THREE.SpotLight(0xFFFFFF);
+         // let spotLight =
+         //  new THREE.SpotLight(0xFFFFFF);
+
+		let spotLight 
+		if(this.props.state ==="Projects"){
+
+          spotLight = new THREE.SpotLight(0xeeeeff);
+        	spotLight.position.set( 0, 10, 2 );
+//debugger
+          let tween = new TWEEN.Tween(spotLight.position)
+			        .to({ x: [0, 1, 0]}, 1500)
+			        .repeat(Infinity)
+			        .start();
+		}else{
+			spotLight = new THREE.SpotLight(0xFFFFFF);
+			        spotLight.position.set( 20, 10, 20 );
+
+		}
 
         // set its position
-        spotLight.position.set( 20, 10, 20 );
 
 		spotLight.castShadow = true;
 
@@ -185,7 +200,6 @@ export default class Intro extends React.Component {
 	   	this.drawPolish({x:1.5, y:0, z:0.7}, {x:0, y:0, z: 0})
 
 	   	this.draw()
-		 //this._input.focus();
 	 }
 
 	 componentWillUnmount() {
@@ -197,14 +211,6 @@ export default class Intro extends React.Component {
 
 	 draw(){
 	 	
-		 //scene.remove.apply(scene, scene.children.filter(child => child instanceof THREE.Mesh));
-
-	 	
-	 	
-
-	    //scene.add( cube3 );
-
-		
 
 
 	   	if (this.props.state === "Intro_rejected") {

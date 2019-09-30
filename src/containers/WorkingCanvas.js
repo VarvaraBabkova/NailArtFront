@@ -16,18 +16,19 @@ export default  class WorkingCanvas extends React.Component {
 	componentDidMount() {
 	    
 	    let canvas = this.refs.canvas
-	    //console.log(canvas)
 	    canvas.addEventListener("mousedown", this.handleClick, false);
 
 	 }
 
-	 handleClick = (e) =>{
-	 	e.stopPropagation();
-	  //	console.log("clicked")
+	handleClick = (e) =>{
+	 	e.stopPropagation();	
+	 	  	// debugger
+
 	  	 let canvas = this.refs.canvas
-	  	//console.log(texture)
 	  	this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), canvas)
-	  }
+	 }
+
+
 	  // handleMouseDown = (e) =>{
 	  		
 	  // }
@@ -168,7 +169,11 @@ export default  class WorkingCanvas extends React.Component {
 
 	    return(
 	      <div className="leftPanel" >
-	        <canvas className="workingCanvas" ref="canvas" width={pick_width*4} height={pick_height*4}/>
+	        <canvas className="workingCanvas" 
+	        			ref="canvas" 
+	        			width={pick_width*4} 
+	        			height={pick_height*4}
+	        			onClick={(e) => this.handleClick(e)}/>
 	      </div>
 	    )
 	  }

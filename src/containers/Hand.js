@@ -34,7 +34,7 @@ export default class Hand extends React.Component {
 
 	componentDidMount= () => {
 
-		console.log("hand mounted")
+		//console.log("hand mounted")
 		group = new THREE.Group();
 		for (var i = group.children.length - 1; i >= 0; i--) {
 		    group.remove(group.children[i]);
@@ -44,7 +44,7 @@ export default class Hand extends React.Component {
 		    scene1.remove(scene1.children[i]);
 		}
 		//debugger
-		console.log(group.children.length)
+		//console.log(group.children.length)
 
 		if (this.props.current_project){
 			this.setState({project:this.props.current_project})
@@ -110,7 +110,6 @@ export default class Hand extends React.Component {
 
 	onMouseClick =()=>{
 		console.log('clicking')
-		//this.draw()
 	}
 
 	
@@ -158,18 +157,7 @@ export default class Hand extends React.Component {
 				
 				mesh.material.needsUpdate = true
 
-				 // if (texture instanceof THREE.CanvasTexture) {			
-				 //    texture.flipY = false;
 				 
-				 // 	texture.offset.y = 1
-				 // 	texture.rotation = Math.PI/2
-					// mesh.material.map = texture
-
-
-					// mesh.material.needsUpdate = true
-				 //  	mesh.material.map.needsUpdate = true;
-
-				 // }
 				 if (texture === "naked.png") {
 
 				 	//mesh.material.color.setHex("0xFFFFFF")
@@ -205,8 +193,8 @@ export default class Hand extends React.Component {
 				mesh.name = name
 				//scene1.add(mesh);
 				group.add(mesh);
-				console.log("adding mesh")
-				console.log(group.children.length)
+				//console.log("adding mesh")
+				//console.log(group.children.length)
 				
 				
 			}
@@ -228,9 +216,7 @@ export default class Hand extends React.Component {
 			require('../RiggedHand2.glb'),
 			function(gltf) {
 
-				//console.log("this is mesh")
-				//console.log(gltf.scene)
-					mesh = gltf.scene.children[0].children[1]
+				mesh = gltf.scene.children[0].children[1]
 				// debugger
 //LEAVE THAT - THAT S FOR SMOOTHNESS********************************************
 				mesh.geometry = new THREE.Geometry().fromBufferGeometry( mesh.geometry );
@@ -241,12 +227,6 @@ export default class Hand extends React.Component {
 //********************************************************************************
 
 				mesh.position.set(0.72, 0.15, -1.45)          // works for hand2!!!!
-
-				// mesh.rotation.y = Math.PI /4
-					
-
-				//mesh.rotation.z = Math.PI /4
-				//mesh.scale.set(1.2,1.2,1.2)
 
 				mesh.material = new THREE.MeshLambertMaterial({color});
 				
@@ -262,7 +242,7 @@ export default class Hand extends React.Component {
 				 
 	
 				
-	   });
+	   });   //Loader
 	
 
 	}
@@ -270,32 +250,26 @@ export default class Hand extends React.Component {
 	
 	draw = () =>{
 		//cleaning the scene
-		console.log("before cleaning")
-		console.log(group.children.length)
-		//debugger
-		 // while(scene1.children.length > 0){ 
-			//     scene1.remove(scene1.children[0]); 
-			// }
+		//console.log("before cleaning")
+		//console.log(group.children.length)
+		
 			while(group.children.length > 0){ 
 			    group.remove(group.children[0]); 
 			}
-
-	 	//scene1.remove.apply(scene1, scene1.children.filter(child => child instanceof THREE.Mesh));
-	 	//group.remove.apply(group, group.children.filter(child => child instanceof THREE.Mesh));
 
 
 	 	let nail_group = new THREE.Group()
 
 
-	 	console.log("after cleaning")
+	 //	console.log("after cleaning")
 
-	 	console.log(group.children.length)
+	 //	console.log(group.children.length)
 
 		let polish = this.props.currentPolish
 
 	 	let color =  new THREE.Color(`rgb(${polish.red}, ${polish.green}, ${polish.blue})`);;
 		
-		console.log(this.props.nails)
+		//console.log(this.props.nails)
 
 
 		 this.nail_shape_geom("pinky", 
@@ -341,9 +315,9 @@ export default class Hand extends React.Component {
 
 		this.riggedHand()
 
-		console.log("filled group")
+		//console.log("filled group")
 
-		console.log(group.children.length)
+		//console.log(group.children.length)
 
 
 		scene1.add(group)
@@ -370,8 +344,8 @@ export default class Hand extends React.Component {
 
 
 	render() {
-		console.log("in hand")
-		console.log(this.props.current_project)
+		//console.log("in hand")
+		//console.log(this.props.current_project)
 
 		while(group.children.length > 0){ 
 			    group.remove(group.children[0]); 
