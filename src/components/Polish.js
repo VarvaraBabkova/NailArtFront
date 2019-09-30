@@ -1,72 +1,50 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import * as THREE from "three";
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, (window.innerWidth/12)/(window.innerHeight/4), 0.1, 1000 );
-const renderer = new THREE.WebGLRenderer();
+// import picture from "../OPI_Scotland.png";
 
 
 export default class Polish extends React.Component {
 
 
 	componentDidMount() {
-	   
-	    renderer.setSize( window.innerWidth/12, window.innerHeight/4 );
-	    // document.body.appendChild( renderer.domElement );
-	     this.mount.appendChild( renderer.domElement );
-	     scene.background = new THREE.Color( 'white' );
-	     
-	    camera.position.z = 5;
 
-	    let pointLight =
-          new THREE.PointLight(0xFFFFFF);
+	    let canvas = this.refs.canvas
+		let ctx = canvas.getContext("2d")
 
-        // set its position
-        pointLight.position.x = 10;
-        pointLight.position.y = 50;
-        pointLight.position.z = 130;
+	    const img = this.refs.image
+     
+	    img.onload = () => {
+		
+	       ctx.font = "10px Arial";
+	       ctx.textAlign = "center";
+	      ctx.drawImage(img, this.props.polish.img_x, this.props.polish.img_y, 
+	      	this.props.polish.img_width , this.props.polish.img_height,
+	      	 0, 0, 
+	      	canvas.width, canvas.height)
+	      ctx.fillText(this.props.polish.name, canvas.width/2, canvas.height - 2);
 
-        // add to the scene
-        scene.add(pointLight);
-
+		}
 	    
-
-	 }
-
-	 draw(){
-	 	let color;
-	 	const geometry = new THREE.BoxGeometry( 2, 2, 2 );
-		    var material = new THREE.MeshLambertMaterial( {color} );
-		    var cube = new THREE.Mesh( geometry, material );
-		    
-	 	if (this.props.polish) {
-	 		
-			 cube.material.color.setStyle(`rgb(${this.props.polish.red}, ${this.props.polish.green}, ${this.props.polish.blue})`)
-				geometry.colorsNeedUpdate = true
-				scene.add( cube );
-			 console.log(this.props.offset)
-	 	} 
-	 	
-	    var animate = function () {
-	      requestAnimationFrame( animate );
-	      cube.rotation.x += 0.01;
-	      cube.rotation.y += 0.01;
-	      renderer.render( scene, camera );
-	    };
-	    animate();
-	 }
+	}
 
 	render() {
-		// console.log("in polish " )
-		// console.log(this.props.polish)
-		// console.log(this.props.offset)
-		this.draw()
+		//console.log(this.props.polish.name)
 	    return(
 	    	<div>
-	        <div className={this.props.className}  ref={ref => (this.mount = ref)} />
+		        <canvas className="polishImg"  
+		        		ref="canvas"
+		        		onClick = {() => this.props.handlePickColor(this.props.polish)} >
+		        	{this.props.polish.name}
+		        </canvas>
+		        {
+		        	//<img ref="image" alt = "" src={require('../OPI_Scotland.png')} className="hidden" />
+
+		        }
+		        <img ref="image" alt = "" src={this.props.polish.img} className="hidden" />
 
 	        </div>
+
 	    )
 	  }
 }

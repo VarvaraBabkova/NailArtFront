@@ -2,6 +2,10 @@ import React from 'react';
 //import ReactDOM from "react-dom";
 import * as THREE from "three";
 import GLTFLoader from 'three-gltf-loader';
+import TWEEN from '@tweenjs/tween.js';
+import Projects from "./Projects"
+
+
 
 
 const scene = new THREE.Scene();
@@ -17,7 +21,7 @@ export default class Intro extends React.Component {
 		this.state = {
 			username:"admin",
 			password:"qqq",
-			balls:[],
+			
 		}
 	}
 
@@ -34,7 +38,6 @@ export default class Intro extends React.Component {
 		console.log(this.state)
 		e.preventDefault()
 		
-       //  this.setState({username:"", password:"", form_button:"Log out"})
 		this.props.handleAuth({username: this.state.username, password: this.state.password})
 	}
 
@@ -62,7 +65,11 @@ export default class Intro extends React.Component {
 
 					mesh.position.set(position.x, position.y, position.z)
 
-					 mesh.material = new THREE.MeshPhongMaterial( new THREE.Color( 'white' ) );
+
+						mesh.material = new THREE.MeshPhongMaterial( new THREE.Color( 'white' ) );
+
+
+
 					  mesh.material.flatShading = false
 
 					// mesh.geometry.computeBoundingBox()
@@ -70,15 +77,26 @@ export default class Intro extends React.Component {
 					
 					mesh.material.needsUpdate = true
 					
+
+				 // if (this.props.state ){
+					
+					// 	console.log("projects")
+					// }
+
 					scene.add(mesh);
 								
-						
+					// let tween = new TWEEN.Tween(mesh.rotation)
+			  //       .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
+			  //       .repeat(10)
+			  //       .start();
 
 	 	 		})//load
 	}
 
 	componentDidMount() {
-	   
+		console.log("Intro mounted")
+
+		console.log(this.props.state)
 	    renderer.setSize( window.innerWidth, window.innerHeight);
 	    // document.body.appendChild( renderer.domElement );
 	     this.mount.appendChild( renderer.domElement );
@@ -89,22 +107,37 @@ export default class Intro extends React.Component {
 	    camera.position.x = 2;
 
 
-	    let pointLight =
-          new THREE.PointLight(0xFFFAFF);
+	    // let pointLight =
+     //      new THREE.PointLight(0xFFFAFF);
 
-        // set its position
-        pointLight.position.x = 5;
-        pointLight.position.y = 10;
-        pointLight.position.z = 13;
+     //    // set its position
+     //    pointLight.position.x = 5;
+     //    pointLight.position.y = 10;
+     //    pointLight.position.z = 13;
 
         // add to the scene
         //scene.add(pointLight);
 
-         let spotLight =
-          new THREE.SpotLight(0xFFFAFF);
+         // let spotLight =
+         //  new THREE.SpotLight(0xFFFFFF);
+
+		let spotLight 
+		if(this.props.state ==="Projects"){
+
+          spotLight = new THREE.SpotLight(0xeeeeff);
+        	spotLight.position.set( 0, 10, 2 );
+//debugger
+          let tween = new TWEEN.Tween(spotLight.position)
+			        .to({ x: [0, 1, 0]}, 1500)
+			        .repeat(Infinity)
+			        .start();
+		}else{
+			spotLight = new THREE.SpotLight(0xFFFFFF);
+			        spotLight.position.set( 20, 10, 20 );
+
+		}
 
         // set its position
-        spotLight.position.set( 20, 10, 20 );
 
 		spotLight.castShadow = true;
 
@@ -118,30 +151,14 @@ export default class Intro extends React.Component {
         scene.add(spotLight);
 
        let ambientLight =
-          new THREE.AmbientLight(0xFAFFFF);
+          new THREE.AmbientLight(0xFFFFFF);
 
-        ambientLight.intensity = 0.1
+        ambientLight.intensity = 0.15
         scene.add(ambientLight);
 
-		 this._input.focus();
-	 }
+        let axesHelper = new THREE.AxesHelper( 5 );
+		//scene.add( axesHelper );
 
-	 componentWillUnmount() {
-		   while(scene.children.length > 0){ 
-			    scene.remove(scene.children[0]); 
-			}
-		   // window.cancelAnimationFrame(this.requestID);
-		  }
-
-	 draw(){
-	 	
-		    
-	 	
-	 	 var axesHelper = new THREE.AxesHelper( 5 );
-		scene.add( axesHelper );
-
-
-	  
 	   	let geometry = new THREE.CubeGeometry(0.5,0.5,0.5);
 
 		let material = new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 255"));
@@ -161,15 +178,95 @@ export default class Intro extends React.Component {
 	    let cube3  = new THREE.Mesh( geometry, material );
 	    cube3.position.set(2, 0, 0)
 
-	    //scene.add( cube3 );
+	   	let plane_geometry_back = new THREE.PlaneGeometry( 6, 6);
+	  	let plane_back  = new THREE.Mesh( plane_geometry_back, material );
+	  	//plane.rotation.x = Math.PI/4
+	  	plane_back.position.set( 0.5, 1, -1)
+	  	scene.add(plane_back)
 
-		this.drawPolish({x:0, y:0.4, z:0})
+		let plane_geometry_left = new THREE.PlaneGeometry( 6, 6);
+	  	let plane_left  = new THREE.Mesh( plane_geometry_left, 
+	  						new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 20")));
+	  	plane_left.rotation.x = 80*Math.PI/180
+
+	  	plane_left.position.set( 0.5, -0.5, -1)
+	  	scene.add(plane_left)
+
+	  	this.drawPolish({x:0, y:0.4, z:0})
 	   	this.drawPolish({x:0.8, y:0.4, z:0})
 	   	this.drawPolish({x:0.0, y:0.0, z:0.9})
 
 	   	this.drawPolish({x:2, y:0, z:0.5}, {x:0, y:0, z: 0})
 	   	this.drawPolish({x:1.5, y:0, z:0.7}, {x:0, y:0, z: 0})
 
+	   	this.draw()
+	 }
+
+	 componentWillUnmount() {
+		   while(scene.children.length > 0){ 
+			    scene.remove(scene.children[0]); 
+			}
+		   // window.cancelAnimationFrame(this.requestID);
+		  }
+
+	 draw(){
+	 	
+
+
+	   	if (this.props.state === "Intro_rejected") {
+	   		let tween = new TWEEN.Tween(scene.rotation)
+			        .to({ y: [0, 0.03, 0, -0.03, 0]}, 500)
+			        .repeat(1)
+			        .start();
+
+			 this.props.handleChangeState("Intro_first")
+	   	}
+
+	   	if (this.props.state === "Entered") {
+
+	   		 scene.children.map(child => (child instanceof THREE.Mesh && child.name === "Cylinder"?
+	   		 	child.material.color.setHex(0xaaffff)
+	   		 	:child
+	   		 	))
+	   		// 		   		child.material.color.setHex(0xff0000):child.material.color.setHex(0xff0000)))
+
+	   		// cube2.material.color.setHex(0xff0000);
+
+	   		let tween = new TWEEN.Tween(scene.rotation)
+			        .to({ x: [0, 0.05, 0, -0.05, 0]}, 500)
+			        .repeat(2)
+			        .start();
+
+			 console.log(scene)
+			 this.props.handleChangeState("Projects")
+
+	   	}
+	   	
+		if (this.props.state === "Projects") {
+			console.log("should color bitch!")
+			console.log(scene.children)
+
+	   		 scene.children.map(child => 
+	   		 	(child instanceof THREE.Mesh && child.name === "Cylinder"?
+	   		 	
+	   		 		child.material.color.setHex(0xaaffff)
+	   		 		
+	   		 	:child
+	   		 	)
+	   		)
+	   		 console.log(scene.children)
+
+	   		
+
+	   		// let tween = new TWEEN.Tween(scene.children[4].rotation)
+			   //      .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
+			   //      .repeat(10)
+			   //      .start();
+
+			
+
+	   	}
+	   	
 
 	   	renderer.render( scene, camera );
 
@@ -179,7 +276,7 @@ export default class Intro extends React.Component {
 	      requestAnimationFrame( animate );
 	      
 	      
-	      
+	       TWEEN.update();
 	     	     
 	      renderer.render( scene, camera );
 	    };
@@ -187,13 +284,25 @@ export default class Intro extends React.Component {
 	 }
 
 	render() {
-		// console.log("in intro " )
+		console.log("in intro " )
 		// console.log(this.state.balls)
-		console.log(scene)
-	 this.draw()
+		console.log(this.props)
+	 	this.draw()
 	    return(
 	        <div className="intro" ref={ref => (this.mount = ref)} >
-	        	 <form className="loginForm"  onSubmit={e => this.preHandle(e)}>
+	        	 
+
+
+	        	 {(this.props.state === "Projects")?
+
+	        	 <Projects handlePickProject={this.props.handlePickProject} 
+	        	 		    projects= {this.props.projects} 
+	        	 			handleDelete = {this.props.handleDelete}
+	        	 			handleRename = {this.props.handleRename}/>
+	        	
+	        	 :
+
+	        	 <form className="loginForm "  onSubmit={e => this.preHandle(e)}>
 					<div>
                       <label>
                         Username
@@ -212,6 +321,7 @@ export default class Intro extends React.Component {
                       <button type="submit">Log in</button>
                     </div>
 	        	 </form>
+	        	}
 	        </div>
 	       
 		        		
