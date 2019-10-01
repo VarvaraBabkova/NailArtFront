@@ -302,14 +302,13 @@ export default class Hand extends React.Component {
 													0.0058
 													);
 		this.nail_shape_geom("thumb", 
-													color, 
-													this.props.nails.find(nail => nail.name === "left_thumb").texture, 
-													[0.077, 0.053, -0.007],
-													//[0, 0, 0],
-													//[0, Math.PI/2 , Math.PI/2 +0],
-													[15*Math.PI/180, 85*Math.PI/180, 85*Math.PI/180], 
-													0.0065
-													);
+							color, 
+							this.props.nails.find(nail => nail.name === "left_thumb").texture, 
+							[0.0758, 0.052, -0.00655],
+							//[0, Math.PI/2 , Math.PI/2 +0],
+							[37*Math.PI/180, 70*Math.PI/180, 50*Math.PI/180], 
+							0.006
+							);
 		
 
 
@@ -324,7 +323,7 @@ export default class Hand extends React.Component {
 		
 
 		var tween = new TWEEN.Tween(group.rotation)
-			        .to({ y: [0, -1 ,0, 1, 0]}, 7000)
+			        .to({ y: [1, -1.5 ,0]}, 6000)
 			        .repeat(Infinity)
 			        .start();
 		
