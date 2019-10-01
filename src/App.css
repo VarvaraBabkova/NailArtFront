@@ -259,6 +259,22 @@ div.leftPanel div.stampingPolishes {
     align-items: center;
     box-shadow: 10px 10px 5px grey;
     z-index: 50;
+}
+.eraserButton_pushed{
+	position: fixed;
+	width: 4%;
+	left: 20%;
+	bottom: 3.7vw;
+	height: 1.5vw;
+	border: 1px solid;
+	border-radius: 14px;
+	margin-left: 0.5vw;
+
+	text-align: center;
+	justify-content: right;
+    align-items: center;
+    /*box-shadow: 10px 10px 5px grey;*/
+    z-index: 50;
 
 }
 
