@@ -132,7 +132,33 @@ export default class App extends React.Component{
 		this.setState({imgDataFromPlate: imgData}, console.log(imgData))
 	}
 
-	handleAuth =(auth)=>{
+
+
+	handleSign = (auth) =>{
+		console.log(auth)
+		fetch(URL + "users", {
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              user:{
+                username: auth.username,
+				password: auth.password
+              }
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+        	this.handleAuth({username:data.username, password:auth.password})
+        	console.log(data)
+        })
+
+	}
+
+	
+
+	handleAuth =(auth) =>{
 		//console.log(auth)
 		let user_id 
 		this.setState({username:auth.username, password:auth.password})
@@ -160,38 +186,9 @@ export default class App extends React.Component{
 	        	user_id = data.user_id
 
 				
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				//reading polishes
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		       fetch(URL + "polishes", {
-	        		method:"GET",
-	        		headers:{
-	        			Authorization: `Bearer ${localStorage.token}`
-	        		}
-	        	})
-			      .then(res => res.json())
-			      .then(res => {
-			          this.setState({polishCollection: res, currentPolish:res[0]})
-			    })
-
-			    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				//reading plates
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		       fetch(URL + "plates", {
-	        		method:"GET",
-	        		headers:{
-	        			Authorization: `Bearer ${localStorage.token}`
-	        		}
-	        	})
-			      .then(res => res.json())
-			      .then(res => {
-			      	console.log("plates")
-			      	console.log(res)
-			      	//debugger
-			          this.setState({plates: res, current_plate:res[0]})
-			    })
-
-
+				this.readPolishes()
+				this.readPlates()
+			   
 			    this.readProjects(user_id)
         	}
         	
@@ -206,6 +203,41 @@ export default class App extends React.Component{
 		this.setState({username:"", password:"", page:"Intro"})
 		localStorage.clear()
 
+	}
+
+	readPolishes = ()=>{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//reading polishes
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       fetch(URL + "polishes", {
+    		method:"GET",
+    		headers:{
+    			Authorization: `Bearer ${localStorage.token}`
+    		}
+    	})
+	      .then(res => res.json())
+	      .then(res => {
+	          this.setState({polishCollection: res, currentPolish:res[0]})
+	    })
+	}
+
+	readPlates = () =>{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//reading plates
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       fetch(URL + "plates", {
+    		method:"GET",
+    		headers:{
+    			Authorization: `Bearer ${localStorage.token}`
+    		}
+    	})
+	      .then(res => res.json())
+	      .then(res => {
+	      	console.log("plates")
+	      	console.log(res)
+	      	//debugger
+	          this.setState({plates: res, current_plate:res[0]})
+	    })
 	}
 
 	handlePickColor = (polish) =>{
@@ -229,9 +261,6 @@ export default class App extends React.Component{
 			cp.nails = nails
 
 			this.setState({current_project: cp})
-
-			//console.log(nails)
-
 		 
 
 	}
@@ -529,13 +558,11 @@ export default class App extends React.Component{
 	        					}, () =>this.handleCreateAndSaveEmptyNails(data.id))
 
 
-	        	//console.log("after")
-	        	//console.log(empty_nails)
+	        	
 	        })
 			
 		    
 		}
-		//this.setState({ page:"Editor"})
 
 
 	}
@@ -553,7 +580,8 @@ export default class App extends React.Component{
         return <Intro handleAuth={this.handleAuth} state={this.state.page} 
 		        		handlePickProject={this.handlePickProject} projects= {this.state.projects} 
         				handleChangeState={this.handleChangeState} handleDelete = {this.handleDelete}
-        				handleRename = {this.handleRename}/>
+        				handleRename = {this.handleRename}
+        				handleSign = {this.handleSign}/>
 
     
       case "Editor":
@@ -615,7 +643,8 @@ export default class App extends React.Component{
         return <Intro handleAuth={this.handleAuth} state={this.state.page} 
 		        		handlePickProject={this.handlePickProject} projects= {this.state.projects} 
         				handleChangeState={this.handleChangeState} handleDelete = {this.handleDelete}
-        				handleRename = {this.handleRename}/>
+        				handleRename = {this.handleRename}
+        				handleSign = {this.handleSign}/>
     }
 
 

@@ -80,7 +80,9 @@ div.Projects .Project {
 	box-shadow: 10px 10px 5px grey;
 	 color: grey;
   text-shadow: 2px 2px 4px #000000;
-   font-size: 2vw;
+    font-family: 'CharlotteScript';
+
+   font-size: 3vw;
 
 }
 
@@ -472,8 +474,15 @@ div.finger_chose_panel .finger_btn_chosen  {
    
 	color: black;
   text-shadow: 2px 2px 4px #000000;
-   font-size: 1.5vw;
+  font-family: 'CharlotteScript';
+   font-size: 2.5vw;
 
+}
+
+@font-face {
+font-family: "CharlotteScript";
+src: url("./CharlotteScript.ttf");
+src: url("./CharlotteScript.otf") format("opentype"),
 }
 
 

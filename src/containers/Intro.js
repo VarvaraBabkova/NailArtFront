@@ -35,10 +35,14 @@ export default class Intro extends React.Component {
 	}
 
 	preHandle =(e) =>{
-		console.log(this.state)
 		e.preventDefault()
-		
 		this.props.handleAuth({username: this.state.username, password: this.state.password})
+	}
+
+	handleSignUp=(e)=>{
+		e.preventDefault()
+		this.props.handleSign({username: this.state.username, password: this.state.password})
+
 	}
 
 	drawPolish = (position, rotation = {x:0, y:0, z:0}) =>{
@@ -319,6 +323,9 @@ export default class Intro extends React.Component {
                     </div>
                     <div>
                       <button type="submit">Log in</button>
+                    </div>
+                     <div>
+                      <button type="button" onClick={e => this.handleSignUp(e)}>Sign up</button>
                     </div>
 	        	 </form>
 	        	}
