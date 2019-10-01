@@ -215,8 +215,11 @@ export default  class WorkingCanvas extends React.Component {
 				
 
 		        	<div className="cleanButton" onClick={this.handleClearStampingArea}> Clear</div>
-					<div className={this.state.eraser_mode?"eraserButton_pushed":"eraserButton"}
-						onClick={this.handleEraserMode}> Eraser</div>
+		        	{
+		    //     		<div className={this.state.eraser_mode?"eraserButton_pushed":"eraserButton"}
+						// onClick={this.handleEraserMode}> Eraser</div>
+		        	}
+					
 		      </div>
 		      
 	      	</div>

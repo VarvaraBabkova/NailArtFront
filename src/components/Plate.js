@@ -17,7 +17,7 @@ export default class Plate extends React.Component {
 	       ctx.font = "10px Arial";
 	       ctx.textAlign = "center";
 
-	       ctx.drawImage(img, 0, 0, img.width/2 + 25, img.height, 0, 5, canvas.width, canvas.height)
+	       ctx.drawImage(img, 0, 0, img.width/2 + 25, img.height, 0, 0, canvas.width, canvas.height)
 
 	      
 	    //  ctx.fillText(this.props.polish.name, canvas.width/2, canvas.height - 2);

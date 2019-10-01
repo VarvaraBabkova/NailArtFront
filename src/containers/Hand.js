@@ -69,8 +69,8 @@ export default class Hand extends React.Component {
         pointLight.position.z = 4;
 
         // add to the scene
-		var axesHelper = new THREE.AxesHelper( 5 );
-		scene1.add( axesHelper );
+		//var axesHelper = new THREE.AxesHelper( 5 );
+		//scene1.add( axesHelper );
 
         scene1.add(pointLight);
 
@@ -323,7 +323,7 @@ export default class Hand extends React.Component {
 		
 
 		var tween = new TWEEN.Tween(group.rotation)
-			        .to({ y: [1, -1.5 ,0]}, 6000)
+			        .to({ y: [0, 1.3, -1.5 ,0]}, 9000)
 			        .repeat(Infinity)
 			        .start();
 		

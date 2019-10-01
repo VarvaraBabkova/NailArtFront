@@ -635,8 +635,17 @@ export default class App extends React.Component{
 
 			    				
 			     <StampingPolishes handlePickStampingColor= {this.handlePickStampingColor}/>
-
-			    			
+			     		
+			     <img className="bg_florish_right" src={require('./flourish-4.png')} alt="" />
+			     <img className="bg_florish_left" src={require('./flourish-4-left.png')} alt="" />
+			     <img className="bg_florish_center_right" src={require('./flourish-4.png')} alt="" />
+			     <img className="bg_florish_center_left" src={require('./flourish-4-left.png')} alt="" />
+			     <img className="bg_florish_center_down_right" src={require('./flourish-4-right-ud.png')} alt="" />
+			     <img className="bg_florish_center_down_left" src={require('./flourish-4-left-ud.png')} alt="" />
+			     {
+			     	// <div className="flower"></div>
+			     }
+			     
 		   	 </div>
      
       default:
