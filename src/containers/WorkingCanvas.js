@@ -131,7 +131,7 @@ export default  class WorkingCanvas extends React.Component {
 
 	    	return
 	    }
-
+//debugger
 	    if (this.props.currentPolish) {
 	    	if (this.state.current_polish !== this.props.currentPolish) {
 	    		this.setState({current_polish:this.props.currentPolish})
@@ -146,8 +146,13 @@ export default  class WorkingCanvas extends React.Component {
 	    else
 	    {
 	    	this.setState({current_polish:{red:"255", blue:"255", green:"255"}})
+	    	ctx.fillStyle = "rgb(255, 255, 255)";
+			 ctx.fillRect(0, 0, canvas.width, canvas.height);
+	    
 
 	    }
+
+
 	     let st_polish 
 	    if (this.props.currentStampingPolish) {
 	    	st_polish = this.props.currentStampingPolish
@@ -162,7 +167,8 @@ export default  class WorkingCanvas extends React.Component {
 	    
 
 	    if (this.props.imgData.data) {
-	    	
+	    	console.log("in draw in working")
+	    	console.log (this.props.imgData.data)
 	    
 		     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
 		     	[this.state.current_polish.red, this.state.current_polish.green, this.state.current_polish.blue], 
@@ -170,6 +176,7 @@ export default  class WorkingCanvas extends React.Component {
 
 
 	    }
+
 	  }
 
 	handleClearStampingArea=()=>{

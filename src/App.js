@@ -32,7 +32,7 @@ export default class App extends React.Component{
 			imgDataFromPlate:{},
 			username:"",
 			password:"",
-			currentPolish:{},
+			currentPolish:white_polish,
 			currentTexture: {},
 			currentStampingPolish: {},
 			page: (localStorage.token?"Projects":"Intro_first"),
@@ -547,7 +547,9 @@ export default class App extends React.Component{
 		      .then(res => {
 		      	//  console.log("Project")
 		          console.log(res)
-		          this.setState({current_project: res, current_finger: "pinky"}, this.setState({ page:"Editor"}))
+		          this.setState({current_project: res, current_finger: "pinky", 
+		          	currentPolish:white_polish,
+					currentTexture: {}, imgDataFromPlate:{}}, this.setState({ page:"Editor"}))
 		          		         console.log(this.state.current_project)
 
 		       })
@@ -588,7 +590,10 @@ export default class App extends React.Component{
 				
 
 	        	this.setState({current_project: empty_project, 
-	        					projects:new_projects 
+	        					projects:new_projects, 
+					          	currentPolish:white_polish,
+								currentTexture: {}, 
+								imgDataFromPlate:{} 
 	        					}, () =>this.handleCreateAndSaveEmptyNails(data.id))
 
 

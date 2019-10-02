@@ -12,6 +12,7 @@ import quicksandRegular from "../Quicksand Bold_Regular.json"
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 40, (window.innerWidth)/(window.innerHeight), 1, 1000 );
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+		let spotLight, spotLight1 
 
 
 
@@ -154,6 +155,28 @@ export default class Intro extends React.Component {
 
 	}
 
+	addFunkyLights() {
+
+		spotLight = new THREE.SpotLight(0xff9999);
+	        spotLight.position.set( 20, -5, 8 );
+
+	        let tween = new TWEEN.Tween(spotLight.position)
+			        .to({ y: [-5, 5, -5]}, 15000)
+			        .repeat(Infinity)
+			        .start();
+
+
+			spotLight1 = new THREE.SpotLight(0xcccccc);
+        	spotLight1.position.set( -20, 100, 8 );
+			scene.add(spotLight1);
+
+			let tween1 = new TWEEN.Tween(spotLight1.position)
+			        .to({ x: [-20, 20, -20]}, 15000)
+			        .repeat(Infinity)
+			        .start();
+        
+	}
+
 	componentDidMount() {
 		console.log("Intro mounted")
 
@@ -181,27 +204,9 @@ export default class Intro extends React.Component {
          // let spotLight =
          //  new THREE.SpotLight(0xFFFFFF);
 
-		let spotLight, spotLight1 
 		if(this.props.state ==="Projects"){
-
-	        spotLight = new THREE.SpotLight(0xff9999);
-	        spotLight.position.set( 20, -5, 8 );
-
-	        let tween = new TWEEN.Tween(spotLight.position)
-			        .to({ y: [-5, 5, -5]}, 15000)
-			        .repeat(Infinity)
-			        .start();
-
-
-			spotLight1 = new THREE.SpotLight(0xcccccc);
-        	spotLight1.position.set( -20, 100, 8 );
-			scene.add(spotLight1);
-
-			let tween1 = new TWEEN.Tween(spotLight1.position)
-			        .to({ x: [-20, 20, -20]}, 15000)
-			        .repeat(Infinity)
-			        .start();
-        
+			this.addFunkyLights()
+	        
 		}else{
 			spotLight = new THREE.SpotLight(0xFFFFFF);
 			spotLight.position.set( 13, 10, 8 );
@@ -305,7 +310,6 @@ export default class Intro extends React.Component {
 	   	}
 
 	   	if (this.props.state === "Entered") {
-	   		
 
 	   		let tween = new TWEEN.Tween(scene.rotation)
 			        .to({ x: [0, 0.05, 0, -0.05, 0]}, 500)
@@ -319,6 +323,7 @@ export default class Intro extends React.Component {
 	   	
 		if (this.props.state === "Projects") {
 			console.log(scene.children)
+	   		//this.addFunkyLights()
 
 	   		 // scene.children.map(child => 
 	   		 // 	(child instanceof THREE.Mesh ?
