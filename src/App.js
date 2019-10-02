@@ -649,7 +649,8 @@ export default class App extends React.Component{
 	    		</div>
 				
 				 	<PlateCanvas  handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}
-				 					plate = {this.state.current_plate}/>   
+				 					plate = {this.state.current_plate}
+				 					/>   
  					
  					<PlatesShelf  handlePickPlate = {this.handlePickPlate}
 							 		plates = {this.state.plates}/>   

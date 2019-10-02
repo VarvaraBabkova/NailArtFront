@@ -13,7 +13,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 40, (window.innerWidth)/(window.innerHeight), 1, 1000 );
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 		let spotLight, spotLight1 
-
+let art_mesh;
 
 
 export default class Intro extends React.Component {
@@ -141,6 +141,7 @@ export default class Intro extends React.Component {
 			        .repeat(Infinity)
 			        .start();
 		scene.add( text_mesh1 );
+		art_mesh = text_mesh1
 
 		let text_mesh2 = new THREE.Mesh( textGeometryStudio, textMaterial );
 		text_mesh2.position.y = 1.75
@@ -166,7 +167,7 @@ export default class Intro extends React.Component {
 			        .start();
 
 
-			spotLight1 = new THREE.SpotLight(0xcccccc);
+			spotLight1 = new THREE.SpotLight(0xccaacc);
         	spotLight1.position.set( -20, 100, 8 );
 			scene.add(spotLight1);
 
@@ -190,19 +191,7 @@ export default class Intro extends React.Component {
 	    camera.position.x = 2;
 
 
-	    // let pointLight =
-     //      new THREE.PointLight(0xFFFAFF);
-
-     //    // set its position
-     //    pointLight.position.x = 5;
-     //    pointLight.position.y = 10;
-     //    pointLight.position.z = 13;
-
-        // add to the scene
-        //scene.add(pointLight);
-
-         // let spotLight =
-         //  new THREE.SpotLight(0xFFFFFF);
+	    
 
 		if(this.props.state ==="Projects"){
 			this.addFunkyLights()
@@ -263,19 +252,7 @@ export default class Intro extends React.Component {
 	    cylinder.position.set(0.1, -0.5, -0.1)
 	    scene.add(cylinder)
 
-	 //   	let plane_geometry_back = new THREE.PlaneGeometry( 6, 6);
-	 //  	let plane_back  = new THREE.Mesh( plane_geometry_back, material );
-	 //  	//plane.rotation.x = Math.PI/4
-	 //  	plane_back.position.set( 0.5, 1, -1)
-	 //  	scene.add(plane_back)
-
-		// let plane_geometry_left = new THREE.PlaneGeometry( 6, 6);
-	 //  	let plane_left  = new THREE.Mesh( plane_geometry_left, 
-	 //  						new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 20")));
-	 //  	plane_left.rotation.x = 80*Math.PI/180
-
-	 //  	plane_left.position.set( 0.5, -0.5, -1)
-	 //  	scene.add(plane_left)
+	 
 
 	  	this.drawPolish({x:0, y:0.4, z:0})
 	   	this.drawPolish({x:0.8, y:0.4, z:0})
@@ -286,14 +263,13 @@ export default class Intro extends React.Component {
 	   	this.drawPolish({x:-.7, y:0, z:0.3}, {x:0, y:0, z: 0})
 
 
-	   	this.draw()
+	   //	this.draw()
 	 }
 
 	 componentWillUnmount() {
 		   while(scene.children.length > 0){ 
 			    scene.remove(scene.children[0]); 
 			}
-		   // window.cancelAnimationFrame(this.requestID);
 		  }
 
 	 draw(){
@@ -311,30 +287,39 @@ export default class Intro extends React.Component {
 
 	   	if (this.props.state === "Entered") {
 
-	   		let tween = new TWEEN.Tween(scene.rotation)
-			        .to({ x: [0, 0.05, 0, -0.05, 0]}, 500)
-			        .repeat(2)
-			        .start();
+	   		// let tween = new TWEEN.Tween(scene.rotation)
+			   //      .to({ x: [0, 0.03, 0, -0.03, 0]}, 1500)
+			   //      .repeat(0)
+			   //      .start();
 
-			 console.log(scene)
-			 this.props.handleChangeState("Projects")
+			new TWEEN.Tween(scene.scale)
+			        .to({ x: [1, 1.03, 1], y: [1, 1.03, 1]}, 500)
+			        .repeat(0)
+			        .start(); 
+			 new TWEEN.Tween(art_mesh.rotation)
+			        .to({ x: [0, 2*Math.PI, ]}, 1500)
+			        .repeat(0)
+			        .start();    
+
+			  //this.addFunkyLights()
+			 //console.log(scene)
+			 setTimeout(() => this.props.handleChangeState("Projects"), 1800);
 
 	   	}
 	   	
 		if (this.props.state === "Projects") {
-			console.log(scene.children)
 	   		//this.addFunkyLights()
 
-	   		 // scene.children.map(child => 
-	   		 // 	(child instanceof THREE.Mesh ?
-	   		 // 		//&& child.name === "Cylinder"?
+	   		//  scene.children.map(child => 
+	   		//  	(child instanceof THREE.Mesh ?
+	   		//  		//&& child.name === "Cylinder"?
 	   		 	
-	   		 // 		child.material.color.setHex(0xaaffff)
+	   		//  		child.material.color.setHex(0xffaaaa)
 	   		 		
-	   		 // 	:child
-	   		 	//)
-	   		//)
-	   		 console.log(scene.children)
+	   		//  	:child
+	   		//  	)
+	   		// )
+	   		//  console.log(scene.children)
 
 	   		
 

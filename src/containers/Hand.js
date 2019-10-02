@@ -327,7 +327,7 @@ export default class Hand extends React.Component {
 	    	camera1.position.y = 0.115;
 
 	    	var tween = new TWEEN.Tween(group.rotation)
-			        .to({ y: [ 0.45, -0.6 ,0]}, 9000)
+			        .to({ y: [0, 0.45, -0.6 ,0]}, 9000)
 			        .repeat(Infinity)
 			        .start();
 

@@ -48,7 +48,7 @@ div.intro .removed{
 
 div.Projects {
 	width: 30%;
-	height: 40%;
+	height: 38%;
 	border: 1px solid rgb(200, 200, 200);
 	z-index: 20;
 	 border-radius: 14px;
@@ -95,7 +95,7 @@ div.Projects .Project:hover{
 div.Projects .Project div.projectDelete {
 	position: relative;
 	right: -95%;
-	top:-225%;
+	top:-260%;
 	border: 1px solid;
 	width: 2vw;
 	height: 2vw;
@@ -119,7 +119,7 @@ div.Projects .Project div.projectDelete {
 div.Projects .Project div.projectRename {
 	position: relative;
 	right: -95%;
-	top:-220%;
+	top:-255%;
 	border: 1px solid;
 	width: 2vw;
 	height: 2vw;
@@ -158,6 +158,8 @@ div.rightPanel{
 	height: 70%;
 	 display: block;
 	 overflow: scroll;
+
+	 /*border: 1px solid;*/
 	
 }
 div.rightPanel  canvas.plateCanvas {
@@ -170,6 +172,16 @@ div.rightPanel  canvas.plateCanvas {
 	overflow-y: scroll; 
 
 }
+.cursor_icon{
+	position: fixed;
+	width: 4vw;
+	height: 4vw;
+	bottom: 1%;
+	right: 18%;
+	box-shadow: 10px 10px 5px grey;
+	border-radius: 10px;
+}
+
 
 
 div.rightestPanel{
