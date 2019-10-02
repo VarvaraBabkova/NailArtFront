@@ -26,7 +26,8 @@ export default class Hand extends React.Component {
 		super(props)
 
 		this.state = {
-			project:{}
+			project:{},
+			zoomed:false,
 		}
 	}
 
@@ -54,10 +55,11 @@ export default class Hand extends React.Component {
 	     this.mount.appendChild( renderer1.domElement );
 	     scene1.background = new THREE.Color( bg_color );
 	     
-	    camera1.position.z = 0.185;
+	    camera1.position.z = 0.185; //!!!working
+
+	   
 
 	     camera1.position.y = 0.065;
-	    // camera1.position.x = 0.075;
 
 
 	    let pointLight =
@@ -69,8 +71,8 @@ export default class Hand extends React.Component {
         pointLight.position.z = 4;
 
         // add to the scene
-		var axesHelper = new THREE.AxesHelper( 5 );
-		scene1.add( axesHelper );
+		//var axesHelper = new THREE.AxesHelper( 5 );
+		//scene1.add( axesHelper );
 
         scene1.add(pointLight);
 
@@ -109,7 +111,9 @@ export default class Hand extends React.Component {
 	}
 
 	onMouseClick =()=>{
-		console.log('clicking')
+		this.setState({zoomed:!this.state.zoomed}, console.log(this.state.zoomed))
+		
+
 	}
 
 	
@@ -170,10 +174,10 @@ export default class Hand extends React.Component {
 				 	mesh.material.needsUpdate = true
 				  	mesh.material.map.needsUpdate = true;
 
-				 	console.log( "naked")
+				 	//console.log( "naked")
 
 				 }else{
-				 	console.log( "not naked")
+				 	//console.log( "not naked")
 
 					 
 					 let texture1 = new THREE.TextureLoader().load( texture);
@@ -302,14 +306,13 @@ export default class Hand extends React.Component {
 													0.0058
 													);
 		this.nail_shape_geom("thumb", 
-													color, 
-													this.props.nails.find(nail => nail.name === "left_thumb").texture, 
-													[0.077, 0.053, -0.007],
-													//[0, 0, 0],
-													//[0, Math.PI/2 , Math.PI/2 +0],
-													[15*Math.PI/180, 85*Math.PI/180, 85*Math.PI/180], 
-													0.0065
-													);
+							color, 
+							this.props.nails.find(nail => nail.name === "left_thumb").texture, 
+							[0.0758, 0.052, -0.00655],
+							//[0, Math.PI/2 , Math.PI/2 +0],
+							[37*Math.PI/180, 70*Math.PI/180, 50*Math.PI/180], 
+							0.006
+							);
 		
 
 
@@ -319,14 +322,29 @@ export default class Hand extends React.Component {
 
 		//console.log(group.children.length)
 
+		 if (this.state.zoomed) {
+	    	camera1.position.z = 0.13;
+	    	camera1.position.y = 0.115;
 
+	    	var tween = new TWEEN.Tween(group.rotation)
+			        .to({ y: [0, 0.45, -0.6 ,0]}, 9000)
+			        .repeat(Infinity)
+			        .start();
+
+	    }else{
+	    	camera1.position.z = 0.185;
+	    	camera1.position.y = 0.065;
+
+	    	var tween1 = new TWEEN.Tween(group.rotation)
+			        .to({ y: [0, 1.3, -1.5 ,0]}, 9000)
+			        .repeat(Infinity)
+			        .start();
+
+	    }
 		scene1.add(group)
 		
 
-		var tween = new TWEEN.Tween(group.rotation)
-			        .to({ y: [0, -1 ,0, 1, 0]}, 7000)
-			        .repeat(Infinity)
-			        .start();
+		
 		
 
 	 	
@@ -341,6 +359,7 @@ export default class Hand extends React.Component {
 	 	
 	 }
 
+	
 
 
 	render() {

@@ -14,37 +14,31 @@
 div.intro {
 	width: 100%;
 	height: 100%;
+	    animation: fadein 1s;
+
 }
 
 div.intro .loginForm {
-	bottom: 10%;
-	right:10%;
+	bottom: 15%;
+	right:15%;
 	position: fixed;
 	  display: block;
   box-shadow: 10px 10px 5px grey;
+      animation: fadein 1s;
+      	 border-radius: 14px;
+
+
 
  	transform: translate3d(5px, 0, 0);
     transition: transform 1.1s cubic-bezier(0, .52, 0, 1);
 
 
 }
-div.filter_menu .filter_icon {
-    background-repeat: no-repeat;
-    background-size: contain; 
-    position: fixed;
-    right: 0px;
-    z-index: 100;
-    height: 70px;
-    width: 70px;
-    animation: fadein 1s;
-
-    transform: translate3d(5px, 0, 0);
-    transition: transform 1.1s cubic-bezier(0, .52, 0, 1);
-}
 
 div.intro .removed{
     transform: translate3d(70px, 0, 0);
     transition: transform 1.1s cubic-bezier(0, .52, 0, 1);
+    animation: fadeout 1s;
 
 }
 
@@ -54,59 +48,105 @@ div.intro .removed{
 
 div.Projects {
 	width: 30%;
-	height: 54%;
-	border: 1px solid;
+	height: 38%;
+	border: 1px solid rgb(200, 200, 200);
 	z-index: 20;
 	 border-radius: 14px;
 	 margin: 1%;
 	   box-shadow: 10px 10px 5px grey;
 
 	position: fixed;
-	right: 0;
-	top:25%;
+	right: 7%;
+	top:40%;
 	overflow-y: scroll;
+
+    /*transition: transform 2.1s cubic-bezier(0.55, 1.46, 0.55, 1.46);*/
+
+ 	-webkit-animation: slidein 1s cubic-bezier(0, 0.46, 0, 1); /* Safari, Chrome and Opera > 12.1 */
+      animation: slidein 1s cubic-bezier(0, 0.46, 0, 1);
+
+      background-color: white;
 
 }
 
 
 div.Projects .Project {
 	width: 80%;
-	height: 10%;
-	border: 1px solid;
+	height: 9%;
+	border: 1px solid rgb(200, 200, 200);
 	z-index: 2;
 	 border-radius: 14px;
-	 margin: 5%;
+	 margin: 3%;
 	 padding: 5%;
 	box-shadow: 10px 10px 5px grey;
 	 color: grey;
   text-shadow: 2px 2px 4px #000000;
-   font-size: 2vw;
+    font-family: 'CharlotteScript';
+
+   font-size: 2.5vw;
+
+}
+div.Projects .Project:hover{
+		border: 1px solid rgb(120, 120, 120);
+
 
 }
 
 div.Projects .Project div.projectDelete {
+	position: relative;
+	right: -95%;
+	top:-260%;
 	border: 1px solid;
-	width: 10%;
-	height: 30%;
+	width: 2vw;
+	height: 2vw;
+
+	 display: none;
+	  -webkit-animation: fadein50 1s; /* Safari, Chrome and Opera > 12.1 */
+      animation: fadein50 1s;
+
+	background-image: url("./delete_icon.png");
+	   background-size: contain;
+    background-position: center;
+    opacity: 0.5;
 
 
-	color: rgb(200, 60, 60);
-
-	background-color: rgb(200, 60, 60);
+    /*z-index: 20;*/
+	/*background-color: rgb(60, 200, 60);*/
 	box-shadow: 5px 5px 3px grey;
-	border-radius: 14px;
+	border-radius: 8px;
 }
 
 div.Projects .Project div.projectRename {
+	position: relative;
+	right: -95%;
+	top:-255%;
 	border: 1px solid;
-	width: 10%;
-	height: 30%;
+	width: 2vw;
+	height: 2vw;
 
-	color: rgb(60, 200, 60);
+	display: none;
+	 -webkit-animation: fadein50 1s; /* Safari, Chrome and Opera > 12.1 */
+      animation: fadein50 1s;
+          opacity: 0.5;
+
+
+background-image: url("./edit_icon.png");
+   background-size: contain;
+    background-position: center;
+
+
+	/*color: rgb(60, 200, 60);*/
 	background-color: rgb(60, 200, 60);;
 	box-shadow: 5px 5px 3px grey;
-	border-radius: 14px;
+	border-radius: 8px;
 }
+
+div.Project:hover div.projectDelete, div.Project:hover div.projectRename{
+	 display: block;
+
+}
+
+
 /**************************************************************************************************************/
 /************************************************* MAIN *********************************************************/
 /**************************************************************************************************************/
@@ -114,27 +154,34 @@ div.rightPanel{
 	position: fixed;
 	right:10%;
 	top: 31%;
-	/*border: 1px solid;*/
 	width: 20%;
 	height: 70%;
 	 display: block;
 	 overflow: scroll;
-	 /*margin: 1%;*/
-	 /*padding-bottom: 5%;*/
+
+	 /*border: 1px solid;*/
+	
 }
 div.rightPanel  canvas.plateCanvas {
 	position: relative;
 	top: 1%;
 	left: 0;
 	
-	/*width: 30vw;
-	height: 60vw;
-*/
 	box-shadow: 10px 10px 5px grey;
 	border-radius: 30px;
 	overflow-y: scroll; 
 
 }
+.cursor_icon{
+	position: fixed;
+	width: 4vw;
+	height: 4vw;
+	bottom: 1%;
+	right: 18%;
+	box-shadow: 10px 10px 5px grey;
+	border-radius: 10px;
+}
+
 
 
 div.rightestPanel{
@@ -146,8 +193,8 @@ div.rightestPanel{
 	height: 70%;
 	 display: block;
 	 overflow: scroll;
-	 /*margin: 1%;*/
 	 border: 1px solid grey;
+	 background-color: white;
 	box-shadow: 10px 10px 5px grey;
 	border-radius: 30px;
 	overflow: scroll; 
@@ -159,9 +206,7 @@ div.rightestPanel div.platesShelf {
 	width: 100%;
 	height: 120vw;
 
-	/*border: 1px solid grey;
-	box-shadow: 10px 10px 5px grey;
-	border-radius: 30px;*/
+	
 	overflow: scroll; 
 }
 
@@ -171,7 +216,11 @@ div.rightestPanel div.platesShelf {
 	margin: 1vw;
 }
 
+.platesShelf .plateImg:hover {
+	border: 1px solid rgb(200, 200, 200);
+	border-radius: 10px;
 
+}
 
 div.leftPanel {
 	position: relative;
@@ -200,13 +249,7 @@ div.leftPanel canvas.workingCanvas {
 
 div.leftPanel div.stampingPolishes {
 
-/*	margin:2%;    
-	padding:10px;
-	position: fixed;
-	left: 10px;
-	bottom: 1%;
-	width: 20%;
-	height: 3%;*/
+
 	position: fixed;
 	left: 15%;
 	width: 10vw;
@@ -215,7 +258,7 @@ div.leftPanel div.stampingPolishes {
     box-shadow: 10px 10px 5px grey;
 	border-radius: 10%;
 	
-	border: 1px solid grey;
+	border: 1px solid ;
 	border-radius: 20px;
 	box-shadow: 10px 10px 5px grey;
 
@@ -224,7 +267,9 @@ div.leftPanel div.stampingPolishes {
 
 
 }
+div.leftPanel div.stampingPolishes:hover{
 
+}
 .cleanButton{
 	position: fixed;
 	/*display: inline-block;*/
@@ -243,9 +288,8 @@ div.leftPanel div.stampingPolishes {
     z-index: 50;
 
 }
- .eraserButton{
+ /*.eraserButton{
 	position: fixed;
-	/*display: inline-block;*/
 	width: 4%;
 	left: 20%;
 	bottom: 4vw;
@@ -259,8 +303,24 @@ div.leftPanel div.stampingPolishes {
     align-items: center;
     box-shadow: 10px 10px 5px grey;
     z-index: 50;
-
 }
+.eraserButton_pushed{
+	position: fixed;
+	width: 4%;
+	left: 20%;
+	bottom: 3.7vw;
+	height: 1.5vw;
+	border: 1px solid ;
+	border-radius: 14px;
+	margin-left: 0.5vw;
+
+	text-align: center;
+	justify-content: right;
+    align-items: center;
+    z-index: 50;
+
+}*/
+
 
 div.stampingPolishes .stampingPolish {
 	position: relative;
@@ -268,19 +328,22 @@ div.stampingPolishes .stampingPolish {
 	top: 1vw;
 	width: 2vw;
 	height: 2vw;
-	border: 1px solid;
+	border: 1px solid rgb(180, 180, 180);
 	border-radius: 14px;
 	margin: 0.3vw;
 }
+ 
+div.stampingPolishes .stampingPolish:hover {
+		border: 1px solid rgb(100, 100, 100);
 
-
+}
 
 div.polishesShelf {
 	position: fixed;
-	left: 8vw;  /* (100 - 12*6 - 11) /2 */
+	left: 8.5vw;  /* (100 - 12*6 - 11) /2 */
 	top: 1vw;
 	width: 100%;
-	height: 28vh;
+	height: 29.5vh;
 	 display: block;
 	 overflow: hidden;
 	 /*border: 1px solid grey;*/
@@ -294,12 +357,18 @@ div.polishesShelf .polishImg {
 	 overflow: hidden;
 	 /*border: 1px solid grey;*/
 	 	/*float:center;*/
-	 	bottom: 0;
+	 bottom: 0;
 	float:left;
 	margin-right: 1vw;
 
 }
+div.polishesShelf .polishImg:hover {
+	
+	 -webkit-animation: bigin 1.5s 2 alternate; /* Safari, Chrome and Opera > 12.1 */
+      animation: bigin 1.5s 2 alternate;
 
+
+}
 	
 
 div.hand {
@@ -323,6 +392,11 @@ div.hand:after {
   padding-bottom: 100%;
 }
 
+/*div.hand:hover {
+	height: 100vh;
+	width:100vh;
+}*/
+
 div.finger_chose_panel{
 	width:40%;
 	height: 15%;
@@ -338,7 +412,7 @@ div.finger_chose_panel{
 div.finger_chose_panel .finger_btn, div.finger_chose_panel .finger_btn_chosen  {
 	width: 9%;
 	height: 80%;
-	border: 1px solid;
+	border: 1px solid grey;
 	z-index: 20;
 	bottom: 0;
 	float:left;
@@ -360,8 +434,17 @@ div.finger_chose_panel .finger_btn  {
 	box-shadow: 10px 10px 5px grey;
 
 }
+div.finger_chose_panel .finger_btn:hover  {
+		border: 1px solid black;
+
+}
 div.finger_chose_panel .finger_btn_chosen  {
 	box-shadow: 10px 10px 5px black;
+			border: 1px solid black;
+
+	/*-webkit-animation: finger_bigin 1.5s 2 alternate;  Safari, Chrome and Opera > 12.1 
+      animation: finger_bigin 1.5s 2 alternate;
+*/
 
 }
 
@@ -372,6 +455,90 @@ div.finger_chose_panel .finger_btn_chosen  {
 }
 
 
+/**************************************************************************************************************/
+/************************************************* FLOURISH *********************************************************/
+/**************************************************************************************************************/
+
+.bg_florish_right{
+	position: absolute;
+	height: 37%;
+
+	z-index: -10;
+	left: 0;
+	width: 11.5%;
+}
+
+
+.bg_florish_left{
+	position: absolute;
+	height: 37%;
+
+	z-index: -10;
+	right: 0;
+	width: 11.5%;
+}
+
+.bg_florish_center_right{
+	position: absolute;
+	height: 37%;
+
+	z-index: -10;
+	left: 30%;
+	top: 30%;
+	width: 11.5%;
+}
+
+
+.bg_florish_center_left{
+	position: absolute;
+	height: 37%;
+
+	z-index: -10;
+	right: 30%;
+	top: 30%;
+
+	width: 11.5%;
+}
+
+.bg_florish_center_down_right{
+	position: absolute;
+	height: 15%;
+
+	z-index: -10;
+	left: 35%;
+	top: 66%;
+	width: 5%;
+}
+
+
+.bg_florish_center_down_left{
+	position: absolute;
+	height: 15%;
+
+	z-index: -10;
+	right: 35%;
+	top: 66%;
+
+	width: 5%;
+}
+
+/*.bg_florish_center_right {
+  width: 182px;
+  height: 287px;
+  margin: 5px ;
+  background: url('./spritesheet.png') left center; 
+
+      -webkit-transition : all 4.4s ease;
+      
+   transition : all 4s ease;
+
+  animation: play 5.8s steps(9) infinite;
+}
+
+@keyframes play {
+    100% { background-position: -1733px; }
+
+}*/
 
 /**************************************************************************************************************/
 /************************************************* General Managing *********************************************************/
@@ -403,21 +570,49 @@ div.finger_chose_panel .finger_btn_chosen  {
     overflow: hidden;
     box-shadow: 10px 10px 5px grey;
 	border-radius: 10%;
+	/*z-index: 125;*/
+}
+/*.projectPanel .projectImg  {
+	position: fixed;
+	left: 15%;
+	width: 10vw;
+	height: 10vw;
+    overflow: hidden;
+    box-shadow: 10px 10px 5px grey;
+	border-radius: 10%;
 
 }
-
+*/
 .projectImg img{
    object-fit: cover;
    width: 100%;
    height: 100%;
 }
 
+.projectPanel input {
+	display: block;
+	position: absolute;
+   width: 35%;
+   height: 8%;
+      right: 15%;
+      bottom: 4%;
+      box-shadow: 10px 10px 5px grey;
+	border-radius: 10px;
+
+}
+.projectPanel .hidden{
+
+	display: none;
+
+}
+
 .projectPanel  .projectButtonsPanel{
 	position: fixed;
 	left: 3%;
 	width: 10vw;
-	height: 10vw;
+	height: 12vw;
     overflow: hidden;
+    top:38%;
     /*box-shadow: 10px 10px 5px grey;*/
 	/*border-radius: 10%;*/
 }
@@ -425,7 +620,7 @@ div.finger_chose_panel .finger_btn_chosen  {
 .projectButtonsPanel .toProjects, .logout, .save  {
 	width: 70%;
 	height: 15%;
-	border: 1px solid grey;
+	border: 1px solid rgb(200, 200, 200);
 	z-index: 20;
 
 	position: relative;
@@ -441,6 +636,12 @@ div.finger_chose_panel .finger_btn_chosen  {
    font-size: 1vw;
    background-color: white;
 }
+
+.toProjects:hover, .logout:hover, .save:hover {
+		border: 1px solid black;
+
+}
+
 .projectButtonsPanel .save{
 	margin-top: 25%;
 }
@@ -451,16 +652,63 @@ div.finger_chose_panel .finger_btn_chosen  {
 
 	position: relative;
 	left: 1%;
-	top: -35%;
+	top: -37%;
 	
    
 	color: black;
   text-shadow: 2px 2px 4px #000000;
-   font-size: 1.5vw;
+  font-family: 'CharlotteScript';
+   font-size: 2.5vw;
 
 }
 
+/**************************************************************************************************************/
+/************************************************* FONTS AND ANIMATION *********************************************************/
+/**************************************************************************************************************/
 
+
+@font-face {
+font-family: "CharlotteScript";
+src: url("./CharlotteScript.ttf");
+src: url("./CharlotteScript.otf") format("opentype"),
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slidein {
+    from { top: 100%; }
+    to   { top: 40%; }
+}
+
+@keyframes fadein50 {
+    from { opacity: 0; }
+    to   { opacity: 0.4; }
+}
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+
+@keyframes bigin {
+    from { height: 28vh;width: 6vw; }
+    to   { height: 29.5vh; width: 6.5vw;}
+}
+
+@keyframes finger_bigin {
+    from { height: 80%;width: 9%; }
+    to   { height: 81%; width: 10%;}
+}
+
+
+
+
+/**************************************************************************************************************/
+/*************************************************  *********************************************************/
+/**************************************************************************************************************/
 
 
 

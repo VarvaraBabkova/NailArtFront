@@ -10,6 +10,7 @@ export default  class WorkingCanvas extends React.Component {
 		this.state = {
 			current_polish: {},
 			current_finger: "",
+			eraser_mode: false,
 		}
 	}
 
@@ -24,8 +25,25 @@ export default  class WorkingCanvas extends React.Component {
 	 	e.stopPropagation();	
 	 	  	// debugger
 
-	  	 let canvas = this.refs.canvas
-	  	this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), canvas)
+	  	let canvas = this.refs.canvas
+	    const ctx = canvas.getContext("2d")
+		let panel_div = this.refs.div
+		 let offsetLeft = panel_div.offsetLeft + ctx.canvas.offsetLeft
+		 let offsetTop = panel_div.offsetTop + ctx.canvas.offsetTop
+
+		 // let imgData = ctx.getImageData(event.pageX - offsetLeft- pick_width/2, 
+		 // 								event.pageY - offsetTop - pick_height/2 , 
+		 // 								pick_width , pick_height );
+
+	  	if (!this.state.eraser_mode) {
+	  		this.props.handlePickTexture(new THREE.CanvasTexture( this.refs.canvas ), canvas)
+	  	}else{
+	  		console.log(e)
+	  		ctx.fillStyle = `rgb(${this.props.currentPolish.red}, 
+	    							${this.props.currentPolish.green}, 
+	    							${this.props.currentPolish.blue})`;
+			ctx.fillRect(e.pageX - offsetLeft , e.pageY - offsetTop , 30, 30);
+	  	}
 	 }
 
 
@@ -113,7 +131,7 @@ export default  class WorkingCanvas extends React.Component {
 
 	    	return
 	    }
-
+//debugger
 	    if (this.props.currentPolish) {
 	    	if (this.state.current_polish !== this.props.currentPolish) {
 	    		this.setState({current_polish:this.props.currentPolish})
@@ -128,8 +146,13 @@ export default  class WorkingCanvas extends React.Component {
 	    else
 	    {
 	    	this.setState({current_polish:{red:"255", blue:"255", green:"255"}})
+	    	ctx.fillStyle = "rgb(255, 255, 255)";
+			 ctx.fillRect(0, 0, canvas.width, canvas.height);
+	    
 
 	    }
+
+
 	     let st_polish 
 	    if (this.props.currentStampingPolish) {
 	    	st_polish = this.props.currentStampingPolish
@@ -144,7 +167,8 @@ export default  class WorkingCanvas extends React.Component {
 	    
 
 	    if (this.props.imgData.data) {
-	    	
+	    	console.log("in draw in working")
+	    	console.log (this.props.imgData.data)
 	    
 		     ctx.putImageData(this.colorImageData(this.scaleImageData(this.props.imgData, 4, ctx),
 		     	[this.state.current_polish.red, this.state.current_polish.green, this.state.current_polish.blue], 
@@ -152,6 +176,7 @@ export default  class WorkingCanvas extends React.Component {
 
 
 	    }
+
 	  }
 
 	handleClearStampingArea=()=>{
@@ -174,6 +199,11 @@ export default  class WorkingCanvas extends React.Component {
 	    
 	} 
 
+	handleEraserMode=() =>{
+		console.log(this.state.eraser_mode)
+		this.setState({eraser_mode: !this.state.eraser_mode})
+	}
+
 	render() {
 		//console.log(this.props.current_finger)
 		if(this.refs.canvas)
@@ -181,7 +211,7 @@ export default  class WorkingCanvas extends React.Component {
 
 	    return(
 	    	<div>
-		      <div className="leftPanel" >
+		      <div className="leftPanel" ref="div">
 		        <canvas className="workingCanvas" 
 		        			ref="canvas" 
 		        			width={pick_width*4} 
@@ -192,7 +222,11 @@ export default  class WorkingCanvas extends React.Component {
 				
 
 		        	<div className="cleanButton" onClick={this.handleClearStampingArea}> Clear</div>
-					<div className="eraserButton"> Eraser</div>
+		        	{
+		    //     		<div className={this.state.eraser_mode?"eraserButton_pushed":"eraserButton"}
+						// onClick={this.handleEraserMode}> Eraser</div>
+		        	}
+					
 		      </div>
 		      
 	      	</div>

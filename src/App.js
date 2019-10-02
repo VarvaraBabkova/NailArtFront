@@ -29,18 +29,19 @@ export default class App extends React.Component{
 			polishCollection: [],
 			plates:[],
 			current_plate:{},
-			//nails: [],
 			imgDataFromPlate:{},
 			username:"",
 			password:"",
-			currentPolish:{},
+			currentPolish:white_polish,
 			currentTexture: {},
 			currentStampingPolish: {},
-			page: "Intro_first",
+			page: (localStorage.token?"Projects":"Intro_first"),
 			projects:[],
 			user_id:0,
 			current_project: {},
 			current_finger:"pinky",
+			addImageMode:false,
+			//zoomed:false,
 		}
 		
 	}
@@ -132,7 +133,33 @@ export default class App extends React.Component{
 		this.setState({imgDataFromPlate: imgData}, console.log(imgData))
 	}
 
-	handleAuth =(auth)=>{
+
+
+	handleSign = (auth) =>{
+		console.log(auth)
+		fetch(URL + "users", {
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              user:{
+                username: auth.username,
+				password: auth.password
+              }
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+        	this.handleAuth({username:data.username, password:auth.password})
+        	console.log(data)
+        })
+
+	}
+
+	
+
+	handleAuth =(auth) =>{
 		//console.log(auth)
 		let user_id 
 		this.setState({username:auth.username, password:auth.password})
@@ -160,38 +187,9 @@ export default class App extends React.Component{
 	        	user_id = data.user_id
 
 				
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				//reading polishes
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		       fetch(URL + "polishes", {
-	        		method:"GET",
-	        		headers:{
-	        			Authorization: `Bearer ${localStorage.token}`
-	        		}
-	        	})
-			      .then(res => res.json())
-			      .then(res => {
-			          this.setState({polishCollection: res, currentPolish:res[0]})
-			    })
-
-			    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-				//reading plates
-				//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		       fetch(URL + "plates", {
-	        		method:"GET",
-	        		headers:{
-	        			Authorization: `Bearer ${localStorage.token}`
-	        		}
-	        	})
-			      .then(res => res.json())
-			      .then(res => {
-			      	console.log("plates")
-			      	console.log(res)
-			      	//debugger
-			          this.setState({plates: res, current_plate:res[0]})
-			    })
-
-
+				this.readPolishes()
+				this.readPlates()
+			   
 			    this.readProjects(user_id)
         	}
         	
@@ -206,6 +204,41 @@ export default class App extends React.Component{
 		this.setState({username:"", password:"", page:"Intro"})
 		localStorage.clear()
 
+	}
+
+	readPolishes = ()=>{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//reading polishes
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       fetch(URL + "polishes", {
+    		method:"GET",
+    		headers:{
+    			Authorization: `Bearer ${localStorage.token}`
+    		}
+    	})
+	      .then(res => res.json())
+	      .then(res => {
+	          this.setState({polishCollection: res, currentPolish:res[0]})
+	    })
+	}
+
+	readPlates = () =>{
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//reading plates
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       fetch(URL + "plates", {
+    		method:"GET",
+    		headers:{
+    			Authorization: `Bearer ${localStorage.token}`
+    		}
+    	})
+	      .then(res => res.json())
+	      .then(res => {
+	      	console.log("plates")
+	      	console.log(res)
+	      	//debugger
+	          this.setState({plates: res, current_plate:res[0]})
+	    })
 	}
 
 	handlePickColor = (polish) =>{
@@ -229,9 +262,6 @@ export default class App extends React.Component{
 			cp.nails = nails
 
 			this.setState({current_project: cp})
-
-			//console.log(nails)
-
 		 
 
 	}
@@ -408,7 +438,7 @@ export default class App extends React.Component{
 
 	handleDelete= (e, project_id)=>{
 		e.stopPropagation()
-		console.log(project_id)
+		//console.log(project_id)
 		fetch(URL + `projects/${project_id}`, {
 				method:"DELETE",
 				headers:{
@@ -422,14 +452,14 @@ export default class App extends React.Component{
 	        	let new_projects = this.state.projects.filter(pr => pr.id !== project_id)
 	        	this.setState({projects: new_projects})
 
-	        	console.log(data)
+	        	//console.log(data)
 	        })
 	}
 
 	handleRename= (project_id, new_name)=>{
-		console.log(project_id)
-		console.log(new_name)
-		console.log(this.state.projects)
+		// console.log(project_id)
+		// console.log(new_name)
+		// console.log(this.state.projects)
 
 		fetch(URL + `projects/${project_id}`, {
 				method:"PATCH",
@@ -458,17 +488,50 @@ export default class App extends React.Component{
 
 	}
 	clearImgData = () =>{
-		console.log("in CLear in App")
-		console.log(this.state.imgDataFromPlate)
+		
 		this.setState({imgDataFromPlate:{}})
+	}
+	handleAddImage = () =>{
+		this.setState({addImageMode:true})
+	}
+	
+	handleKeyDown=(e)=>{
+		if (e.key === 'Enter') {
+			this.setState({addImageMode:false})
+			console.log(e.target.value)
+			let pr = this.state.current_project
+			pr.img = e.target.value
+			this.setState({current_project: pr})
+
+			fetch(URL + `projects/${this.state.current_project.id}`, {
+				method:"PATCH",
+				headers:{
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${localStorage.token}`
+				},
+				body:JSON.stringify({
+					img: e.target.value
+
+				})
+			})
+			.then(res => res.json())
+	        .then(data => {
+
+	        	// let new_projects = this.state.projects.map(pr => pr.id === project_id? pr = data : pr)
+
+	        	// this.setState({projects: new_projects}, console.log(this.state.projects))
+	        	console.log(data)
+	        	
+	        })
+		 }
+
+		 if (e.key === 'Escape') {
+		 	this.setState({addImageMode:false})
+
+		 }
 	}
 
 	handlePickProject = (id) =>{
-
-		console.log("IN PICK")
-		console.log(id)
-		console.log(this.state.projects)
-
 
 		if (id >= 0){
 		  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -484,7 +547,9 @@ export default class App extends React.Component{
 		      .then(res => {
 		      	//  console.log("Project")
 		          console.log(res)
-		          this.setState({current_project: res, current_finger: "pinky"}, this.setState({ page:"Editor"}))
+		          this.setState({current_project: res, current_finger: "pinky", 
+		          	currentPolish:white_polish,
+					currentTexture: {}, imgDataFromPlate:{}}, this.setState({ page:"Editor"}))
 		          		         console.log(this.state.current_project)
 
 		       })
@@ -525,17 +590,18 @@ export default class App extends React.Component{
 				
 
 	        	this.setState({current_project: empty_project, 
-	        					projects:new_projects 
+	        					projects:new_projects, 
+					          	currentPolish:white_polish,
+								currentTexture: {}, 
+								imgDataFromPlate:{} 
 	        					}, () =>this.handleCreateAndSaveEmptyNails(data.id))
 
 
-	        	//console.log("after")
-	        	//console.log(empty_nails)
+	        	
 	        })
 			
 		    
 		}
-		//this.setState({ page:"Editor"})
 
 
 	}
@@ -553,7 +619,8 @@ export default class App extends React.Component{
         return <Intro handleAuth={this.handleAuth} state={this.state.page} 
 		        		handlePickProject={this.handlePickProject} projects= {this.state.projects} 
         				handleChangeState={this.handleChangeState} handleDelete = {this.handleDelete}
-        				handleRename = {this.handleRename}/>
+        				handleRename = {this.handleRename}
+        				handleSign = {this.handleSign}/>
 
     
       case "Editor":
@@ -567,18 +634,23 @@ export default class App extends React.Component{
 			    		<div className="logout" onClick={this.handleLogout}>Log out!</div>
 
 			    	</div>
-		    		<div className="projectImg"  alt="">
+		    		<div className="projectImg"  alt="" onClick={this.handleAddImage}>
 		    			<img src=
 		    			{(this.state.current_project.img )?
 		    			this.state.current_project.img
 		    			:EmptyImage
 		    			} 
 		    			alt=""/>
+		    			
 		    		</div>
+		    		<input className={(this.state.addImageMode?"":"hidden")} id="name" name="name" type="text"  
+		    				ref={c => (this._input = c)} 
+		                       onKeyDown={this.handleKeyDown} />
 	    		</div>
 				
 				 	<PlateCanvas  handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}
-				 					plate = {this.state.current_plate}/>   
+				 					plate = {this.state.current_plate}
+				 					/>   
  					
  					<PlatesShelf  handlePickPlate = {this.handlePickPlate}
 							 		plates = {this.state.plates}/>   
@@ -607,15 +679,25 @@ export default class App extends React.Component{
 
 			    				
 			     <StampingPolishes handlePickStampingColor= {this.handlePickStampingColor}/>
-
-			    			
+			     		
+			     <img className="bg_florish_right" src={require('./flourish-4.png')} alt="" />
+			     <img className="bg_florish_left" src={require('./flourish-4-left.png')} alt="" />
+			     <img className="bg_florish_center_right" src={require('./flourish-4.png')} alt="" />
+			     <img className="bg_florish_center_left" src={require('./flourish-4-left.png')} alt="" />
+			     <img className="bg_florish_center_down_right" src={require('./flourish-4-right-ud.png')} alt="" />
+			     <img className="bg_florish_center_down_left" src={require('./flourish-4-left-ud.png')} alt="" />
+			     {
+			     	// <div className="flower"></div>
+			     }
+			     
 		   	 </div>
      
       default:
         return <Intro handleAuth={this.handleAuth} state={this.state.page} 
 		        		handlePickProject={this.handlePickProject} projects= {this.state.projects} 
         				handleChangeState={this.handleChangeState} handleDelete = {this.handleDelete}
-        				handleRename = {this.handleRename}/>
+        				handleRename = {this.handleRename}
+        				handleSign = {this.handleSign}/>
     }
 
 
