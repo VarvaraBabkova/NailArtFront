@@ -27,7 +27,7 @@ export default class Plate extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.plate)
+		//console.log(this.props.plate)
 	    return(
 	    	<div>
 		        <canvas className="plateImg"  

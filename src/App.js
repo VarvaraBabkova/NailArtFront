@@ -29,18 +29,19 @@ export default class App extends React.Component{
 			polishCollection: [],
 			plates:[],
 			current_plate:{},
-			//nails: [],
 			imgDataFromPlate:{},
 			username:"",
 			password:"",
 			currentPolish:{},
 			currentTexture: {},
 			currentStampingPolish: {},
-			page: "Intro_first",
+			page: (localStorage.token?"Projects":"Intro_first"),
 			projects:[],
 			user_id:0,
 			current_project: {},
 			current_finger:"pinky",
+			addImageMode:false,
+			//zoomed:false,
 		}
 		
 	}
@@ -437,7 +438,7 @@ export default class App extends React.Component{
 
 	handleDelete= (e, project_id)=>{
 		e.stopPropagation()
-		console.log(project_id)
+		//console.log(project_id)
 		fetch(URL + `projects/${project_id}`, {
 				method:"DELETE",
 				headers:{
@@ -451,14 +452,14 @@ export default class App extends React.Component{
 	        	let new_projects = this.state.projects.filter(pr => pr.id !== project_id)
 	        	this.setState({projects: new_projects})
 
-	        	console.log(data)
+	        	//console.log(data)
 	        })
 	}
 
 	handleRename= (project_id, new_name)=>{
-		console.log(project_id)
-		console.log(new_name)
-		console.log(this.state.projects)
+		// console.log(project_id)
+		// console.log(new_name)
+		// console.log(this.state.projects)
 
 		fetch(URL + `projects/${project_id}`, {
 				method:"PATCH",
@@ -487,17 +488,50 @@ export default class App extends React.Component{
 
 	}
 	clearImgData = () =>{
-		console.log("in CLear in App")
-		console.log(this.state.imgDataFromPlate)
+		
 		this.setState({imgDataFromPlate:{}})
+	}
+	handleAddImage = () =>{
+		this.setState({addImageMode:true})
+	}
+	
+	handleKeyDown=(e)=>{
+		if (e.key === 'Enter') {
+			this.setState({addImageMode:false})
+			console.log(e.target.value)
+			let pr = this.state.current_project
+			pr.img = e.target.value
+			this.setState({current_project: pr})
+
+			fetch(URL + `projects/${this.state.current_project.id}`, {
+				method:"PATCH",
+				headers:{
+					"Content-Type": "application/json",
+					"Authorization": `Bearer ${localStorage.token}`
+				},
+				body:JSON.stringify({
+					img: e.target.value
+
+				})
+			})
+			.then(res => res.json())
+	        .then(data => {
+
+	        	// let new_projects = this.state.projects.map(pr => pr.id === project_id? pr = data : pr)
+
+	        	// this.setState({projects: new_projects}, console.log(this.state.projects))
+	        	console.log(data)
+	        	
+	        })
+		 }
+
+		 if (e.key === 'Escape') {
+		 	this.setState({addImageMode:false})
+
+		 }
 	}
 
 	handlePickProject = (id) =>{
-
-		console.log("IN PICK")
-		console.log(id)
-		console.log(this.state.projects)
-
 
 		if (id >= 0){
 		  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -595,14 +629,18 @@ export default class App extends React.Component{
 			    		<div className="logout" onClick={this.handleLogout}>Log out!</div>
 
 			    	</div>
-		    		<div className="projectImg"  alt="">
+		    		<div className="projectImg"  alt="" onClick={this.handleAddImage}>
 		    			<img src=
 		    			{(this.state.current_project.img )?
 		    			this.state.current_project.img
 		    			:EmptyImage
 		    			} 
 		    			alt=""/>
+		    			
 		    		</div>
+		    		<input className={(this.state.addImageMode?"":"hidden")} id="name" name="name" type="text"  
+		    				ref={c => (this._input = c)} 
+		                       onKeyDown={this.handleKeyDown} />
 	    		</div>
 				
 				 	<PlateCanvas  handleGetImgDataFromPlate = {this.handleGetImgDataFromPlate}

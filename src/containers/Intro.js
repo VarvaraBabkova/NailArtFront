@@ -4,7 +4,8 @@ import * as THREE from "three";
 import GLTFLoader from 'three-gltf-loader';
 import TWEEN from '@tweenjs/tween.js';
 import Projects from "./Projects"
-
+import charlotteRegular from "../Charlotte Script_Regular.json"
+import quicksandRegular from "../Quicksand Bold_Regular.json"
 
 
 
@@ -82,12 +83,14 @@ export default class Intro extends React.Component {
 					mesh.material.needsUpdate = true
 					
 
-				 // if (this.props.state ){
-					
-					// 	console.log("projects")
-					// }
+				 
 
 					scene.add(mesh);
+
+					if (this.props){
+						if (this.props.state )
+							console.log("projects!!!!!!!!!!!!!!")
+					}
 								
 					// let tween = new TWEEN.Tween(mesh.rotation)
 			  //       .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
@@ -97,12 +100,65 @@ export default class Intro extends React.Component {
 	 	 		})//load
 	}
 
+
+	drawText(){
+		console.log(charlotteRegular)
+		let fontload = new THREE.FontLoader();
+		let loadedFont = fontload.parse(charlotteRegular) 
+		let options = {
+			font:loadedFont,
+			size:0.6,
+			height:0.1,
+			
+		}
+
+		let textGeometryNail = new THREE.TextGeometry("Nail", options)
+		let textGeometryArt = new THREE.TextGeometry("Art", options)
+		let textGeometryStudio = new THREE.TextGeometry("Studio", options)
+
+
+		let textMaterial = new THREE.MeshPhongMaterial( 
+		    { color: 0xff0000, specular: 0xffffff }
+		  );
+
+		let text_mesh = new THREE.Mesh( textGeometryNail, textMaterial );
+		text_mesh.position.y = 1.8
+		text_mesh.position.x = -0.9
+
+		new TWEEN.Tween(text_mesh.position)
+			        .to({ y: [1.8, 1.9, 1.8]}, 7000)
+			        .repeat(Infinity)
+			        .start();
+		scene.add( text_mesh );
+
+		let text_mesh1 = new THREE.Mesh( textGeometryArt, textMaterial );
+		text_mesh1.position.y = 1.9
+		text_mesh1.position.x = 0.5
+
+		new TWEEN.Tween(text_mesh1.position)
+			        .to({ y: [1.9, 1.8, 1.9]}, 9000)
+			        .repeat(Infinity)
+			        .start();
+		scene.add( text_mesh1 );
+
+		let text_mesh2 = new THREE.Mesh( textGeometryStudio, textMaterial );
+		text_mesh2.position.y = 1.75
+		text_mesh2.position.x = 1.7
+
+		new TWEEN.Tween(text_mesh2.position)
+			        .to({ y: [1.75, 1.85, 1.75]}, 8000)
+			        .repeat(Infinity)
+			        .start();
+		scene.add( text_mesh2 );
+
+
+	}
+
 	componentDidMount() {
 		console.log("Intro mounted")
 
 		console.log(this.props.state)
 	    renderer.setSize( window.innerWidth, window.innerHeight);
-	    // document.body.appendChild( renderer.domElement );
 	     this.mount.appendChild( renderer.domElement );
 	     scene.background = new THREE.Color( 'white' );
 	     
@@ -125,19 +181,30 @@ export default class Intro extends React.Component {
          // let spotLight =
          //  new THREE.SpotLight(0xFFFFFF);
 
-		let spotLight 
+		let spotLight, spotLight1 
 		if(this.props.state ==="Projects"){
 
-          spotLight = new THREE.SpotLight(0xeeeeff);
-        	spotLight.position.set( 0, 10, 2 );
-//debugger
-          let tween = new TWEEN.Tween(spotLight.position)
-			        .to({ x: [0, 1, 0]}, 1500)
+	        spotLight = new THREE.SpotLight(0xff9999);
+	        spotLight.position.set( 20, -5, 8 );
+
+	        let tween = new TWEEN.Tween(spotLight.position)
+			        .to({ y: [-5, 5, -5]}, 15000)
 			        .repeat(Infinity)
 			        .start();
+
+
+			spotLight1 = new THREE.SpotLight(0xcccccc);
+        	spotLight1.position.set( -20, 100, 8 );
+			scene.add(spotLight1);
+
+			let tween1 = new TWEEN.Tween(spotLight1.position)
+			        .to({ x: [-20, 20, -20]}, 15000)
+			        .repeat(Infinity)
+			        .start();
+        
 		}else{
 			spotLight = new THREE.SpotLight(0xFFFFFF);
-			        spotLight.position.set( 20, 10, 20 );
+			spotLight.position.set( 13, 10, 8 );
 
 		}
 
@@ -163,6 +230,13 @@ export default class Intro extends React.Component {
         let axesHelper = new THREE.AxesHelper( 5 );
 		//scene.add( axesHelper );
 
+		
+		
+
+		this.drawText()
+		
+		
+
 	   	let geometry = new THREE.CubeGeometry(0.5,0.5,0.5);
 
 		let material = new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 255"));
@@ -179,29 +253,33 @@ export default class Intro extends React.Component {
 		//cube2.scale.set(1, 2, 1)
 	    scene.add( cube2 );
 
-	    let cube3  = new THREE.Mesh( geometry, material );
-	    cube3.position.set(2, 0, 0)
+	   	let cylinderGeometry = new THREE.CylinderGeometry(3, 3, 0.1, 50);
+	    let cylinder  = new THREE.Mesh( cylinderGeometry, material );
+	    cylinder.position.set(0.1, -0.5, -0.1)
+	    scene.add(cylinder)
 
-	   	let plane_geometry_back = new THREE.PlaneGeometry( 6, 6);
-	  	let plane_back  = new THREE.Mesh( plane_geometry_back, material );
-	  	//plane.rotation.x = Math.PI/4
-	  	plane_back.position.set( 0.5, 1, -1)
-	  	scene.add(plane_back)
+	 //   	let plane_geometry_back = new THREE.PlaneGeometry( 6, 6);
+	 //  	let plane_back  = new THREE.Mesh( plane_geometry_back, material );
+	 //  	//plane.rotation.x = Math.PI/4
+	 //  	plane_back.position.set( 0.5, 1, -1)
+	 //  	scene.add(plane_back)
 
-		let plane_geometry_left = new THREE.PlaneGeometry( 6, 6);
-	  	let plane_left  = new THREE.Mesh( plane_geometry_left, 
-	  						new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 20")));
-	  	plane_left.rotation.x = 80*Math.PI/180
+		// let plane_geometry_left = new THREE.PlaneGeometry( 6, 6);
+	 //  	let plane_left  = new THREE.Mesh( plane_geometry_left, 
+	 //  						new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 20")));
+	 //  	plane_left.rotation.x = 80*Math.PI/180
 
-	  	plane_left.position.set( 0.5, -0.5, -1)
-	  	scene.add(plane_left)
+	 //  	plane_left.position.set( 0.5, -0.5, -1)
+	 //  	scene.add(plane_left)
 
 	  	this.drawPolish({x:0, y:0.4, z:0})
 	   	this.drawPolish({x:0.8, y:0.4, z:0})
-	   	this.drawPolish({x:0.0, y:0.0, z:0.9})
+	   	this.drawPolish({x:0.0, y:0.0, z:1})
 
 	   	this.drawPolish({x:2, y:0, z:0.5}, {x:0, y:0, z: 0})
 	   	this.drawPolish({x:1.5, y:0, z:0.7}, {x:0, y:0, z: 0})
+	   	this.drawPolish({x:-.7, y:0, z:0.3}, {x:0, y:0, z: 0})
+
 
 	   	this.draw()
 	 }
@@ -227,14 +305,7 @@ export default class Intro extends React.Component {
 	   	}
 
 	   	if (this.props.state === "Entered") {
-
-	   		 scene.children.map(child => (child instanceof THREE.Mesh && child.name === "Cylinder"?
-	   		 	child.material.color.setHex(0xaaffff)
-	   		 	:child
-	   		 	))
-	   		// 		   		child.material.color.setHex(0xff0000):child.material.color.setHex(0xff0000)))
-
-	   		// cube2.material.color.setHex(0xff0000);
+	   		
 
 	   		let tween = new TWEEN.Tween(scene.rotation)
 			        .to({ x: [0, 0.05, 0, -0.05, 0]}, 500)
@@ -247,17 +318,17 @@ export default class Intro extends React.Component {
 	   	}
 	   	
 		if (this.props.state === "Projects") {
-			console.log("should color bitch!")
 			console.log(scene.children)
 
-	   		 scene.children.map(child => 
-	   		 	(child instanceof THREE.Mesh && child.name === "Cylinder"?
+	   		 // scene.children.map(child => 
+	   		 // 	(child instanceof THREE.Mesh ?
+	   		 // 		//&& child.name === "Cylinder"?
 	   		 	
-	   		 		child.material.color.setHex(0xaaffff)
+	   		 // 		child.material.color.setHex(0xaaffff)
 	   		 		
-	   		 	:child
-	   		 	)
-	   		)
+	   		 // 	:child
+	   		 	//)
+	   		//)
 	   		 console.log(scene.children)
 
 	   		
@@ -290,7 +361,7 @@ export default class Intro extends React.Component {
 	render() {
 		console.log("in intro " )
 		// console.log(this.state.balls)
-		console.log(this.props)
+		console.log(this.props.state)
 	 	this.draw()
 	    return(
 	        <div className="intro" ref={ref => (this.mount = ref)} >

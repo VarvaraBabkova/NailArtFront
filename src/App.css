@@ -19,12 +19,14 @@ div.intro {
 }
 
 div.intro .loginForm {
-	bottom: 10%;
-	right:10%;
+	bottom: 15%;
+	right:15%;
 	position: fixed;
 	  display: block;
   box-shadow: 10px 10px 5px grey;
       animation: fadein 1s;
+      	 border-radius: 14px;
+
 
 
  	transform: translate3d(5px, 0, 0);
@@ -46,37 +48,42 @@ div.intro .removed{
 
 div.Projects {
 	width: 30%;
-	height: 54%;
-	border: 1px solid;
+	height: 40%;
+	border: 1px solid rgb(200, 200, 200);
 	z-index: 20;
 	 border-radius: 14px;
 	 margin: 1%;
 	   box-shadow: 10px 10px 5px grey;
 
 	position: fixed;
-	right: 0;
-	top:25%;
+	right: 7%;
+	top:40%;
 	overflow-y: scroll;
- -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
-      animation: fadein 1s;
+
+    /*transition: transform 2.1s cubic-bezier(0.55, 1.46, 0.55, 1.46);*/
+
+ 	-webkit-animation: slidein 1s cubic-bezier(0, 0.46, 0, 1); /* Safari, Chrome and Opera > 12.1 */
+      animation: slidein 1s cubic-bezier(0, 0.46, 0, 1);
+
+      background-color: white;
 
 }
 
 
 div.Projects .Project {
 	width: 80%;
-	height: 10%;
+	height: 9%;
 	border: 1px solid rgb(200, 200, 200);
 	z-index: 2;
 	 border-radius: 14px;
-	 margin: 5%;
+	 margin: 3%;
 	 padding: 5%;
 	box-shadow: 10px 10px 5px grey;
 	 color: grey;
   text-shadow: 2px 2px 4px #000000;
     font-family: 'CharlotteScript';
 
-   font-size: 3vw;
+   font-size: 2.5vw;
 
 }
 div.Projects .Project:hover{
@@ -88,37 +95,40 @@ div.Projects .Project:hover{
 div.Projects .Project div.projectDelete {
 	position: relative;
 	right: -95%;
-	top:-125%;
+	top:-225%;
 	border: 1px solid;
 	width: 2vw;
 	height: 2vw;
 
 	 display: none;
-	  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
-      animation: fadein 1s;
+	  -webkit-animation: fadein50 1s; /* Safari, Chrome and Opera > 12.1 */
+      animation: fadein50 1s;
 
 	background-image: url("./delete_icon.png");
 	   background-size: contain;
     background-position: center;
+    opacity: 0.5;
 
 
     /*z-index: 20;*/
 	/*background-color: rgb(60, 200, 60);*/
 	box-shadow: 5px 5px 3px grey;
-	border-radius: 14px;
+	border-radius: 8px;
 }
 
 div.Projects .Project div.projectRename {
 	position: relative;
 	right: -95%;
-	top:-120%;
+	top:-220%;
 	border: 1px solid;
 	width: 2vw;
 	height: 2vw;
 
 	display: none;
-	 -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
-      animation: fadein 1s;
+	 -webkit-animation: fadein50 1s; /* Safari, Chrome and Opera > 12.1 */
+      animation: fadein50 1s;
+          opacity: 0.5;
+
 
 background-image: url("./edit_icon.png");
    background-size: contain;
@@ -128,7 +138,7 @@ background-image: url("./edit_icon.png");
 	/*color: rgb(60, 200, 60);*/
 	background-color: rgb(60, 200, 60);;
 	box-shadow: 5px 5px 3px grey;
-	border-radius: 14px;
+	border-radius: 8px;
 }
 
 div.Project:hover div.projectDelete, div.Project:hover div.projectRename{
@@ -548,21 +558,49 @@ div.finger_chose_panel .finger_btn_chosen  {
     overflow: hidden;
     box-shadow: 10px 10px 5px grey;
 	border-radius: 10%;
+	/*z-index: 125;*/
+}
+/*.projectPanel .projectImg  {
+	position: fixed;
+	left: 15%;
+	width: 10vw;
+	height: 10vw;
+    overflow: hidden;
+    box-shadow: 10px 10px 5px grey;
+	border-radius: 10%;
 
 }
-
+*/
 .projectImg img{
    object-fit: cover;
    width: 100%;
    height: 100%;
 }
 
+.projectPanel input {
+	display: block;
+	position: absolute;
+   width: 35%;
+   height: 8%;
+      right: 15%;
+      bottom: 4%;
+      box-shadow: 10px 10px 5px grey;
+	border-radius: 10px;
+
+}
+.projectPanel .hidden{
+
+	display: none;
+
+}
+
 .projectPanel  .projectButtonsPanel{
 	position: fixed;
 	left: 3%;
 	width: 10vw;
-	height: 10vw;
+	height: 12vw;
     overflow: hidden;
+    top:38%;
     /*box-shadow: 10px 10px 5px grey;*/
 	/*border-radius: 10%;*/
 }
@@ -602,7 +640,7 @@ div.finger_chose_panel .finger_btn_chosen  {
 
 	position: relative;
 	left: 1%;
-	top: -35%;
+	top: -37%;
 	
    
 	color: black;
@@ -626,6 +664,16 @@ src: url("./CharlotteScript.otf") format("opentype"),
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+
+@keyframes slidein {
+    from { top: 100%; }
+    to   { top: 40%; }
+}
+
+@keyframes fadein50 {
+    from { opacity: 0; }
+    to   { opacity: 0.4; }
 }
 @keyframes fadeout {
     from { opacity: 1; }

@@ -26,7 +26,8 @@ export default class Hand extends React.Component {
 		super(props)
 
 		this.state = {
-			project:{}
+			project:{},
+			zoomed:false,
 		}
 	}
 
@@ -54,10 +55,11 @@ export default class Hand extends React.Component {
 	     this.mount.appendChild( renderer1.domElement );
 	     scene1.background = new THREE.Color( bg_color );
 	     
-	    camera1.position.z = 0.185;
+	    camera1.position.z = 0.185; //!!!working
+
+	   
 
 	     camera1.position.y = 0.065;
-	    // camera1.position.x = 0.075;
 
 
 	    let pointLight =
@@ -109,7 +111,9 @@ export default class Hand extends React.Component {
 	}
 
 	onMouseClick =()=>{
-		console.log('clicking')
+		this.setState({zoomed:!this.state.zoomed}, console.log(this.state.zoomed))
+		
+
 	}
 
 	
@@ -170,10 +174,10 @@ export default class Hand extends React.Component {
 				 	mesh.material.needsUpdate = true
 				  	mesh.material.map.needsUpdate = true;
 
-				 	console.log( "naked")
+				 	//console.log( "naked")
 
 				 }else{
-				 	console.log( "not naked")
+				 	//console.log( "not naked")
 
 					 
 					 let texture1 = new THREE.TextureLoader().load( texture);
@@ -318,14 +322,29 @@ export default class Hand extends React.Component {
 
 		//console.log(group.children.length)
 
+		 if (this.state.zoomed) {
+	    	camera1.position.z = 0.13;
+	    	camera1.position.y = 0.115;
 
-		scene1.add(group)
-		
+	    	var tween = new TWEEN.Tween(group.rotation)
+			        .to({ y: [ 0.45, -0.6 ,0]}, 9000)
+			        .repeat(Infinity)
+			        .start();
 
-		var tween = new TWEEN.Tween(group.rotation)
+	    }else{
+	    	camera1.position.z = 0.185;
+	    	camera1.position.y = 0.065;
+
+	    	var tween1 = new TWEEN.Tween(group.rotation)
 			        .to({ y: [0, 1.3, -1.5 ,0]}, 9000)
 			        .repeat(Infinity)
 			        .start();
+
+	    }
+		scene1.add(group)
+		
+
+		
 		
 
 	 	
@@ -340,6 +359,7 @@ export default class Hand extends React.Component {
 	 	
 	 }
 
+	
 
 
 	render() {

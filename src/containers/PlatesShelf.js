@@ -17,7 +17,7 @@ export default class PlatesShelf extends React.Component {
 	} 
 	
 	render() {
-		console.log(this.props.plates)
+		//console.log(this.props.plates)
 	    return(
 		      <div className="rightestPanel" ref="div">
 		      	
