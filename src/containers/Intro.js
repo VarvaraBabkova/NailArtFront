@@ -14,7 +14,7 @@ const camera = new THREE.PerspectiveCamera( 40, (window.innerWidth)/(window.inne
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 		let spotLight, spotLight1 
 let art_mesh;
-
+//let mesh;
 
 export default class Intro extends React.Component {
 
@@ -50,7 +50,16 @@ export default class Intro extends React.Component {
 	drawPolish = (position, rotation = {x:0, y:0, z:0}) =>{
 		let loader = new GLTFLoader();
 			let mesh;
-			let color = "rgb(255, 255, 255)"
+			let color = 0xffffff
+
+
+			if (this.props){
+						if (this.props.state  === "Projects")
+						{
+							//console.log("Project!!!!!")
+							color = this.getFunkyColor()
+						}
+					}
 			loader.load(
 				require('../polish1.glb'),
 				function(gltf) {
@@ -72,7 +81,7 @@ export default class Intro extends React.Component {
 					mesh.position.set(position.x, position.y, position.z)
 
 
-						mesh.material = new THREE.MeshPhongMaterial( new THREE.Color( 'white' ) );
+						mesh.material = new THREE.MeshPhongMaterial(color );
 
 
 
@@ -82,23 +91,14 @@ export default class Intro extends React.Component {
 					 mesh.geometry.verticesNeedUpdate = true
 					
 					mesh.material.needsUpdate = true
-					
-
-				 
-
 					scene.add(mesh);
 
-					if (this.props){
-						if (this.props.state )
-							console.log("projects!!!!!!!!!!!!!!")
-					}
-								
-					// let tween = new TWEEN.Tween(mesh.rotation)
-			  //       .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
-			  //       .repeat(10)
-			  //       .start();
+					mesh.material.color.setHex(color)
+
+					
 
 	 	 		})//load
+
 	}
 
 
@@ -146,11 +146,17 @@ export default class Intro extends React.Component {
 		let text_mesh2 = new THREE.Mesh( textGeometryStudio, textMaterial );
 		text_mesh2.position.y = 1.75
 		text_mesh2.position.x = 1.7
+		text_mesh2.rotation.y = 0.15
 
 		new TWEEN.Tween(text_mesh2.position)
 			        .to({ y: [1.75, 1.85, 1.75]}, 8000)
 			        .repeat(Infinity)
 			        .start();
+		// new TWEEN.Tween(text_mesh2.rotation)
+		// 	        .to({ y: [0, 0.2, 0]}, 8000)
+		// 	        .repeat(Infinity)
+		// 	        .start();
+
 		scene.add( text_mesh2 );
 
 
@@ -175,6 +181,31 @@ export default class Intro extends React.Component {
 			        .to({ x: [-20, 20, -20]}, 15000)
 			        .repeat(Infinity)
 			        .start();
+
+			 this.addFunkyColors()
+			 setTimeout(console.log, 2000);
+
+        
+	}
+	getFunkyColor = () =>{
+		let colors = [0xffaaaa, 0xffaaff, 0xffaaee, 0xff5555, 0xaa1111,
+						0xffcccc, 0xffccff, 0xffaaee, 0xcc5555, 0xaa4444,
+						0xee8888, 0xee99aa, 0xee77bb, 0x883355, 0x773344,
+						0xaa11dd, 0xff1111, 0xaa55aa, 0xddaaaa, 0xaa11cc]
+		return colors[Math.floor(Math.random() * colors.length)]
+	}
+	addFunkyColors = () => {
+
+			// console.log(scene)
+			
+			 scene.children.map(child => 
+	   		 	(child instanceof THREE.Mesh && child.name === "Cylinder"?
+	   		 	
+	   		 		child.material.color.setHex(this.getFunkyColor())
+	   		 		
+	   		 	:child
+	   		 	)
+	   		)
         
 	}
 
@@ -193,8 +224,12 @@ export default class Intro extends React.Component {
 
 	    
 
-		if(this.props.state ==="Projects"){
-			this.addFunkyLights()
+		if(this.props.state ==="Projects" || this.props.state ==="Entered" ){
+			spotLight = new THREE.SpotLight(0xFFFFFF);
+			spotLight.position.set( 13, 10, 8 );
+
+			//this.addFunkyLights()
+			this.addFunkyColors()
 	        
 		}else{
 			spotLight = new THREE.SpotLight(0xFFFFFF);
@@ -229,16 +264,27 @@ export default class Intro extends React.Component {
 
 		this.drawText()
 		
-		
+		let color = 0xFFFFFF
+
+		if (this.props){
+			if (this.props.state  === "Projects")
+			{
+				console.log("Project!!!!!")
+				color = this.getFunkyColor()
+			}
+		}
 
 	   	let geometry = new THREE.CubeGeometry(0.5,0.5,0.5);
 
-		let material = new THREE.MeshPhongMaterial(new THREE.Color("rgb(255, 255, 255"));
-	    material.specular = new THREE.Color("rgb(250, 250, 250)")
+		let material = new THREE.MeshPhongMaterial(new THREE.Color(color));
+		
+	    material.specular = new THREE.Color(new THREE.Color(color))
 		material.shininess = 20;
 
 	  	let cube1  = new THREE.Mesh( geometry, material );
 	  	//cube1.scale.set(1.2, 1, 1)
+	  	cube1.material.color.setHex(color)
+
 
 	    scene.add( cube1 );
 
@@ -250,9 +296,24 @@ export default class Intro extends React.Component {
 	   	let cylinderGeometry = new THREE.CylinderGeometry(3, 3, 0.1, 50);
 	    let cylinder  = new THREE.Mesh( cylinderGeometry, material );
 	    cylinder.position.set(0.1, -0.5, -0.1)
+	    cylinder.name = "Cylinder"
 	    scene.add(cylinder)
 
-	 
+	 if (this.props){
+			if (this.props.state  === "Projects")
+			{
+				 new TWEEN.Tween(cube1.rotation)
+			        .to({ y: [ 2*Math.PI, 0]}, 180000)
+			        .repeat(Infinity)
+			        .start();   
+			    
+			    new TWEEN.Tween(cube2.rotation)
+			        .to({ y: [ 2*Math.PI, 0]}, 180000)
+			        .repeat(Infinity)
+			        .start();   
+			    
+			}
+		}
 
 	  	this.drawPolish({x:0, y:0.4, z:0})
 	   	this.drawPolish({x:0.8, y:0.4, z:0})
@@ -301,42 +362,25 @@ export default class Intro extends React.Component {
 			        .repeat(0)
 			        .start();    
 
-			  //this.addFunkyLights()
+			  this.addFunkyColors()
 			 //console.log(scene)
-			 setTimeout(() => this.props.handleChangeState("Projects"), 1800);
+			 setTimeout(() => this.props.handleChangeState("Projects"), 2000);
 
 	   	}
 	   	
-		if (this.props.state === "Projects") {
-	   		//this.addFunkyLights()
-
-	   		//  scene.children.map(child => 
-	   		//  	(child instanceof THREE.Mesh ?
-	   		//  		//&& child.name === "Cylinder"?
-	   		 	
-	   		//  		child.material.color.setHex(0xffaaaa)
-	   		 		
-	   		//  	:child
-	   		//  	)
-	   		// )
-	   		//  console.log(scene.children)
-
+		// if (this.props.state === "Projects") {
 	   		
-
-	   		// let tween = new TWEEN.Tween(scene.children[4].rotation)
-			   //      .to({ z: [0, 0.05, 0, -0.05, 0]}, 500)
-			   //      .repeat(10)
-			   //      .start();
+		// 	this.addFunkyColors()
 
 			
 
-	   	}
-	   	
+	 //   	}
 
 	   	renderer.render( scene, camera );
 
 
-
+	
+	   	
 	    var animate = function () {
 	      requestAnimationFrame( animate );
 	      
@@ -352,10 +396,17 @@ export default class Intro extends React.Component {
 		console.log("in intro " )
 		// console.log(this.state.balls)
 		console.log(this.props.state)
-	 	this.draw()
+	 	 this.draw()
+	 	// 	   	if (this.props.state === "Projects") {
+	 	// 	   			this.addFunkyColors()
+
+			// 	}
+
+
 	    return(
 	        <div className="intro" ref={ref => (this.mount = ref)} >
-	        	 
+	        	 <img className="wing_left" src={require("../wing_left.png")} alt=""/>
+	        	 <img className="wing_right" src={require("../wing_right.png")} alt=""/>
 
 
 	        	 {(this.props.state === "Projects")?

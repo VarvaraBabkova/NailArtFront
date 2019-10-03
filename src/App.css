@@ -27,12 +27,31 @@ div.intro .loginForm {
       animation: fadein 1s;
       	 border-radius: 14px;
 
-
-
  	transform: translate3d(5px, 0, 0);
     transition: transform 1.1s cubic-bezier(0, .52, 0, 1);
+}
 
+.intro .wing_left {
+	position: absolute;
+	left: 1%;
+	top: 10%;
+	width: 8%;
+	height: 13%;
+	object-fit: fit;
 
+	 -webkit-animation: wing_left_hover 1.5s 2 alternate; /* Safari, Chrome and Opera > 12.1 */
+      animation: wing_left_hover 1.5s infinite alternate;
+}
+.intro .wing_right {
+	position: absolute;
+	left: 70%;
+	top: 10%;
+	width: 8%;
+	height: 13%;
+	object-fit: fit;
+
+	 -webkit-animation: wing_right_hover 1.5s 2 alternate; /* Safari, Chrome and Opera > 12.1 */
+      animation: wing_right_hover 1.5s infinite alternate;
 }
 
 div.intro .removed{
@@ -274,7 +293,7 @@ div.leftPanel div.stampingPolishes:hover{
 	position: fixed;
 	/*display: inline-block;*/
 	width: 4%;
-	left: 15%;
+	left: 17.5%;
 	bottom: 4vw;
 	height: 1.5vw;
 	border: 1px solid;
@@ -619,7 +638,7 @@ div.finger_chose_panel .finger_btn_chosen  {
 
 .projectButtonsPanel .toProjects, .logout, .save  {
 	width: 70%;
-	height: 15%;
+	height: 12%;
 	border: 1px solid rgb(200, 200, 200);
 	z-index: 20;
 
@@ -701,6 +720,15 @@ src: url("./CharlotteScript.otf") format("opentype"),
 @keyframes finger_bigin {
     from { height: 80%;width: 9%; }
     to   { height: 81%; width: 10%;}
+}
+
+@keyframes wing_left_hover {
+    from { top: 10%;}
+    to   { top: 11%; }
+}
+@keyframes wing_right_hover {
+    from { top: 10%;}
+    to   { top: 9%; }
 }
 
 
